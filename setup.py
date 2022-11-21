@@ -42,7 +42,7 @@ setup(
         "Topic :: Utilities",
     ],
     keywords=[
-        "telecommunications", "broadband", "satellite"
+        "cyber", "attacks", "network"
     ],
     setup_requires=[
         "setuptools_scm"
