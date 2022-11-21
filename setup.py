@@ -25,7 +25,7 @@ setup(
     long_description_content_type="text/markdown",
     author = "Bonface Osoro/Ed Oughton",
     author_email = "bosoro@gmu.edu",
-    url = "https://github.com/Bonface-Osoro/stn",
+    url = "https://github.com/Bonface-Osoro/windtexter.git",
     packages = find_packages("src"),
     package_dir = {"": "src"},
     py_modules = [splitext(basename(path))[0] for path in glob("src/*.py")],
