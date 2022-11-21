@@ -1,0 +1,15 @@
+.DS_Store
+LICENSE
+README.md
+setup.py
+src/.DS_Store
+src/.ipynb_checkpoints/model-checkpoint.ipynb
+src/__pycache__/agents.cpython-39.pyc
+src/stn/__init__.py
+src/stn/agents.py
+src/windtexter.egg-info/PKG-INFO
+src/windtexter.egg-info/SOURCES.txt
+src/windtexter.egg-info/dependency_links.txt
+src/windtexter.egg-info/not-zip-safe
+src/windtexter.egg-info/requires.txt
+src/windtexter.egg-info/top_level.txt

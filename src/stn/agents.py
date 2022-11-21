@@ -2,7 +2,8 @@ import math
 import random
 import numpy as np
 
-class Site:
+
+class Site: # double spaces at vtghe end of class
     """
     This class represents a radio access point that handles the transmisssion and reception of the data.
     It represents the cell/Wi-fi base stations and also satellite.
@@ -29,6 +30,7 @@ class Site:
         """Provide basic details
         """
         print([self.unique_id, self.pos_x, self.pos_y, self.site_type, self.attack_status])
+
 
 class SenderAgent:
     """
@@ -58,6 +60,7 @@ class SenderAgent:
         text = np.random.randint(0, 2, 10)
 
         return text
+
 
 class InterceptorAgent:
     """
@@ -97,3 +100,10 @@ class InterceptorAgent:
         text : array
             Array of of 10 items consisting of 1s and 0s.    
         """
+
+
+if __name__ == "__main__":  
+        
+    x = SenderAgent(22, 44, "974378")
+    y = x.send_text()
+    print(y)
