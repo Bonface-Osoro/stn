@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
 Name: windtexter
-Version: 0.1.dev8+gad19934
+Version: 0.1.dev9+g88f6a3c.d20221121
 Summary: Cyber attack simulation model
 Home-page: https://github.com/Bonface-Osoro/windtexter.git
 Author: Bonface Osoro/Ed Oughton
 Author-email: bosoro@gmu.edu
 License: MIT License
-Keywords: telecommunications,broadband,satellite
+Keywords: cyber,attacks,network
 Classifier: Development Status :: 1 - Planning
 Classifier: Intended Audience :: Developers
 Classifier: License :: OSI Approved :: MIT License

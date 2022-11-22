@@ -4,13 +4,13 @@ import os
 import random
 import numpy as np
 import pandas as pd
-from windtexter import SenderAgent
-from windtexter import InterceptorAgent
+from windtexter.agents import SenderAgent
+from windtexter.agents import InterceptorAgent
 
 CONFIG = configparser.ConfigParser()
 CONFIG.read(os.path.join(os.path.dirname(__file__), 'script_config.ini'))
 BASE_PATH = CONFIG['file_locations']['base_path']
-RESULTS = os.path.join(BASE_PATH)
+RESULTS = os.path.join("results")
 
 class Attack: #runner call it
     """
@@ -30,12 +30,12 @@ class Attack: #runner call it
             call_sender = SenderAgent(22, 44, "091k") # Access sender class
             sender_text = call_sender.send_text() # Print the sender message
             #Probability of the sender's message being intercepted between 0 and 1. 
-            probability = sum(sender_text) / 10
-
+            probability = sum(sender_text) / 100
+            
             if probability >= 0.75:
                 status = "intercepted" #Indicates whether message has been read
                 block = "block"        #Ability to block the user
-            elif probability >=0.5 and probability <= 0.75:
+            elif probability >= 0.5 and probability <= 0.75:
                 status = "susceptible"
                 block = "attempt"
             else:
@@ -44,15 +44,13 @@ class Attack: #runner call it
 
             interception_results.append({"attempts": number, "probability": probability,
                                         "status": status, "block": block})
-        all_results = pd.DataFrame(interception_results)
+        results = pd.DataFrame(interception_results)
 
-        if not os.path.exists(RESULTS):
-            os.makedirs(RESULTS) 
-            path = os.path.join(RESULTS, 'interception_results.csv')
-            all_results.to_csv(path, index=False)                                          
+        path = os.path.join(RESULTS, 'interception_results.csv')
+        results.to_csv(path, index=False)                                          
 
-        return interception_results
+        return None
 
 a = Attack()
-b = a.compare(10)
+b = a.compare(10000)
 print(b)
