@@ -57,7 +57,7 @@ class SenderAgent:
         text : array
             Array of 10 items consisting of 1s and 0s.
         """
-        text = np.random.randint(0, 2, 10)
+        text = np.random.randint(0, 2, 100)
 
         return text
 
