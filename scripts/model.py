@@ -17,7 +17,7 @@ class Attack: #runner call it
     This class represents the process of an interception by a malicious user in a network.
     They try to decrypt, read and block the users if the message is successfully decrypted.
     """
-    def compare(self, number_of_attempts):
+    def compare(self, iteration):
         """This function compares the message from the sender.
 
         Returns
@@ -26,13 +26,13 @@ class Attack: #runner call it
             Contains the message interception probability and status       
         """
         interception_results = []
-        for number in range(0, number_of_attempts):
+        for number in range(0, iteration):
             decrypt_list = [14, 30, 45]
             for crypt in decrypt_list:
                 call_sender = InterceptorAgent(22, 44, "091k") # Access sender class
-                if crypt == decrypt_list[1]:
+                if crypt == decrypt_list[0]:
                     decryption_level = "basic"
-                elif crypt == decrypt_list[2]:
+                elif crypt == decrypt_list[1]:
                     decryption_level = "intermediate"
                 else:
                     decryption_level = "advanced"
@@ -50,9 +50,9 @@ class Attack: #runner call it
                         status = "secure"
                         block = "unable"
 
-                interception_results.append({"attempts": number, "probability": probability,
-                                            "status": status, "block": block,
-                                            "decryption_level": decryption_level})
+                    interception_results.append({"attempts": number, "probability": probability,
+                                                "status": status, "block": block,
+                                                "decryption_level": decryption_level})
         results = pd.DataFrame(interception_results)
 
         path = os.path.join(RESULTS, 'interception_results.csv')
