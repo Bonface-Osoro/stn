@@ -44,22 +44,18 @@ for i in df.index:
         df["intercepted"].loc[i] = 0
 df = df[["Value", "attempts", "intercepted", "susceptible", "secure"]]
 
-path = os.path.join(RESULTS, "processed_results.csv")
-df.to_csv(path, index=False)   
-
 cdfs = []
-count, bins_count = np.histogram(df["secure"], bins = 10)
+count, bins_count = np.histogram(df["Value"], bins = 10)
 pdf = count / sum(count)
 cdf = np.cumsum(pdf)
-print (len(cdf), len(count))
+print (bins_count[1:])
 
 list_1 = cdf.tolist()
-list_2 = count.tolist()
-print(list_1)
-df = pd.DataFrame({'cdf':list_1,'count':list_2})
-#cdfs.append({"cdf", list_1})
+list_2 = bins_count[1:].tolist()
+df1 = pd.DataFrame({'cdf':list_1,'count':list_2})
+
 path = os.path.join(RESULTS, "cdf_results.csv")
-df.to_csv(path, index=False) 
+df1.to_csv(path, index=False) 
 
 #plt.plot(bins_count[1:], pdf, color="red", label="PDF")
 plt.plot(bins_count[1:], cdf, label = "CDF")

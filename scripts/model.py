@@ -27,23 +27,32 @@ class Attack: #runner call it
         """
         interception_results = []
         for number in range(0, number_of_attempts):
-            call_sender = SenderAgent(22, 44, "091k") # Access sender class
-            sender_text = call_sender.send_text() # Print the sender message
-            #Probability of the sender's message being intercepted between 0 and 1. 
-            probability = sum(sender_text) / 100
-            
-            if probability >= 0.75:
-                status = "intercepted" #Indicates whether message has been read
-                block = "block"        #Ability to block the user
-            elif probability >= 0.5 and probability <= 0.75:
-                status = "susceptible"
-                block = "attempt"
-            else:
-                status = "secure"
-                block = "unable"
+            decrypt_list = [14, 30, 45]
+            for crypt in decrypt_list:
+                call_sender = InterceptorAgent(22, 44, "091k") # Access sender class
+                if crypt == decrypt_list[1]:
+                    decryption_level = "basic"
+                elif crypt == decrypt_list[2]:
+                    decryption_level = "intermediate"
+                else:
+                    decryption_level = "advanced"
+                    sender_text = call_sender.decrypt_text(crypt) # Print the sender message
+                #Probability of the sender's message being intercepted between 0 and 1. 
+                    probability = sender_text / 100
+                
+                    if probability >= 0.65:
+                        status = "intercepted" #Indicates whether message has been read
+                        block = "block"        #Ability to block the user
+                    elif probability >= 0.5 and probability <= 0.65:
+                        status = "susceptible"
+                        block = "attempt"
+                    else:
+                        status = "secure"
+                        block = "unable"
 
-            interception_results.append({"attempts": number, "probability": probability,
-                                        "status": status, "block": block})
+                interception_results.append({"attempts": number, "probability": probability,
+                                            "status": status, "block": block,
+                                            "decryption_level": decryption_level})
         results = pd.DataFrame(interception_results)
 
         path = os.path.join(RESULTS, 'interception_results.csv')
