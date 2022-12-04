@@ -23,17 +23,14 @@ class LinkBudget:
         ----------
         power (float) : Transmitter power in watts.
         antenna_gain (float) : Antenna gain in dB.
-        losses (float) : Antenna losses in dB.
         bandwidth (int) : The bandwidth of the carrier frequency (MHz).
-        distance (float) : Euclidean distance between the transmitter 
-                           and receiver in kilometres.
         frequency (int) : frequency of the radio wave in (GHz).
-        interference (float) : Unwanted in-band interference from 
-                               other radio antennas
-        transmitter_x (int) : x coordinates of transmitter (km).
-        transmitter_y (int) : y coordinates of transmitter (km).
-        receiver_x (int) : x coordinates of receiver (km).
-        receiver_y (int) : y coordinates of receiver (km).
+        transmitter_x (float) : x coordinates of transmitter (km).
+        transmitter_y (float) : y coordinates of transmitter (km).
+        receiver_x (float) : x coordinates of receiver (km).
+        receiver_y (float) : y coordinates of receiver (km).
+        jammer_x (float) : x coordinates of jammer (km).
+        jammer_y (float) : y coordinates of jammer (km).
         """
         self.power = power
         self.antenn_gain = antenna_gain
@@ -118,6 +115,7 @@ class LinkBudget:
         received_power = transmitted_power - power_lost
 
         return received_power
+
     def calc_interference_path(self):
         """
         Calculates the Euclidean distance between the transmitter
@@ -155,23 +153,10 @@ class LinkBudget:
         """
         transmitted_power = self.calc_eirp()
         power_lost = self.calc_interference_path_loss() - 4 + 4 -4
-        jammer_power = transmitted_power - power_lost
+        jam_power = transmitted_power - power_lost
+        jammer_power = np.log10((10 ** jam_power) / (10 ** self.calc_noise()))
 
         return jammer_power
-
-    def calc_jamming_sinr(self):
-        """
-        Calculates the snr from the jammer.
-
-        Returns
-        -------
-        jammer_sinr : float
-            Jammer sinr.
-        """
-        jammer_sinr = np.log10((10 ** self.calc_jammer_power()) / \
-                      (10 ** self.calc_noise())) 
-        
-        return jammer_sinr
 
     def calc_sinr(self):
         """
@@ -183,12 +168,12 @@ class LinkBudget:
             sinr in dB.
         """
         sinr = np.log10(10 ** self.calc_receiver_power()) / \
-               (10 ** self.calc_jamming_sinr() + 10 ** self.calc_noise()) 
+               (10 ** self.calc_jammer_power() + 10 ** self.calc_noise()) 
         
         return sinr
 
 if __name__ == "__main__":  
         
-    x = LinkBudget(40, 16, 1000, 2.5, 0, 0, 2, 0, 10, 0)
+    x = LinkBudget(40, 16, 1000, 2.5, 0, 0, 1, 0, 10, 0)
     y = x.calc_sinr()
     print(y)
