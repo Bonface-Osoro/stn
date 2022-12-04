@@ -174,6 +174,6 @@ class LinkBudget:
 
 if __name__ == "__main__":  
         
-    x = LinkBudget(40, 16, 100, 2.5, 0, 0, 1, 0, 10, 0)
+    x = LinkBudget(40, 16, 1000, 2.5, 0, 0, 1, 0, 10, 0)
     y = x.calc_sinr()
     print(y)
