@@ -11,8 +11,8 @@ BASE_PATH = CONFIG['file_locations']['base_path']
 RESULTS = os.path.join("results")
 
 signal_results = []
-for coords in range(1000):
-    
+for iterations in range(500):
+
     # Jammer coordinates
     interference_x = random.randrange(1, 70)
     interference_y = random.randrange(1, 70)
@@ -32,9 +32,9 @@ for coords in range(1000):
 
     sinr_dB = link_budget.calc_sinr()
 
-    signal_results.append({"interference_distance_km": inteference_distance_km,
-    "inteference_path_loss_dB": inteference_path_loss_dB, "interference_power": 
-    interference_power, "receiver_distance_km": receiver_distance_km, 
+    signal_results.append({"iterations": iterations, "interference_distance_km": 
+    inteference_distance_km, "inteference_path_loss_dB": inteference_path_loss_dB, 
+    "interference_power": interference_power, "receiver_distance_km": receiver_distance_km, 
     "receiver_path_loss_dB": receiver_path_loss_dB, "sinr_dB": sinr_dB})
 
 results = pd.DataFrame(signal_results)
