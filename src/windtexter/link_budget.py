@@ -171,9 +171,3 @@ class LinkBudget:
                (10 ** self.calc_jammer_power() + 10 ** self.calc_noise()) 
         
         return sinr
-
-if __name__ == "__main__":  
-        
-    x = LinkBudget(40, 16, 1000, 2.5, 0, 0, 1, 0, 10, 0)
-    y = x.calc_sinr()
-    print(y)
