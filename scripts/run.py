@@ -4,39 +4,38 @@ import random
 import numpy as np
 import pandas as pd
 from windtexter.link_budget import LinkBudget
+
 CONFIG = configparser.ConfigParser()
 CONFIG.read(os.path.join(os.path.dirname(__file__), 'script_config.ini'))
 BASE_PATH = CONFIG['file_locations']['base_path']
 RESULTS = os.path.join("results")
 
-# Receiver coordinates
-rec_x = np.random.uniform(0, 72, 2)
-rec_y = np.random.uniform(0, 72, 2)
-
-# Jammer coordinates
-jam_x = np.random.uniform(0, 72, 2)
-jam_y = np.random.uniform(0, 72, 2)
-
 signal_results = []
-for rec_xs in rec_x:
-    for rec_ys in rec_y:
-        for jam_xs in jam_x:
-            for jam_ys in jam_y:
-                link_budget = LinkBudget(40, 16, 1000, 2.5, 0, 0, rec_xs, rec_ys, jam_xs, jam_ys)
+for coords in range(1000):
+    
+    # Jammer coordinates
+    interference_x = random.randrange(1, 70)
+    interference_y = random.randrange(1, 70)
 
-                inteference_distance_km = link_budget.calc_interference_path()
-                inteference_path_loss_dB = link_budget.calc_interference_path_loss()
-                interference_power = link_budget.calc_jammer_power()
+    # Receiver coordinates
+    receiver_x = random.randrange(1, 70)
+    receiver_y = random.randrange(1, 70)
 
-                receiver_distance_km = link_budget.calc_signal_path()
-                receiver_path_loss_dB = link_budget.calc_radio_path_loss()
+    link_budget = LinkBudget(40, 16, 1000, 2.5, 0, 0, receiver_x, receiver_y, interference_x, interference_y)
+    
+    inteference_distance_km = link_budget.calc_interference_path()
+    inteference_path_loss_dB = link_budget.calc_interference_path_loss()
+    interference_power = link_budget.calc_jammer_power()
 
-                sinr_dB = link_budget.calc_sinr()
+    receiver_distance_km = link_budget.calc_signal_path()
+    receiver_path_loss_dB = link_budget.calc_radio_path_loss()
 
-                signal_results.append({"interference_distance_km": inteference_distance_km,
-                "inteference_path_loss_dB": inteference_path_loss_dB, "interference_power": 
-                interference_power, "receiver_distance_km": receiver_distance_km, 
-                "receiver_path_loss_dB": receiver_path_loss_dB, "sinr_dB": sinr_dB})
+    sinr_dB = link_budget.calc_sinr()
+
+    signal_results.append({"interference_distance_km": inteference_distance_km,
+    "inteference_path_loss_dB": inteference_path_loss_dB, "interference_power": 
+    interference_power, "receiver_distance_km": receiver_distance_km, 
+    "receiver_path_loss_dB": receiver_path_loss_dB, "sinr_dB": sinr_dB})
 
 results = pd.DataFrame(signal_results)
 
