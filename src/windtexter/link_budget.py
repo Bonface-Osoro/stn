@@ -3,19 +3,20 @@ Spatial Based Radio Signal Interference modelling
 
 Written by Osoro Bonface
 November 2022
-Geroge Mason university, US
+Geroge Mason university, USA
 
 """
 import math
 import numpy as np
+import pandas as pd
 
 class LinkBudget:
     """
     This class estimates the wireless radio link budget
     """
-    def __init__(self, power, antenna_gain, bandwidth, 
-                 frequency, transmitter_x, transmitter_y, 
-                 receiver_x, receiver_y, jammer_x, jammer_y):
+    def __init__(self, power, antenna_gain, technology, 
+                 transmitter_x, transmitter_y, receiver_x, 
+                 receiver_y, jammer_x, jammer_y):
         """
         A class constructor.
 
@@ -23,8 +24,7 @@ class LinkBudget:
         ----------
         power (float) : Transmitter power in watts.
         antenna_gain (float) : Antenna gain in dB.
-        bandwidth (int) : The bandwidth of the carrier frequency (MHz).
-        frequency (int) : frequency of the radio wave in (GHz).
+        technology (str) : Cellular technology (2G, 3G, 4G or 5G)
         transmitter_x (float) : x coordinates of transmitter (km).
         transmitter_y (float) : y coordinates of transmitter (km).
         receiver_x (float) : x coordinates of receiver (km).
@@ -34,8 +34,7 @@ class LinkBudget:
         """
         self.power = power
         self.antenn_gain = antenna_gain
-        self.bandwidth = bandwidth
-        self.frequency = frequency
+        self.technology = technology
         self.transmitter_x = transmitter_x
         self.transmitter_y = transmitter_y
         self.receiver_x = receiver_x
@@ -64,16 +63,41 @@ class LinkBudget:
 
         Returns
         -------
-        noise : float
+        noise_dict : list
             Received noise at the UE receiver in dB.
         """
         k = 1.38e-23 #Boltzmann's constant k = 1.38×10−23 joules per kelvin
         t = 290 #Temperature of the receiver system T0 in kelvins
 
-        noise = (10 * (math.log10((k * t * 1000)))) + \
-                (10 * (math.log10(self.bandwidth * 10 ** 6))) + 1.5
+        noise_list = []
+        if self.technology == "2G":
+            bandwidth = 850        # In MHz
+            noise = (10 * (math.log10((k * t * 1000)))) + \
+                    (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
+            noise_list.append(noise)
 
-        return noise
+        elif self.technology == "3G":
+            bandwidth = 1900
+            noise = (10 * (math.log10((k * t * 1000)))) + \
+                    (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
+            noise_list.append(noise)
+        
+        elif self.technology == "4G":
+            bandwidth = 3500
+            noise = (10 * (math.log10((k * t * 1000)))) + \
+                    (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
+            noise_list.append(noise)
+        
+        elif self.technology == "5G":
+            bandwidth = 26000
+            noise = (10 * (math.log10((k * t * 1000)))) + \
+            (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
+            noise_list.append(noise)
+
+        else:
+            print("Invalid Technology Input")
+
+        return noise_list
 
     def calc_signal_path(self):
         """
@@ -98,11 +122,37 @@ class LinkBudget:
 
         Returns
         -------
-        rx_path_loss : float
+        rx_path_loss : list
             Receiver Path loss in dB.
         """
-        rx_path_loss = 20 * math.log10(self.calc_signal_path()) + \
-                    20 * math.log10(self.frequency) + 92.45
+        rx_path_loss = []
+
+        if self.technology == "2G":
+            frequency = 0.85       # In GHz
+            rx_path = 20 * math.log10(self.calc_signal_path()) + \
+                        20 * math.log10(frequency) + 92.45
+            rx_path_loss.append(rx_path)
+
+        elif self.technology == "3G":
+            frequency = 1.9
+            rx_path = 20 * math.log10(self.calc_signal_path()) + \
+                        20 * math.log10(frequency) + 92.45
+            rx_path_loss.append(rx_path)
+
+        elif self.technology == "4G":
+            frequency = 3.5
+            rx_path = 20 * math.log10(self.calc_signal_path()) + \
+            20 * math.log10(frequency) + 92.45 
+            rx_path_loss.append(rx_path)
+
+        elif self.technology == "5G":
+            frequency = 26
+            rx_path = 20 * math.log10(self.calc_signal_path()) + \
+            20 * math.log10(frequency) + 92.45 
+            rx_path_loss.append(rx_path)
+
+        else:
+            print("Invalid Technology Input")   
 
         return rx_path_loss
     
@@ -111,7 +161,7 @@ class LinkBudget:
         Calculates the received power at the user equipment.
         """
         transmitted_power = self.calc_eirp()
-        power_lost = self.calc_radio_path_loss() - 4 + 4 -4
+        power_lost = self.calc_radio_path_loss()[0] - 4 + 4 -4
         received_power = transmitted_power - power_lost
 
         return received_power
@@ -139,11 +189,36 @@ class LinkBudget:
 
         Returns
         -------
-        jam_path_loss : float
+        jam_path_loss : list
             Jammer Path loss in dB.
         """
-        jam_path_loss = 20 * math.log10(self.calc_interference_path()) + \
-                    20 * math.log10(self.frequency) + 92.45
+        jam_path_loss = []
+        if self.technology == "2G":
+            frequency = 0.85
+            jam_path = 20 * math.log10(self.calc_interference_path()) + \
+                        20 * math.log10(frequency) + 92.45
+            jam_path_loss.append(jam_path)
+
+        elif self.technology == "3G":
+            frequency = 1.9
+            jam_path = 20 * math.log10(self.calc_interference_path()) + \
+                        20 * math.log10(frequency) + 92.45
+            jam_path_loss.append(jam_path)
+
+        elif self.technology == "4G":
+            frequency = 3.5
+            jam_path = 20 * math.log10(self.calc_interference_path()) + \
+                        20 * math.log10(frequency) + 92.45
+            jam_path_loss.append(jam_path)
+
+        elif self.technology == "5G":
+            frequency = 26
+            jam_path = 20 * math.log10(self.calc_interference_path()) + \
+                        20 * math.log10(frequency) + 92.45
+            jam_path_loss.append(jam_path)
+
+        else:
+            print("Invalid Technology Input")
 
         return jam_path_loss
 
@@ -152,9 +227,9 @@ class LinkBudget:
         Calculates the power transmitted by jammer.
         """
         transmitted_power = self.calc_eirp()
-        power_lost = self.calc_interference_path_loss() - 4 + 4 -4
+        power_lost = self.calc_interference_path_loss()[0] - 4 + 4 -4
         jam_power = transmitted_power - power_lost
-        jammer_power = np.log10((10 ** jam_power) / (10 ** self.calc_noise()))
+        jammer_power = np.log10((10 ** jam_power) / (10 ** self.calc_noise()[0]))
 
         return jammer_power
 
@@ -168,6 +243,12 @@ class LinkBudget:
             sinr in dB.
         """
         sinr = np.log10(10 ** self.calc_receiver_power()) / \
-               (10 ** self.calc_jammer_power() + 10 ** self.calc_noise()) 
+               (10 ** self.calc_jammer_power() + 10 ** self.calc_noise()[0]) 
         
         return sinr
+
+if __name__ == "__main__":  
+        
+    x = LinkBudget(40, 16, "3G", 0, 0, 10, 10, 15, 15)
+    y = x.calc_sinr()
+    print(y)
