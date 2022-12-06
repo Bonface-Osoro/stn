@@ -3,7 +3,7 @@ Spatial Based Radio Signal Interference modelling
 
 Written by Osoro Bonface
 November 2022
-Geroge Mason university, USA
+George Mason university, USA
 
 """
 import math
@@ -110,7 +110,7 @@ class LinkBudget:
             Distance in km.
         """
         x_term = (self.receiver_x - self.transmitter_x) ** 2
-        y_term = (self.receiver_y - self.transmitter_x) ** 2
+        y_term = (self.receiver_y - self.transmitter_y) ** 2
         distance = math.sqrt(x_term + y_term)
 
         return distance

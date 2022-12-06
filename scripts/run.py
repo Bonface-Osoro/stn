@@ -13,7 +13,7 @@ RESULTS = os.path.join("results")
 signal_results = []
 technologies = ["2G", "3G", "4G", "5G"]
 for technology in technologies:
-    for iterations in range(500):
+    for iterations in range(1000):
 
         # Jammer coordinates
         interference_x = random.randrange(1, 70)

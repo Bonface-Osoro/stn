@@ -22,32 +22,28 @@ sys.path.insert(0, ROOT_DIR)
 path = os.path.join(RESULTS, "signal_results.csv")
 
 df = pd.read_csv(path)
-df = df[["iterations", "interference_distance_km", "inteference_path_loss_dB", 
+df = df[["technology", "iterations", "interference_distance_km", "inteference_path_loss_dB", 
          "interference_power", "receiver_distance_km", "receiver_path_loss_dB", 
          "sinr_dB"]] 
 
-df.columns = ["Iterations", "Interference distance (km)", "Inteference path loss (dB)", 
+df.columns = ["Technology", "Iterations", "Interference distance (km)", "Inteference path loss (dB)", 
               "Interference power (dB)", "Receiver distance (km)", "Receiver path loss (dB)", 
               "SINR (dB)"]
 
-long_df = pd.melt(df, id_vars = ["Iterations"], value_vars = ["Interference distance (km)", 
-          "Inteference path loss (dB)", "Interference power (dB)", "Receiver distance (km)", 
-          "Receiver path loss (dB)", "SINR (dB)"])
+long_df = pd.melt(df, id_vars = ["Iterations", "Technology"], 
+          value_vars = ["Interference power (dB)", "Interference distance (km)",
+          "Receiver distance (km)", "SINR (dB)"])
 
-long_df.columns = ["Iterations", "Metric", "Value"]
+long_df.columns = ["Iterations", "Technology", "Metric", "Value"]
 
-sns.set(font_scale=1)
+sns.set(font_scale = 1)
 
 plot = sns.relplot(x = "Iterations", y = "Value", linewidth = 0.5,
-       col = "Metric", col_wrap = 3, palette = sns.color_palette("muted", 6),
-       kind = "line", data = long_df, facet_kws = dict(sharex = False, 
-       sharey = False), legend = "full")
-handles = plot._legend_data.values()
-labels = plot._legend_data.keys()
+       hue = "Technology", col = "Metric", kind = "line", col_wrap = 3,
+       data = long_df, facet_kws = dict(sharex = False, sharey = False), legend = "full")
 
-plot.fig.legend(handles = handles, labels = labels, loc = "lower center", ncol = 7)
 plt.subplots_adjust(hspace = 0.25, wspace = 0.25, bottom = 0.07)
 plt.tight_layout()
 
-plt.savefig(os.path.join(VIS, "simulation plots.tiff"), dpi=300)
+plt.savefig(os.path.join(VIS, "simulation plots.png"))
 plt.show()
