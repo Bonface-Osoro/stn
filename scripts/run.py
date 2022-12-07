@@ -4,6 +4,7 @@ import random
 import numpy as np
 import pandas as pd
 from windtexter.link_budget import LinkBudget
+pd.options.mode.chained_assignment = None
 
 CONFIG = configparser.ConfigParser()
 CONFIG.read(os.path.join(os.path.dirname(__file__), 'script_config.ini'))
@@ -26,11 +27,11 @@ for technology in technologies:
         link_budget = LinkBudget(40, 16, technology, 0, 0, receiver_x, receiver_y, interference_x, interference_y)
         
         inteference_distance_km = link_budget.calc_interference_path()
-        inteference_path_loss_dB = link_budget.calc_interference_path_loss()
+        inteference_path_loss_dB = link_budget.calc_interference_path_loss()[0]
         interference_power = link_budget.calc_jammer_power()
 
         receiver_distance_km = link_budget.calc_signal_path()
-        receiver_path_loss_dB = link_budget.calc_radio_path_loss()
+        receiver_path_loss_dB = link_budget.calc_radio_path_loss()[0]
 
         sinr_dB = link_budget.calc_sinr()
 
@@ -39,7 +40,21 @@ for technology in technologies:
         "interference_power": interference_power, "receiver_distance_km": receiver_distance_km, 
         "receiver_path_loss_dB": receiver_path_loss_dB, "sinr_dB": sinr_dB, "technology": technology})
 
-results = pd.DataFrame(signal_results)
+df = pd.DataFrame(signal_results)
+df["jamming_power"] = ""
+max_power = df['interference_power'].max()
+min_power = df['interference_power'].min()
 
-path = os.path.join(RESULTS, 'signal_results.csv')
-results.to_csv(path, index=False)           
+for i in df.index: 
+
+    if df["interference_power"].loc[i] <= -27:
+        df["jamming_power"].loc[i] = "Low"
+
+    elif df["interference_power"].loc[i] >= 21:
+        df["jamming_power"].loc[i] = "High"
+
+    else:
+        df["jamming_power"].loc[i] = "Baseline"
+
+path = os.path.join(RESULTS, "signal_results.csv")
+df.to_csv(path, index=False)           

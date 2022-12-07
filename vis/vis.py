@@ -30,20 +30,21 @@ df.columns = ["Technology", "Iterations", "Interference distance (km)", "Intefer
               "Interference power (dB)", "Receiver distance (km)", "Receiver path loss (dB)", 
               "SINR (dB)"]
 
-long_df = pd.melt(df, id_vars = ["Iterations", "Technology"], 
-          value_vars = ["Interference power (dB)", "Interference distance (km)",
-          "Receiver distance (km)", "SINR (dB)"])
+long_df = pd.melt(df, id_vars = ["Interference distance (km)", "Technology"], 
+          value_vars = ["Interference power (dB)",
+          "Receiver distance (km)", "Receiver path loss (dB)", 
+          "Inteference path loss (dB)", "SINR (dB)"])
 
-long_df.columns = ["Iterations", "Technology", "Metric", "Value"]
+long_df.columns = ["Interference distance (km)", "Technology", "Metric", "Value"]
 
-sns.set(font_scale = 1)
+# sns.set(font_scale = 1)
 
-plot = sns.relplot(x = "Iterations", y = "Value", linewidth = 0.5,
-       hue = "Technology", col = "Metric", kind = "line", col_wrap = 3,
-       data = long_df, facet_kws = dict(sharex = False, sharey = False), legend = "full")
+# plot = sns.relplot(x = "Interference distance (km)", y = "Value", linewidth = 0.5,
+#        hue = "Technology", col = "Metric", kind = "line", col_wrap = 3,
+#        data = long_df, facet_kws = dict(sharex = False, sharey = False), legend = "full")
 
-plt.subplots_adjust(hspace = 0.25, wspace = 0.25, bottom = 0.07)
-plt.tight_layout()
+# plt.subplots_adjust(hspace = 0.25, wspace = 0.25, bottom = 0.07)
+# plt.tight_layout()
 
-plt.savefig(os.path.join(VIS, "simulation plots.png"))
-plt.show()
+# plt.savefig(os.path.join(VIS, "simulation plots.png"))
+# plt.show()
