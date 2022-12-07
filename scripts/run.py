@@ -42,15 +42,18 @@ for technology in technologies:
 
 df = pd.DataFrame(signal_results)
 df["jamming_power"] = ""
-max_power = df['interference_power'].max()
-min_power = df['interference_power'].min()
+
+### Obtain the maximum interference distance ###
+max_dist = df['interference_distance_km'].max()
 
 for i in df.index: 
 
-    if df["interference_power"].loc[i] <= -27:
+    ### set the low scenario to a third of the maximum distance ###
+    if df["interference_distance_km"].loc[i] <= 0.33 * max_dist:
         df["jamming_power"].loc[i] = "Low"
 
-    elif df["interference_power"].loc[i] >= 21:
+    ### set the high scenario to two thirds of the maximum distance ###
+    elif df["interference_distance_km"].loc[i] >= 0.66 * max_dist:
         df["jamming_power"].loc[i] = "High"
 
     else:
