@@ -15,8 +15,11 @@ data <- read.csv(file.path(folder, "signal_results.csv"))
 ##plot1 = Interference power line plot
 ######################################
 int_power <- ggplot(data,
-       aes(interference_distance_km, interference_power, color = technology)) +
-  geom_line() +   scale_fill_brewer(palette = "Paired") +
+                    aes(interference_distance_km, 
+                        interference_power, 
+                        color = technology)) +
+  geom_line(position = position_dodge(width = 0.5)) +
+  scale_fill_brewer(palette = "Paired") +
   theme(legend.position = "right") +
   labs(
     colour = NULL,
@@ -30,14 +33,12 @@ int_power <- ggplot(data,
       format(y, scientific = FALSE),
     expand = c(0, 0)
   ) +
-  theme(
-    axis.text.x = element_text(size = 8),
-    axis.line = element_line(colour = "black")
-  ) +
+  theme(axis.text.x = element_text(size = 8),
+        axis.line = element_line(colour = "black")) +
   theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
   theme(
     legend.title = element_text(size = 8),
-    legend.text = element_text(size =8),
+    legend.text = element_text(size = 8),
     plot.subtitle = element_text(size = 8),
     plot.title = element_text(size = 10)
   )
@@ -46,7 +47,9 @@ int_power <- ggplot(data,
 ##plot2 = Interference path loss line plot
 ######################################
 int_power_loss <- ggplot(data,
-       aes(interference_distance_km, inteference_path_loss_dB, color = technology)) +
+                         aes(interference_distance_km, 
+                             inteference_path_loss_dB, 
+                             color = technology)) +
   geom_line() +  scale_fill_brewer(palette = "Paired") +
   theme(legend.position = "right") +
   labs(
@@ -61,14 +64,12 @@ int_power_loss <- ggplot(data,
       format(y, scientific = FALSE),
     expand = c(0, 0)
   ) +
-  theme(
-    axis.text.x = element_text(size = 8),
-    axis.line = element_line(colour = "black")
-  ) +
+  theme(axis.text.x = element_text(size = 8),
+        axis.line = element_line(colour = "black")) +
   theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
   theme(
     legend.title = element_text(size = 8),
-    legend.text = element_text(size =8),
+    legend.text = element_text(size = 8),
     plot.subtitle = element_text(size = 8),
     plot.title = element_text(size = 10)
   )
@@ -76,15 +77,69 @@ int_power_loss <- ggplot(data,
 ##plot3 = Receiver path loss line plot
 ######################################
 rec_power_loss <- ggplot(data,
-       aes(receiver_distance_km, receiver_path_loss_dB, color = technology)) +
-  geom_line() + scale_fill_brewer(palette = "Paired") +
-  theme(legend.position = "right") +
+                         aes(receiver_distance_km,
+                             receiver_path_loss_dB,
+                             color = technology)) +
+  geom_line() +
   labs(
     colour = NULL,
     title = "Receiver Path Loss",
     subtitle = "Receiver path loss as the \nposition of the jammer changes",
     x = "Receiver Distance (km)",
     y = "Receiver Path Loss (dB)",
+    fill = "Technology"
+  ) + scale_fill_brewer(palette = "Paired") +
+  theme(legend.position = "right") + scale_y_continuous(
+    labels = function(y)
+      format(y, scientific = FALSE),
+    expand = c(0, 0)
+  ) +
+  theme(axis.text.x = element_text(size = 8),
+        axis.line = element_line(colour = "black")) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 8),
+    plot.subtitle = element_text(size = 8),
+    plot.title = element_text(size = 10)
+  )
+
+##################################
+##plot4 = SINR Scenario bar plot
+##################################
+df = data %>%
+  group_by(jamming_power, technology) %>%
+  summarize(mean = mean(interference_power),
+            sd = sd(interference_power))
+
+df$technology = as.factor(df$technology)
+df$jamming_power = factor(df$jamming_power)
+df$Technology = factor(
+  df$technology,
+  levels = c('2G', '3G', '4G', "5G"),
+  labels = c('2G', '3G', '4G', "5G")
+)
+
+int_pwr <-
+  ggplot(df, aes(x = jamming_power, y = mean, fill = Technology)) +
+  geom_bar(stat = "identity",
+           position = position_dodge(),
+           width = 0.98) +
+  geom_errorbar(
+    aes(ymin = mean - sd,
+        ymax = mean + sd),
+    width = .2,
+    position = position_dodge(.9),
+    color = 'black',
+    size = 0.3
+  ) + scale_fill_brewer(palette = "Accent") +
+  theme(legend.position = "right") +
+  labs(
+    colour = NULL,
+    title = "Inteference Path Loss",
+    subtitle = "Interference path loss \nfor various jamming power scenario",
+    x = "Cellular Technology",
+    y = "Pathloss",
     fill = "Technology"
   ) + scale_y_continuous(
     labels = function(y)
@@ -107,10 +162,12 @@ losses <- ggarrange(
   int_power,
   int_power_loss,
   rec_power_loss,
-  ncol = 3,
-  common.legend = T,
+  int_pwr,
+  ncol = 2,
+  nrow = 2,
+  common.legend = F,
   legend = "bottom",
-  labels = c("a", "b", "c")
+  labels = c("a", "b", "c", "d")
 )
 
 path = file.path(folder, "figures", "loss_profile.png")
@@ -118,16 +175,9 @@ dir.create(file.path(folder, "figures"), showWarnings = FALSE)
 png(
   path,
   units = "in",
-  width = 8,
-  height = 4,
+  width = 6,
+  height = 6,
   res = 480
 )
 print(losses)
 dev.off()
-
-
-
-
-
-
-
