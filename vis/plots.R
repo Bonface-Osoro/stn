@@ -11,9 +11,9 @@ folder <- dirname(rstudioapi::getSourceEditorContext()$path)
 folder <- dirname(rstudioapi::getSourceEditorContext()$path)
 data <- read.csv(file.path(folder, "signal_results.csv"))
 
-######################################
-##plot1 = Interference power line plot
-######################################
+#########################################
+##plot1 = Interference power line plot ##
+#########################################
 int_power <- ggplot(data,
                     aes(interference_distance_km, 
                         interference_power, 
@@ -43,9 +43,9 @@ int_power <- ggplot(data,
     plot.title = element_text(size = 10)
   )
 
-######################################
-##plot2 = Interference path loss line plot
-######################################
+#############################################
+##plot2 = Interference path loss line plot ##
+#############################################
 int_power_loss <- ggplot(data,
                          aes(interference_distance_km, 
                              inteference_path_loss_dB, 
@@ -73,9 +73,9 @@ int_power_loss <- ggplot(data,
     plot.subtitle = element_text(size = 8),
     plot.title = element_text(size = 10)
   )
-######################################
-##plot3 = Receiver path loss line plot
-######################################
+#########################################
+##plot3 = Receiver path loss line plot ##
+#########################################
 rec_power_loss <- ggplot(data,
                          aes(receiver_distance_km,
                              receiver_path_loss_dB,
@@ -104,9 +104,9 @@ rec_power_loss <- ggplot(data,
     plot.title = element_text(size = 10)
   )
 
-##################################
-##plot4 = SINR Scenario bar plot
-##################################
+########################################
+##plot4 = SINR Scenario bar line plot ##
+########################################
 df = data %>%
   group_by(jamming_power, technology) %>%
   summarize(mean = mean(interference_power),
@@ -182,9 +182,9 @@ png(
 print(losses)
 dev.off()
 
-######################################
-##ECDF 1 = Interference power line plot
-######################################
+####################################
+##ECDF 1 = Interference power plot##
+####################################
 ecdf_int_dist <- ggplot(data,
   aes(x = interference_distance_km, 
   color = technology)) +
@@ -213,9 +213,9 @@ ecdf_int_dist <- ggplot(data,
     plot.title = element_text(size = 10)
   )
 
-######################################
-##ECDF2 = Interference path loss line plot
-######################################
+#######################################
+##ECDF2 = Interference path loss plot##
+#######################################
 
 ecdf_int_pathloss <- ggplot(data,
                          aes(x = inteference_path_loss_dB, 
