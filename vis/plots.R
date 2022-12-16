@@ -181,3 +181,154 @@ png(
 )
 print(losses)
 dev.off()
+
+######################################
+##ECDF 1 = Interference power line plot
+######################################
+ecdf_int_dist <- ggplot(data,
+  aes(x = interference_distance_km, 
+  color = technology)) +
+  stat_ecdf() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(legend.position = "right") +
+  labs(
+    colour = NULL,
+    title = "Interference Distance",
+    subtitle = "Empirical cumulative distribution of different \njammer positions",
+    x = "Interference Distance (km)",
+    y = "Proportions",
+    fill = "Technology"
+  ) +   scale_y_continuous(
+    labels = function(y)
+      format(y, scientific = FALSE),
+    expand = c(0, 0)
+  ) +
+  theme(axis.text.x = element_text(size = 8),
+        axis.line = element_line(colour = "black")) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 8),
+    plot.subtitle = element_text(size = 8),
+    plot.title = element_text(size = 10)
+  )
+
+######################################
+##ECDF2 = Interference path loss line plot
+######################################
+
+ecdf_int_pathloss <- ggplot(data,
+                         aes(x = inteference_path_loss_dB, 
+                             color = technology)) +
+  stat_ecdf() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(legend.position = "right") +
+  labs(
+    colour = NULL,
+    title = "Interference Path Loss",
+    subtitle = "Empirical cumulative distribution for inteference path loss \nfor different jammer positions",
+    x = "Interference Path Loss (dB)",
+    y = "Proportions",
+    fill = "Technology"
+  ) +   scale_y_continuous(
+    labels = function(y)
+      format(y, scientific = FALSE),
+    expand = c(0, 0)
+  ) +
+  theme(axis.text.x = element_text(size = 8),
+        axis.line = element_line(colour = "black")) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 8),
+    plot.subtitle = element_text(size = 8),
+    plot.title = element_text(size = 10)
+  )
+
+####################################
+##ECDF3 = Interference power plot ##
+####################################
+ecdf_int_power <- ggplot(data,
+          aes(x = interference_power, 
+          color = technology)) +
+  stat_ecdf() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(legend.position = "right") +
+  labs(
+    colour = NULL,
+    title = "Interference Power",
+    subtitle = "Empirical cumulative distribution for inteference power \nfor different jammer positions",
+    x = "Interference Power (dB)",
+    y = "Proportions",
+    fill = "Technology"
+  ) +   scale_y_continuous(
+    labels = function(y)
+      format(y, scientific = FALSE),
+    expand = c(0, 0)
+  ) +
+  theme(axis.text.x = element_text(size = 8),
+        axis.line = element_line(colour = "black")) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 8),
+    plot.subtitle = element_text(size = 8),
+    plot.title = element_text(size = 10)
+  )
+
+####################################
+##ECDF4 = Receiver path loss plot ##
+####################################
+ecdf_rec_pathloss <- ggplot(data,
+  aes(x = receiver_path_loss_dB, 
+  color = technology)) +
+  stat_ecdf() +
+  scale_fill_brewer(palette = "Paired") +
+  theme(legend.position = "right") +
+  labs(
+    colour = NULL,
+    title = "Receiver Path Loss",
+    subtitle = "Empirical cumulative distribution for receiver path loss \nfor different positions",
+    x = "Receiver Path Loss (dB)",
+    y = "Proportions",
+    fill = "Technology"
+  ) +   scale_y_continuous(
+    labels = function(y)
+      format(y, scientific = FALSE),
+    expand = c(0, 0)
+  ) +
+  theme(axis.text.x = element_text(size = 8),
+        axis.line = element_line(colour = "black")) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 8),
+    plot.subtitle = element_text(size = 8),
+    plot.title = element_text(size = 10)
+  )
+
+ecdfs <- ggarrange(
+  ecdf_int_dist,
+  ecdf_int_pathloss,
+  ecdf_int_power,
+  ecdf_rec_pathloss,
+  ncol = 2,
+  nrow = 2,
+  common.legend = T,
+  legend = "bottom",
+  labels = c("a", "b", "c", "d")
+)
+
+path = file.path(folder, "figures", "ecdfs.png")
+dir.create(file.path(folder, "figures"), showWarnings = FALSE)
+png(
+  path,
+  units = "in",
+  width = 6.7,
+  height = 6.5,
+  res = 480
+)
+print(ecdfs)
+dev.off()
+
+
