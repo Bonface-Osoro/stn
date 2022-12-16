@@ -37,9 +37,7 @@ long_df = pd.melt(df, id_vars = ["Interference distance (km)", "Technology"],
 
 long_df.columns = ["Interference distance (km)", "Technology", "Metric", "Value"]
 
-sns.set(font_scale = 1)
-
-plot = sns.ecdfplot(df, x = "Interference power (dB)", hue = "Technology")
+# sns.set(font_scale = 1)
 
 # plot = sns.relplot(x = "Interference distance (km)", y = "Value", linewidth = 0.5,
 #        hue = "Technology", col = "Metric", kind = "line", col_wrap = 3,
@@ -49,4 +47,4 @@ plot = sns.ecdfplot(df, x = "Interference power (dB)", hue = "Technology")
 # plt.tight_layout()
 
 # plt.savefig(os.path.join(VIS, "simulation plots.png"))
-plt.show()
+# plt.show()
