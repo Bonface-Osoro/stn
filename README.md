@@ -6,7 +6,7 @@ Radio systems are vulnerable to cyber attacks. This may be in the form of denial
   <img src="/docs/windtexter.png" />
 </p>
 
-This `windtexter` repository provides a code to simulate an attcke scenario for users communicating over cellular networks (2G, 3G, 4G and 5G). The model involves a jammer moving over space and time and broadcasting a replica signal to prevent the user from communicating with the cellular transmiter. This is simulated across all the four cellular generation technologies.
+This `windtexter` repository provides a code to simulate an attack scenario for users communicating over cellular networks (2G, 3G, 4G and 5G). The model simulates a jammer moving over space and time and broadcasting a replica signal to prevent the user from communicating with the cellular transmiter. This is simulated across all the four cellular generation technologies.
 
 Citation
 ---------
@@ -15,9 +15,9 @@ Osoro, B., & Oughton, E. (2022). Spatial Modelling of Jamming Secure Texts over 
 Example Method
 ==============
 
-The method is based on agent based modelling (ABM). The transmitter, user (soldier) and the jammers are treated as agents in a 70 x 70 km grid. The transmitter is static while the users and the jammers move randomly within the grid. The difference in euclidean distance between the transmitter and the jammer results in various interference power.
+The method is based on agent based modelling (ABM). The transmitter, user (soldier) and the jammers are treated as agents in a 70 X 70 km grid. The transmitter is static while the users and the jammers move randomly within the grid. The difference in euclidean distance between the transmitter and the jammer results in various interference power.
 
-Similarly, the user and transmitter distance changes resulting to various receiver power. The Euclidean distance in both cases (user  and jammer) results in various path loss. The path loss contributes to differing interfernce and received power causing resulting to varying signal to interference plus noise (SINR). `Figure 2` illustrates this method.
+Similarly, the user and transmitter distance changes resulting to various receiver power. The Euclidean distance in both cases (user  and jammer) results in various path loss. The path loss contributes to differing interfernce and received power causing varying signal to interference plus noise (SINR). `Figure 2` illustrates this method.
 
 ## Figure 2 Spatial Modelling of the SINR.
 <p align="center">
@@ -35,3 +35,4 @@ The `windtexter` repository estimates the SINR for different user and jammer pos
 </p>
 
 Required Data
+==============
