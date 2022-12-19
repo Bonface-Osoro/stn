@@ -42,6 +42,7 @@ class LinkBudget:
         self.jammer_x = jammer_x
         self.jammer_y = jammer_y
 
+
     def calc_eirp(self):
         """
         Calculate the Equivalent Isotropically Radiated Power.
@@ -56,7 +57,8 @@ class LinkBudget:
         eirp = self.power  + self.antenn_gain - 1
 
         return eirp
-    
+
+
     def calc_noise(self):
         """
         Estimates unwanted electromagnetic noise.
@@ -71,25 +73,25 @@ class LinkBudget:
 
         noise_list = []
         if self.technology == "2G":
-            bandwidth = 850        # In MHz
+            bandwidth = 6.8        # In MHz
             noise = (10 * (math.log10((k * t * 1000)))) + \
                     (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
             noise_list.append(noise)
 
         elif self.technology == "3G":
-            bandwidth = 1900
+            bandwidth = 25
             noise = (10 * (math.log10((k * t * 1000)))) + \
                     (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
             noise_list.append(noise)
         
         elif self.technology == "4G":
-            bandwidth = 3500
+            bandwidth = 100
             noise = (10 * (math.log10((k * t * 1000)))) + \
                     (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
             noise_list.append(noise)
         
         elif self.technology == "5G":
-            bandwidth = 26000
+            bandwidth = 30000
             noise = (10 * (math.log10((k * t * 1000)))) + \
             (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
             noise_list.append(noise)
@@ -98,6 +100,7 @@ class LinkBudget:
             print("Invalid Technology Input")
 
         return noise_list
+
 
     def calc_signal_path(self):
         """
@@ -115,6 +118,7 @@ class LinkBudget:
 
         return distance
     
+
     def calc_radio_path_loss(self):
         """
         Calculate path loss between transmitter and base station 
@@ -156,6 +160,7 @@ class LinkBudget:
 
         return rx_path_loss
     
+
     def calc_receiver_power(self):
         """
         Calculates the received power at the user equipment.
@@ -165,6 +170,7 @@ class LinkBudget:
         received_power = transmitted_power - power_lost
 
         return received_power
+
 
     def calc_interference_path(self):
         """
@@ -182,6 +188,7 @@ class LinkBudget:
 
         return jammer_distance
     
+
     def calc_interference_path_loss(self):
         """
         Calculates the path loss between the jammer 
@@ -233,6 +240,7 @@ class LinkBudget:
 
         return jammer_power
 
+
     def calc_sinr(self):
         """
         Calculates the signal to interfernce plus noise ratio
@@ -247,6 +255,7 @@ class LinkBudget:
         
         return sinr
 
+## Test the Code ##
 if __name__ == "__main__":  
         
     x = LinkBudget(40, 16, "3G", 0, 0, 10, 10, 15, 15)
