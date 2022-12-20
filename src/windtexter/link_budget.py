@@ -229,6 +229,7 @@ class LinkBudget:
 
         return jam_path_loss
 
+
     def calc_jammer_power(self):
         """
         Calculates the power transmitted by jammer.
