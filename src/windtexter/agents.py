@@ -8,20 +8,15 @@ class Site: # double spaces at vtghe end of class
     This class represents a radio access point that handles the transmisssion and reception of the data.
     It represents the cell/Wi-fi base stations and also satellite.
     """
-    def __init__(self, pos_x, pos_y, unique_id, site_type, attack_status):
+    def __init__(self,unique_id, site_type, attack_status):
         """Class constructor
 
         Args:
-            pos_x (float): Agent's x axis position
-            pos_y (float): Agent's x axis position
             unique_id (interger): Agent's unique identification information
             site_type (string): Types of the site (cellular, wi-fi or satellite)
             attack_status (interger): Whether the agent is attacked or not (0, 1 and 2 - normal, 
             attacked, compromised)
         """
-
-        self.pos_x = pos_x
-        self.pos_y = pos_y
         self.unique_id = unique_id
         self.site_type = site_type
         self.attack_status = attack_status
@@ -29,24 +24,20 @@ class Site: # double spaces at vtghe end of class
     def broadcast_details(self):
         """Provide basic details
         """
-        print([self.unique_id, self.pos_x, self.pos_y, self.site_type, self.attack_status])
+        print([self.unique_id, self.site_type, self.attack_status])
 
 
 class SenderAgent:
     """
     This class represents a user sending and receiving data to and from the network.
     """
-    def __init__(self, pos_x, pos_y, unique_id):
+    def __init__(self, unique_id):
         """Class constructor
 
         Args:
-            pos_x (float): Agent's x axis position
-            pos_y (float): Agent's x axis position
             unique_id (interger): Agent's unique identification information
         """
 
-        self.pos_x = pos_x
-        self.pos_y = pos_y
         self.unique_id = unique_id
     
     def send_text(self):
@@ -67,7 +58,7 @@ class InterceptorAgent:
     This class represents a malcious user in the network who tries to decrypt, read and block 
     data transmission and reception.
     """
-    def __init__(self, pos_x, pos_y, unique_id):
+    def __init__(self, unique_id):
         """Class constructor
 
         Args:
@@ -76,8 +67,6 @@ class InterceptorAgent:
             unique_id (interger): Agent's unique identification information
         """
 
-        self.pos_x = pos_x
-        self.pos_y = pos_y
         self.unique_id = unique_id
     
     def read_text(self):
@@ -100,11 +89,11 @@ class InterceptorAgent:
         text : int
             Interger indicating the sum of 1s in a 100 elemnt array (message)    
         """
-        sender_details = SenderAgent(22, 33, "r67rft") # Source senders details
+        sender_details = SenderAgent("r67rft") # Source senders details
         sender_msg = sender_details.send_text() # Display senders messages
 
-        int_algorithm = sum(sender_msg[0:algorithm_key])  # Sum the first 25 elements of the list
-        int_details = InterceptorAgent(45, 36, "ytwt734") # Interceptor details
+        int_algorithm = sum(sender_msg[0:algorithm_key])  # Sum the first xx elements of the list
+        int_details = InterceptorAgent("ytwt734") # Interceptor details
         int_code = int_details.read_text() # Interceptor generates a random code
 
         decryption_code = int_algorithm + sum(int_code)
@@ -113,6 +102,6 @@ class InterceptorAgent:
 
 if __name__ == "__main__":  
         
-    x = InterceptorAgent(22, 44, "974378")
+    x = InterceptorAgent("974378")
     y = x.decrypt_text(13)
     print(y)
