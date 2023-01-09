@@ -10,6 +10,7 @@ CONFIG = configparser.ConfigParser()
 CONFIG.read(os.path.join(os.path.dirname(__file__), 'script_config.ini'))
 BASE_PATH = CONFIG['file_locations']['base_path']
 RESULTS = os.path.join("results")
+VIS = os.path.join("vis")
 
 signal_results = []
 
@@ -18,39 +19,39 @@ trans_a, trans_b, trans_c, trans_d, trans_e = [10, 10], [10, 60], [35, 35], [60,
 trans = [trans_a, trans_b, trans_c, trans_d, trans_e]
 
 # Jammer coordinates
-interference_x = [10, 25, 25, 35, 35, 55, 55, 60]
-interference_y = [10, 25, 25, 35, 35, 55, 55, 60]
+int_a, int_b, int_c, int_d, int_e = [10.1, 10.1], [10.1, 60.1], [35.1, 35.1], [60.1, 10.1], [60.1, 60.1]
+interferences = [int_a, int_b, int_c, int_d, int_e]
 
 # Receiver coordinates
-receiver_x = random.randrange(1, 70)
-receiver_y = random.randrange(1, 70)
+receiver_x = np.arange(start = 1, stop = 16, step = 1)
+receiver_y = np.arange(start = 1, stop = 16, step = 1)
 
 technologies = ["2G", "3G", "4G", "5G"]
 
+#for iterations in range(10):
 for technology in technologies:
-    for rx in range(receiver_x):
-        for ry in range(receiver_y):
-            for ix in interference_x:
-                for iy in interference_y:
-                    for t in trans:
-                        if t[0] == rx or t[1] == ry or t[0] == ix or t[1] == iy:
-                            break
-                        else:
-                            link_budget = LinkBudget(40, 16, technology, t[0], t[1], rx, ry, ix, iy)
+    for rx in receiver_x:
+        for ry in receiver_y:
+            for interference in interferences:
+                for t in trans:
+                    if t[0] == rx or t[1] == ry or t[0] == interference[0] or t[1] == interference[1]:
+                        break
+                    else:
+                        link_budget = LinkBudget(40, 16, technology, t[0], t[1], rx, ry, interference[0], interference[1])
 
-                            inteference_distance_km = link_budget.calc_interference_path()
-                            inteference_path_loss_dB = link_budget.calc_interference_path_loss()[0]
-                            interference_power = link_budget.calc_jammer_power()
+                        inteference_distance_km = link_budget.calc_interference_path()
+                        inteference_path_loss_dB = link_budget.calc_interference_path_loss()[0]
+                        interference_power = link_budget.calc_jammer_power()
 
-                            receiver_distance_km = link_budget.calc_signal_path()
-                            receiver_path_loss_dB = link_budget.calc_radio_path_loss()[0]
-                            sinr_dB = link_budget.calc_sinr()
+                        receiver_distance_km = link_budget.calc_signal_path()
+                        receiver_path_loss_dB = link_budget.calc_radio_path_loss()[0]
+                        sinr_dB = link_budget.calc_sinr()
 
-                            signal_results.append({"interference_distance_km": inteference_distance_km,
-                            "inteference_path_loss_dB": inteference_path_loss_dB, "interference_power": 
-                            interference_power, "receiver_distance_km": receiver_distance_km, 
-                            "receiver_path_loss_dB": receiver_path_loss_dB, "sinr_dB": sinr_dB,
-                            "technology": technology})
+                        signal_results.append({"receiver_x": rx, "receiver_y": ry, "interference_x": interference[0], 
+                        "interference_y": interference[1], "transmitter_x": t[0], "transmitter_y": t[1], "interference_distance_km": 
+                        inteference_distance_km, "inteference_path_loss_dB": inteference_path_loss_dB, 
+                        "interference_power": interference_power, "receiver_distance_km": receiver_distance_km, 
+                        "receiver_path_loss_dB": receiver_path_loss_dB, "sinr_dB": sinr_dB, "technology": technology})
 
 df = pd.DataFrame(signal_results)
 df["jamming_power"] = ""
@@ -72,5 +73,6 @@ for i in df.index:
         df["jamming_power"].loc[i] = "Baseline"
 
 path = os.path.join(RESULTS, "signal_results.csv")
+path = os.path.join(VIS, "signal_results.csv")
 
-df.to_csv(path, index = False)           
+df.to_csv(path, index = False)  
