@@ -20,29 +20,12 @@ print(DATA_INTERMEDIATE)
 ROOT_DIR = os.path.normpath(os.path.join(os.path.abspath(__file__), '..', '..', 'scripts'))
 sys.path.insert(0, ROOT_DIR)
 
-path = os.path.join(RESULTS, "interception_results.csv")
+path = os.path.join(RESULTS, "results.csv")
 df = pd.read_csv(path)
 
-df = df[["attempts", "probability", "status"]]
-df = pd.melt(df, id_vars = ["attempts", "status"], value_vars = ["probability"])
-df.columns = ["attempts", "status", "Metric", "Value"]
-
-df[["intercepted", "susceptible", "secure"]] = " "
-
-for i in df.index:
-    if df["status"].loc[i] == "secure":
-        df["secure"].loc[i] = df["Value"].loc[i]
-        df["intercepted"].loc[i] = 0
-        df["susceptible"].loc[i] = 0
-    elif df["status"].loc[i] == "intercepted":
-        df["intercepted"].loc[i] = df["Value"].loc[i]
-        df["secure"].loc[i] = 0
-        df["susceptible"].loc[i] = 0
-    else:
-        df["susceptible"].loc[i] = df["Value"].loc[i]
-        df["secure"].loc[i] = 0
-        df["intercepted"].loc[i] = 0
-df = df[["Value", "attempts", "intercepted", "susceptible", "secure"]]
+df = df[["iteration", "strategy", "probability", "message_status"]]
+df = pd.melt(df, id_vars = ["iteration", "message_status", "strategy"], value_vars = ["probability"])
+df.columns = ["iteration", "message_status", "strategy", "Metric", "Value"]
 
 cdfs = []
 count, bins_count = np.histogram(df["Value"], bins = 10)
@@ -57,7 +40,7 @@ df1 = pd.DataFrame({'cdf':list_1,'count':list_2})
 path = os.path.join(RESULTS, "cdf_results.csv")
 df1.to_csv(path, index=False) 
 
-#plt.plot(bins_count[1:], pdf, color="red", label="PDF")
+plt.plot(bins_count[1:], pdf, color="red", label="PDF")
 plt.plot(bins_count[1:], cdf, label = "CDF")
 plt.legend()
 plt.show()
