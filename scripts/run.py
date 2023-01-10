@@ -15,7 +15,7 @@ VIS = os.path.join("vis")
 signal_results = []
 
 # transmitter coordinates
-trans_a, trans_b, trans_c, trans_d, trans_e = [10, 10], [10, 60], [35, 35], [60, 10], [60,60]
+trans_a, trans_b, trans_c, trans_d, trans_e = [4, 4], [4, 14], [8, 8], [14, 4], [14,14]
 trans = [trans_a, trans_b, trans_c, trans_d, trans_e]
 
 # Jammer coordinates
@@ -73,6 +73,7 @@ for i in df.index:
         df["jamming_power"].loc[i] = "Baseline"
 
 path = os.path.join(RESULTS, "signal_results.csv")
-path = os.path.join(VIS, "signal_results.csv")
+df.to_csv(path, index = False) 
 
+path = os.path.join(VIS, "signal_results.csv")
 df.to_csv(path, index = False)  

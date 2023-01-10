@@ -182,8 +182,8 @@ class LinkBudget:
         jammer_distance : float
             Jammer's distance from the base station in km.
         """  
-        x_i_term = (self.jammer_x - self.transmitter_x) ** 2
-        y_i_term = (self.jammer_y - self.transmitter_y) ** 2 
+        x_i_term = (self.jammer_x - self.receiver_x) ** 2
+        y_i_term = (self.jammer_y - self.receiver_y) ** 2 
         jammer_distance = math.sqrt(x_i_term + y_i_term)
 
         return jammer_distance
