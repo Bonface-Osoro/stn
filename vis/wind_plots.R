@@ -9,7 +9,7 @@ folder <- dirname(rstudioapi::getSourceEditorContext()$path)
 
 #Load the data
 folder <- dirname(rstudioapi::getSourceEditorContext()$path)
-data <- read.csv(file.path(folder, "sim_results.csv"))
+data <- read.csv(file.path(folder, "windtexter_results.csv"))
 
 ####################################
 ##ECDF 1 = Interference power plot##
@@ -64,20 +64,20 @@ print(ecdfs)
 dev.off()
 
 
-data <- read.csv(file.path(folder, "results.csv"))
+data <- read.csv(file.path(folder, "windtexter_results.csv"))
 
 ####################################
 ##    Density plot by strategy    ##
 ####################################
-data$strategy = as.factor(data$strategy)
-data$strategy = factor(data$strategy,
-  levels = c('no_windtexter', 'windtexter_baseline', 'windtexter_full'),
+data$windtexter = as.factor(data$windtexter)
+data$windtexter = factor(data$windtexter,
+  levels = c('baseline', 'partial', 'Full'),
   labels = c('1 Site', '3 Sites', '5 Sites')
 )
 
 dp_strat <- ggplot(data,
                     aes(x = probability, 
-                        color = strategy)) +
+                        color = windtexter)) +
   geom_density() +
   scale_fill_brewer(palette = "Paired") +
   theme(legend.position = "right") +
