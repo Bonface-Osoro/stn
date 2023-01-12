@@ -19,7 +19,7 @@ trans_a, trans_b, trans_c, trans_d, trans_e = [4, 4], [4, 14], [8, 8], [14, 4], 
 trans = [trans_a, trans_b, trans_c, trans_d, trans_e]
 
 # Jammer coordinates
-int_a, int_b, int_c, int_d, int_e = [10.1, 10.1], [10.1, 60.1], [35.1, 35.1], [60.1, 10.1], [60.1, 60.1]
+int_a, int_b, int_c, int_d, int_e = [4.1, 4.1], [4.1, 14.1], [8.1, 8.1], [14.1, 4.1], [14.1, 14.1]
 interferences = [int_a, int_b, int_c, int_d, int_e]
 
 # Receiver coordinates
