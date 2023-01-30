@@ -6,6 +6,8 @@ import numpy as np
 import pandas as pd
 from windtexter.antijammer import Transmitter
 from windtexter.antijammer import InterceptorAgent
+from windtexter.windtext import Windtexter
+from windtexter.windtext import SocioEconomic
 
 CONFIG = configparser.ConfigParser()
 CONFIG.read(os.path.join(os.path.dirname(__file__), 'script_config.ini'))
@@ -16,7 +18,22 @@ VIS = os.path.join("vis")
 results = []
 
 site_number = [0, 2, 4]
+windtext_probabilities = [0.1, 0.2, 0.3, 0.4, 0.45]
 for i in range(1000):
+    intercept_prob = Windtexter(windtext_probabilities)
+    interception_probability = intercept_prob.intercept_message() 
+
+    block_prob = Windtexter(windtext_probabilities)
+    block_probability = block_prob.block_message()
+
+    inter_cost = SocioEconomic(interception_probability)
+    interception_cost = inter_cost.cost()
+
+    block_cst = SocioEconomic(block_probability)
+    block_cost = block_cst.cost()
+
+    total_cost = interception_cost + block_cost
+
     for sites in site_number:
         if sites == site_number[0]:
             strategy = "baseline"
@@ -32,7 +49,9 @@ for i in range(1000):
             status = "successful"
 
         results.append({"iteration": i, "probability": probability, "message_status": status, 
-                        "windtexter": strategy})
+                        "windtexter": strategy, "interception_probability": interception_probability,
+                        "interception_cost": interception_cost, "block_probability": block_probability,
+                        "message_block_cost": block_cost, "total_cost": total_cost})
 
 results = pd.DataFrame(results)
 
