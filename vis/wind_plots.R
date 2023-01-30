@@ -2,7 +2,6 @@ library(ggpubr)
 library(ggplot2)
 library(dplyr)
 library(tidyverse)
-library(ggfortify)
 
 
 # Set default folder
@@ -18,7 +17,7 @@ data <- read.csv(file.path(folder, "windtexter_results.csv"))
 ecdf_intc <- ggplot(data,
                         aes(x = probability, 
                             color = windtexter)) +
-  ggdistribution() +
+  stat_ecdf() +
   scale_fill_brewer(palette = "Paired") +
   theme(legend.position = "right") +
   labs(
