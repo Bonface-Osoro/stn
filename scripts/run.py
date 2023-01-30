@@ -45,13 +45,15 @@ for technology in technologies:
 
                         receiver_distance_km = link_budget.calc_signal_path()
                         receiver_path_loss_dB = link_budget.calc_radio_path_loss()[0]
+                        receiver_power_dB = link_budget.calc_receiver_power()
                         sinr_dB = link_budget.calc_sinr()
 
                         signal_results.append({"receiver_x": rx, "receiver_y": ry, "interference_x": interference[0], 
                         "interference_y": interference[1], "transmitter_x": t[0], "transmitter_y": t[1], "interference_distance_km": 
                         inteference_distance_km, "inteference_path_loss_dB": inteference_path_loss_dB, 
                         "interference_power": interference_power, "receiver_distance_km": receiver_distance_km, 
-                        "receiver_path_loss_dB": receiver_path_loss_dB, "sinr_dB": sinr_dB, "technology": technology})
+                        "receiver_power_dB": receiver_power_dB, "receiver_path_loss_dB": receiver_path_loss_dB,
+                        "sinr_dB": sinr_dB, "technology": technology})
 
 df = pd.DataFrame(signal_results)
 df["jamming_power"] = ""

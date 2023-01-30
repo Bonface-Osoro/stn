@@ -104,8 +104,41 @@ rec_power_loss <- ggplot(data,
     plot.title = element_text(size = 10)
   )
 
+
+################################
+##plot3 = Receiver power plot ##
+################################
+rec_power <- ggplot(data,
+                         aes(receiver_distance_km,
+                             receiver_power_dB,
+                             color = technology)) +
+  geom_line() +
+  labs(
+    colour = NULL,
+    title = "Receiver Power",
+    subtitle = "Receiver power recorded for \nvarious jammer position changes",
+    x = "Receiver Distance (km)",
+    y = "Receiver Power (dB)",
+    fill = "Technology"
+  ) + scale_fill_brewer(palette = "Paired") +
+  theme(legend.position = "right") + scale_y_continuous(
+    labels = function(y)
+      format(y, scientific = FALSE),
+    expand = c(0, 0)
+  ) +
+  theme(axis.text.x = element_text(size = 8),
+        axis.line = element_line(colour = "black")) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 8),
+    plot.subtitle = element_text(size = 8),
+    plot.title = element_text(size = 10)
+  )
+
+
 ########################################
-##plot4 = SINR Scenario bar line plot ##
+##plot5 = SINR Scenario bar line plot ##
 ########################################
 df = data %>%
   group_by(jamming_power, technology) %>%
@@ -162,10 +195,10 @@ losses <- ggarrange(
   int_power,
   int_power_loss,
   rec_power_loss,
-  int_pwr,
+  rec_power,
   ncol = 2,
   nrow = 2,
-  common.legend = F,
+  common.legend = T,
   legend = "bottom",
   labels = c("a", "b", "c", "d")
 )
@@ -182,20 +215,20 @@ png(
 print(losses)
 dev.off()
 
-####################################
-##ECDF 1 = Interference power plot##
-####################################
-ecdf_int_dist <- ggplot(data,
-  aes(x = interference_distance_km, 
+###########################
+##ECDF 1 = Receiver Power##
+###########################
+ecdf_rec_power <- ggplot(data,
+  aes(x = receiver_power_dB, 
   color = technology)) +
   stat_ecdf() +
   scale_fill_brewer(palette = "Paired") +
   theme(legend.position = "right") +
   labs(
     colour = NULL,
-    title = "Interference Distance",
-    subtitle = "Empirical cumulative distribution of different \njammer positions",
-    x = "Interference Distance (km)",
+    title = "Receiver Power",
+    subtitle = "Empirical cumulative distribution of different \nreceiver power",
+    x = "Receiver power (dB)",
     y = "Proportions",
     fill = "Technology"
   ) +   scale_y_continuous(
@@ -308,10 +341,10 @@ ecdf_rec_pathloss <- ggplot(data,
   )
 
 ecdfs <- ggarrange(
-  ecdf_int_dist,
   ecdf_int_pathloss,
   ecdf_int_power,
   ecdf_rec_pathloss,
+  ecdf_rec_power,
   ncol = 2,
   nrow = 2,
   common.legend = T,

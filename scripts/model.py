@@ -4,8 +4,8 @@ import os
 import random
 import numpy as np
 import pandas as pd
-from windtexter.windtext import Transmitter
-from windtexter.windtext import InterceptorAgent
+from windtexter.antijammer import Transmitter
+from windtexter.antijammer import InterceptorAgent
 
 CONFIG = configparser.ConfigParser()
 CONFIG.read(os.path.join(os.path.dirname(__file__), 'script_config.ini'))

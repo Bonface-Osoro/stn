@@ -1,68 +1,93 @@
 import math 
 import random
 import numpy as np
+import pandas as pd
 
-class Transmitter:
+class Windtexter:
     """
-    This class represents a radio access point that handles the transmisssion and reception of the data.
-    It represents the cell/Wi-fi base stations and also satellite.
+    This class represents a windtexter application where critical messages have been hidden on plain sight
+    before transmission to multiple networks.
     """
-    def __init__(self):
+    def __init__(self, probability):
         """Class constructor
         Args:
-            site_1...site_n (string): tranmistter names
+            probability : A list of probability value
         """
-        self.site_1, self.site_2, self.site_3, self.site_4, self.site_5 = "site_1", "site_2", "site_3", "site_4", "site_5"
+        self.probability = probability
 
-    def create_transmitters(self):
-        """The agent creates untruested wireless networks.
+
+    def intercept_message(self):
+        """The function creates probability values of intercepting the messages.
         
         Returns
         -------
-        sites : list
-            A list containing the created sites.
+        intercept_val : float
+            A probability value.
         """
-        self.site_1 = [0.5, 0.6, 0.7, 0.8, 0.9]
-        self.site_2 = [0.5, 0.6, 0.8, 0.8, 0.9]
-        self.site_3 = [0.5, 0.7, 0.7, 0.9, 0.9]
-        self.site_4 = [0.5, 0.5, 0.7, 0.9, 0.9]
-        self.site_5 = [0.5, 0.6, 0.6, 0.8, 0.9]
-        sites = [self.site_1, self.site_2, self.site_3, self.site_4, self.site_5]
+        intercept_val = round(random.choice(self.probability) + random.choice(self.probability), 1)
 
-        return sites
+        return intercept_val
+    
 
-
-class InterceptorAgent:
-    """
-    This class represents a malcious user in the network who tries to decrypt, read and block 
-    data transmission and reception.
-    """
-    def __init__(self, number_of_transmitters):
-        """Class constructor
-        Args:
-            number_of_transmitters (interger): number of transmitters to choose from the list.
-        """
-        self.number_of_transmitters = number_of_transmitters
-        
-    def decrypt_message(self):
-        """Intercepts the message by a ceratin random probability.
+    def block_message(self):
+        """The function creates probability values of blocking the messages.
         
         Returns
         -------
-        message_success : float
-            Probability of message interception.
+        block_val : float
+            A probability value.
         """
-        interception_probability = [0.1, 0.2, 0.3, 0.4]
-        transmitter = Transmitter()
-        target_transmitter = transmitter.create_transmitters()
-        probability = random.choice(target_transmitter[self.number_of_transmitters])
-        interception_code = random.choice(interception_probability)
-        message_success = round(probability - interception_code, 1)
+        block_val = round(random.choice(self.probability) + random.choice(self.probability), 1)
 
-        return message_success
+        return block_val
+
+class SocioEconomic:
+    """
+    This class seek to quantify the economic impacts of message interception or blocking.
+    """   
+    def __init__(self, probability):
+        """Class constructor
+        Args:
+            probability : A list of probability value
+        """
+        self.probability = probability
+
+    def cost(self):
+        """The function quantifies the cost associated with intercepting or blocking the message.
         
-# Test the classes
+        Returns
+        -------
+        cost : interger
+            Monetary cost of intercepting or blocking messages.
+        """
+        if self.probability == 0.1:
+            cost = 1000
+        elif self.probability == 0.2:
+            cost = 2000
+        elif self.probability == 0.3:
+            cost = 3000
+        elif self.probability == 0.4:
+            cost = 4000
+        elif self.probability == 0.5:
+            cost = 5000
+        elif self.probability == 0.6:
+            cost = 6000
+        elif self.probability == 0.7:
+            cost = 7000
+        elif self.probability == 0.8:
+            cost = 8000
+        elif self.probability == 0.9:
+            cost = 9000
+        else:
+            cost = 10000
+
+        return cost
+
 if __name__ == "__main__":  
-     x = InterceptorAgent(4) 
-     y = x.decrypt_message() 
+     x = Windtexter([0.1, 0.2, 0.3, 0.4, 0.45]) 
+     y = x.block_message() 
+     print(y)
+if __name__ == "__main__":  
+     x = SocioEconomic(y) 
+     y = x.cost() 
      print(y)
