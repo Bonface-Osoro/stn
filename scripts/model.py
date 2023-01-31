@@ -4,8 +4,6 @@ import os
 import random
 import numpy as np
 import pandas as pd
-from windtexter.antijammer import Transmitter
-from windtexter.antijammer import InterceptorAgent
 from windtexter.windtext import Windtexter
 from windtexter.windtext import SocioEconomic
 
@@ -18,40 +16,45 @@ VIS = os.path.join("vis")
 results = []
 
 site_number = [0, 2, 4]
-windtext_probabilities = [0.1, 0.2, 0.3, 0.4, 0.45]
-for i in range(1000):
-    intercept_prob = Windtexter(windtext_probabilities)
-    interception_probability = intercept_prob.intercept_message() 
+text_number = [0, 2, 4]
 
-    block_prob = Windtexter(windtext_probabilities)
-    block_probability = block_prob.block_message()
-
-    inter_cost = SocioEconomic(interception_probability)
-    interception_cost = inter_cost.cost()
-
-    block_cst = SocioEconomic(block_probability)
-    block_cost = block_cst.cost()
-
-    total_cost = interception_cost + block_cost
-
-    for sites in site_number:
-        if sites == site_number[0]:
-            strategy = "baseline"
-        elif sites == site_number[1]:
-            strategy = "partial"
+for i in range(10):
+    for texts in text_number:
+        if texts == text_number[0]:
+            technique = "None"
+        elif texts == text_number[1]:
+            technique = "3 sites"
         else:
-            strategy = "Full"
-        interception = InterceptorAgent(sites)
-        probability = interception.decrypt_message() 
-        if probability <= 0.5:
+            technique = "Full"
+        intercept_prob = Windtexter(texts)
+        interception_probability = intercept_prob.intercept_message() 
+
+        block_prob = Windtexter(texts)
+        block_probability = block_prob.block_message()
+
+        if interception_probability and block_probability <= 0.5:
             status = "unsuccessful"
         else:
-            status = "successful"
+            status = "sucessful"
 
-        results.append({"iteration": i, "probability": probability, "message_status": status, 
-                        "windtexter": strategy, "interception_probability": interception_probability,
-                        "interception_cost": interception_cost, "block_probability": block_probability,
-                        "message_block_cost": block_cost, "total_cost": total_cost})
+        inter_cost = SocioEconomic(interception_probability)
+        interception_cost = inter_cost.cost()
+
+        block_cst = SocioEconomic(block_probability)
+        block_cost = block_cst.cost()
+        
+        total_cost = interception_cost + block_cost
+
+        if technique == "Full":
+            total_cost = 0.5 * total_cost
+        elif technique == "3 sites":
+            total_cost = 0.25 * total_cost
+        else:
+            total_cost = total_cost
+
+        results.append({"iteration": i, "interception_probability": interception_probability, "interception_cost": 
+                        interception_cost, "block_probability": block_probability, "message_status": status, 
+                        "message_block_cost": block_cost, "total_cost": total_cost, "anti-jamming": technique})
 
 results = pd.DataFrame(results)
 
