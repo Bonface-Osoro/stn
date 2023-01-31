@@ -3,17 +3,49 @@ import random
 import numpy as np
 import pandas as pd
 
+
+class TextProbabilities:
+    """
+    This class represents the probability values of intercepting or blocking a windtexter message.
+    """
+    def __init__(self):
+        """Class constructor
+        Args:
+            windtext_1...windtext_n (string): windtext names
+        """
+        self.windtext_1, self.windtext_2, self.windtext_3, self.windtext_4, \
+            self.windtext_5 = "windtext_1", "windtext_2", "windtext_3", "windtext_4", "windtext_5"
+
+
+    def create_windtexts(self):
+        """The agent creates untruested wireless networks.
+        
+        Returns
+        -------
+        sites : list
+            A list containing the created sites.
+        """
+        self.windtext_1 = [0.1, 0.2, 0.3, 0.4, 0.45]
+        self.windtext_2 = [0.1, 0.2, 0.3, 0.45, 0.45]
+        self.windtext_3 = [0.2, 0.2, 0.3, 0.45, 0.45]
+        self.windtext_4 = [0.2, 0.3, 0.3, 0.45, 0.45]
+        self.windtext_5 = [0.3, 0.4, 0.45, 0.45, 0.45]
+        texts = [self.windtext_1, self.windtext_2, self.windtext_3, self.windtext_4, self.windtext_5]
+
+        return texts
+
+
 class Windtexter:
     """
     This class represents a windtexter application where critical messages have been hidden on plain sight
     before transmission to multiple networks.
     """
-    def __init__(self, probability):
+    def __init__(self, number_of_texts):
         """Class constructor
         Args:
-            probability : A list of probability value
+            number_of_texts (interger): number of windtext to choose from the list
         """
-        self.probability = probability
+        self.number_texts = number_of_texts
 
 
     def intercept_message(self):
@@ -24,7 +56,9 @@ class Windtexter:
         intercept_val : float
             A probability value.
         """
-        intercept_val = round(random.choice(self.probability) + random.choice(self.probability), 1)
+        texter = TextProbabilities()
+        text = texter.create_windtexts()
+        intercept_val = round(random.choice(text[self.number_texts]) + random.choice(text[self.number_texts]), 1)
 
         return intercept_val
     
@@ -37,9 +71,12 @@ class Windtexter:
         block_val : float
             A probability value.
         """
-        block_val = round(random.choice(self.probability) + random.choice(self.probability), 1)
+        texter = TextProbabilities()
+        text = texter.create_windtexts()
+        block_val = round(random.choice(text[self.number_texts]) + random.choice(text[self.number_texts]), 1)
 
         return block_val
+
 
 class SocioEconomic:
     """
@@ -51,6 +88,7 @@ class SocioEconomic:
             probability : A list of probability value
         """
         self.probability = probability
+
 
     def cost(self):
         """The function quantifies the cost associated with intercepting or blocking the message.
@@ -84,7 +122,11 @@ class SocioEconomic:
         return cost
 
 if __name__ == "__main__":  
-     x = Windtexter([0.1, 0.2, 0.3, 0.4, 0.45]) 
+     x = Windtexter(4) 
+     y = x.intercept_message() 
+     print(y)
+if __name__ == "__main__":  
+     x = Windtexter(4) 
      y = x.block_message() 
      print(y)
 if __name__ == "__main__":  
