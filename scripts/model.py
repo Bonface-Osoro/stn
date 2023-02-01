@@ -18,10 +18,10 @@ results = []
 site_number = [0, 2, 4]
 text_number = [0, 2, 4]
 
-for i in range(10):
+for i in range(1000):
     for texts in text_number:
         if texts == text_number[0]:
-            technique = "None"
+            technique = "No Anti-Jammming"
         elif texts == text_number[1]:
             technique = "3 sites"
         else:
@@ -54,7 +54,7 @@ for i in range(10):
 
         results.append({"iteration": i, "interception_probability": interception_probability, "interception_cost": 
                         interception_cost, "block_probability": block_probability, "message_status": status, 
-                        "message_block_cost": block_cost, "total_cost": total_cost, "anti-jamming": technique})
+                        "message_block_cost": block_cost, "total_cost": total_cost, "windtexter": technique})
 
 results = pd.DataFrame(results)
 
