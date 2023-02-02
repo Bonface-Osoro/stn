@@ -242,6 +242,21 @@ class LinkBudget:
         return jammer_power
 
 
+    def calc_baseline_snr(self):
+        """
+        Calculates the baseline signal to noise ratio in the absence of a jammer
+
+        Returns
+        -------
+        snr : float
+            sinr in dB.
+        """
+        snr = np.log10(10 ** self.calc_receiver_power()) / \
+               (10 ** self.calc_noise()[0]) 
+        
+        return snr
+
+
     def calc_sinr(self):
         """
         Calculates the signal to interfernce plus noise ratio

@@ -17,8 +17,8 @@ data <- read.csv(file.path(folder, "windtexter_results.csv"))
 ####################################
 data$windtexter = as.factor(data$windtexter)
 data$windtexter = factor(data$windtexter,
-  levels = c('No Anti-Jammming', '3 sites', 'Full'),
-  labels = c('1 Site', '3 Sites', '5 Sites')
+  levels = c('Baseline', 'Partial', 'Full'),
+  labels = c('Baseline', 'Partial', 'Full')
 )
 
 dp_strat <- ggplot(data,

@@ -46,6 +46,7 @@ for technology in technologies:
                         receiver_distance_km = link_budget.calc_signal_path()
                         receiver_path_loss_dB = link_budget.calc_radio_path_loss()[0]
                         receiver_power_dB = link_budget.calc_receiver_power()
+                        snr_dB = link_budget.calc_baseline_snr()
                         sinr_dB = link_budget.calc_sinr()
 
                         signal_results.append({"receiver_x": rx, "receiver_y": ry, "interference_x": interference[0], 
@@ -53,26 +54,26 @@ for technology in technologies:
                         inteference_distance_km, "inteference_path_loss_dB": inteference_path_loss_dB, 
                         "interference_power": interference_power, "receiver_distance_km": receiver_distance_km, 
                         "receiver_power_dB": receiver_power_dB, "receiver_path_loss_dB": receiver_path_loss_dB,
-                        "sinr_dB": sinr_dB, "technology": technology})
+                        "snr_dB": snr_dB, "sinr_dB": sinr_dB, "technology": technology})
 
 df = pd.DataFrame(signal_results)
-df["jamming_power"] = ""
+df["jamming"] = ""
 
 ### Obtain the maximum interference distance ###
 max_dist = df['interference_distance_km'].max()
-
+print(max_dist)
 for i in df.index: 
 
     ### set the low scenario to a third of the maximum distance ###
-    if df["interference_distance_km"].loc[i] <= 0.33 * max_dist:
-        df["jamming_power"].loc[i] = "Low"
+    if df["interference_distance_km"].loc[i] <= 0.25 * max_dist:
+        df["jamming"].loc[i] = "Low"
 
     ### set the high scenario to two thirds of the maximum distance ###
-    elif df["interference_distance_km"].loc[i] >= 0.66 * max_dist:
-        df["jamming_power"].loc[i] = "High"
+    elif df["interference_distance_km"].loc[i] >= 0.75 * max_dist:
+        df["jamming"].loc[i] = "High"
 
     else:
-        df["jamming_power"].loc[i] = "Baseline"
+        df["jamming"].loc[i] = "Baseline"
 
 path = os.path.join(RESULTS, "signal_results.csv")
 df.to_csv(path, index = False) 
