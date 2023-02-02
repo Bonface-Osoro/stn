@@ -21,9 +21,9 @@ text_number = [0, 2, 4]
 for i in range(1000):
     for texts in text_number:
         if texts == text_number[0]:
-            technique = "No Anti-Jammming"
+            technique = "Baseline"
         elif texts == text_number[1]:
-            technique = "3 sites"
+            technique = "Partial"
         else:
             technique = "Full"
         intercept_prob = Windtexter(texts)
