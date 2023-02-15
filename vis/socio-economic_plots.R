@@ -44,21 +44,21 @@ total_cost <-
     color = 'black',
     size = 0.3
   ) +
-  scale_fill_brewer(palette = "Paired") + theme_minimal() +
+  scale_fill_brewer(palette = "Accent") + theme_minimal() +
   theme(legend.position = 'right') +
   labs(
     colour = NULL,
     title = "Jamming Costs",
     subtitle = "By anti-jamming strategy (Error bars: 1SD).",
     x = NULL,
-    y = "Totral cost\n(US$)",
+    y = "Total cost\n(US$)",
     fill = 'Anti-jamming Approach'
   ) +
   scale_y_continuous(
     labels = function(y)
       format(y, scientific = FALSE),
     expand = c(0, 0)
-  ) + theme_minimal() +
+  ) + theme_minimal() + theme(plot.title = element_text(face = "bold")) +
   theme(
     strip.text.x = element_blank(),
     panel.border = element_blank(),
@@ -93,7 +93,7 @@ df$message_status = factor(df$message_status,
 )
 df$windtexter = factor(df$windtexter,
                        levels = c('Baseline', 'Partial', 'Full'),
-                       labels = c('Baseline', 'Partial', 'Full')
+                       labels = c('None', 'Partial', 'Full')
 )
 
 interception_cost <-
@@ -106,41 +106,44 @@ interception_cost <-
         ymax = mean + sd),
     width = .2,
     position = position_dodge(.9),
-    color = 'black',
-    size = 0.3
+    color = 'blue',
+    size = 0.1
   ) +
-  scale_fill_brewer(palette = "Paired") + theme_minimal() +
+  scale_fill_brewer(palette = "Accent") + theme_minimal() +
   theme(legend.position = 'right') +
   labs(
     colour = NULL,
-    title = "Jamming Costs",
-    subtitle = "By anti-jamming strategy (Error bars: 1SD).",
+    title = "(A) Interception Costs",
+    subtitle = "Costs due to interception of the messages by \nsecure texting strategy (Error bars: 1SD).",
     x = NULL,
-    y = "Totral cost\n(US$)",
-    fill = 'Anti-jamming Approach'
+    y = "Total cost\n(US$)",
+    fill = 'Multi-transmission'
   ) +
   scale_y_continuous(
     labels = function(y)
       format(y, scientific = FALSE),
     expand = c(0, 0)
-  ) + theme_minimal() +
+  ) + theme_minimal() + theme(plot.title = element_text(face = "bold")) +
   theme(
     strip.text.x = element_blank(),
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    axis.text.x = element_text(size = 7),
-    axis.text.y = element_text(size = 7),
-    axis.title.y = element_text(size = 7),
+    axis.text.x = element_text(size = 4),
+    axis.text.y = element_text(size = 4),
+    axis.title.y = element_text(size = 4),
+    axis.line.x  = element_line(size = 0.15),
+    axis.line.y  = element_line(size = 0.15),
     axis.line = element_line(colour = "black")
   ) +
-  theme(legend.position = 'bottom', axis.title = element_text(size = 8)) +
+  theme(legend.position = 'bottom', axis.title = element_text(size = 4)) +
   theme(
-    legend.title = element_text(size = 7),
-    legend.text = element_text(size = 7),
-    plot.subtitle = element_text(size = 8),
-    plot.title = element_text(size = 10)
+    legend.title = element_text(size = 4),
+    legend.text = element_text(size = 4),
+    plot.subtitle = element_text(size = 4),
+    plot.title = element_text(size = 7)
   )
+
 
 
 ##########################
@@ -159,7 +162,7 @@ df$message_status = factor(df$message_status,
 )
 df$windtexter = factor(df$windtexter,
                        levels = c('Baseline', 'Partial', 'Full'),
-                       labels = c('Baseline', 'Partial', 'Full')
+                       labels = c('None', 'Partial', 'Full')
 )
 
 blocking_cost <-
@@ -172,42 +175,63 @@ blocking_cost <-
         ymax = mean + sd),
     width = .2,
     position = position_dodge(.9),
-    color = 'black',
-    size = 0.3
+    color = 'blue',
+    size = 0.1
   ) +
-  scale_fill_brewer(palette = "Paired") + theme_minimal() +
+  scale_fill_brewer(palette = "Accent") + theme_minimal() +
   theme(legend.position = 'right') +
   labs(
     colour = NULL,
-    title = "Jamming Costs",
-    subtitle = "By anti-jamming strategy (Error bars: 1SD).",
+    title = "(B) Blocking",
+    subtitle = "Costs due to blocking of the messages by \nsecure texting strategy (Error bars: 1SD).",
     x = NULL,
-    y = "Totral cost\n(US$)",
-    fill = 'Anti-jamming Approach'
+    y = "Total cost\n(US$)",
+    fill = 'Multi-transmission'
   ) +
   scale_y_continuous(
     labels = function(y)
       format(y, scientific = FALSE),
     expand = c(0, 0)
-  ) + theme_minimal() +
+  ) + theme_minimal() + theme(plot.title = element_text(face = "bold")) +
   theme(
     strip.text.x = element_blank(),
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    axis.text.x = element_text(size = 7),
-    axis.text.y = element_text(size = 7),
-    axis.title.y = element_text(size = 7),
+    axis.text.x = element_text(size = 4),
+    axis.text.y = element_text(size = 4),
+    axis.title.y = element_text(size = 4),
+    axis.line.x  = element_line(size = 0.15),
+    axis.line.y  = element_line(size = 0.15),
     axis.line = element_line(colour = "black")
   ) +
-  theme(legend.position = 'bottom', axis.title = element_text(size = 8)) +
+  theme(legend.position = 'bottom', axis.title = element_text(size = 4)) +
   theme(
-    legend.title = element_text(size = 7),
-    legend.text = element_text(size = 7),
-    plot.subtitle = element_text(size = 8),
-    plot.title = element_text(size = 10)
+    legend.title = element_text(size = 4),
+    legend.text = element_text(size = 4),
+    plot.subtitle = element_text(size = 4),
+    plot.title = element_text(size = 7)
   )
 
+costs <- ggarrange(
+  interception_cost, blocking_cost,
+  ncol = 2,
+  nrow = 1,
+  common.legend = T,
+  legend = "bottom"
+) 
+
+path = file.path(folder, "figures", "costs.png")
+dir.create(file.path(folder, "figures"), showWarnings = FALSE)
+png(
+  path,
+  units = "in",
+  width = 3.7,
+  height = 2.0,
+  res = 480
+)
+print(costs)
+dev.off()
 
 
 

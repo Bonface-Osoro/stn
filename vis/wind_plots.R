@@ -24,12 +24,12 @@ data$windtexter = factor(data$windtexter,
 dp_strat <- ggplot(data,
                     aes(x = interception_probability, 
                         color = windtexter)) +
-  geom_density() +
-  scale_fill_brewer(palette = "Paired") +
+  geom_density(size = 0.2) +
+  scale_color_brewer(palette = "Accent") +
   theme(legend.position = "right") +
   labs(
     colour = NULL,
-    title = NULL,
+    title = "(A)",
     subtitle = "Density plot of the interception probability \noutcome by different strategies",
     x = "Interception Probability",
     y = "Density",
@@ -38,17 +38,16 @@ dp_strat <- ggplot(data,
     labels = function(y)
       format(y, scientific = FALSE),
     expand = c(0, 0)
-  ) +
-  theme(axis.text.x = element_text(size = 8),
+  ) + theme(plot.title = element_text(face = "bold")) +
+  theme(axis.text.x = element_text(size = 6),
         axis.line = element_line(colour = "black")) +
-  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 6)) +
   theme(
-    legend.title = element_text(size = 8),
-    legend.text = element_text(size = 8),
-    plot.subtitle = element_text(size = 8),
-    plot.title = element_text(size = 10)
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    plot.subtitle = element_text(size = 6),
+    plot.title = element_text(size = 8)
   )
-
 
 ################################
 ##    Density plot Blocking   ##
@@ -56,12 +55,12 @@ dp_strat <- ggplot(data,
 block_strat <- ggplot(data,
                    aes(x = block_probability, 
                        color = windtexter)) +
-  geom_density() +
-  scale_fill_brewer(palette = "Paired") +
+  geom_density(size = 0.2) +
+  scale_color_brewer(palette = "Accent") +
   theme(legend.position = "right") +
   labs(
     colour = NULL,
-    title = NULL,
+    title = "(B)",
     subtitle = "Density plot of the blocking probability \noutcome by different strategies",
     x = "Blocking Probability",
     y = "Density",
@@ -70,15 +69,15 @@ block_strat <- ggplot(data,
     labels = function(y)
       format(y, scientific = FALSE),
     expand = c(0, 0)
-  ) +
-  theme(axis.text.x = element_text(size = 8),
+  ) + theme(plot.title = element_text(face = "bold")) +
+  theme(axis.text.x = element_text(size = 6),
         axis.line = element_line(colour = "black")) +
-  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 6)) +
   theme(
-    legend.title = element_text(size = 8),
-    legend.text = element_text(size = 8),
-    plot.subtitle = element_text(size = 8),
-    plot.title = element_text(size = 10)
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    plot.subtitle = element_text(size = 6),
+    plot.title = element_text(size = 8)
   )
 
 
@@ -93,12 +92,12 @@ data$message_status = factor(data$message_status,
 dp_msg <- ggplot(data,
                    aes(x = interception_probability, 
                        color = message_status)) +
-  geom_density() +
-  scale_fill_brewer(palette = "Paired") +
+  geom_density(size = 0.2) +
+  scale_color_brewer(palette = "Accent") +
   theme(legend.position = "right") +
   labs(
     colour = NULL,
-    title = NULL,
+    title = "(C)",
     subtitle = "Density plot of the probability of intercepting \nthe message by delivery status",
     x = "Interception Probability",
     y = "Density",
@@ -107,15 +106,15 @@ dp_msg <- ggplot(data,
     labels = function(y)
       format(y, scientific = FALSE),
     expand = c(0, 0)
-  ) +
-  theme(axis.text.x = element_text(size = 8),
+  ) + theme(plot.title = element_text(face = "bold")) +
+  theme(axis.text.x = element_text(size = 6),
         axis.line = element_line(colour = "black")) +
-  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 6)) +
   theme(
-    legend.title = element_text(size = 8),
-    legend.text = element_text(size = 8),
-    plot.subtitle = element_text(size = 8),
-    plot.title = element_text(size = 10)
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    plot.subtitle = element_text(size = 6),
+    plot.title = element_text(size = 8)
   )
 
 ######################################################
@@ -125,12 +124,12 @@ dp_msg <- ggplot(data,
 block_msg <- ggplot(data,
                  aes(x = block_probability, 
                      color = message_status)) +
-  geom_density() +
-  scale_fill_brewer(palette = "Paired") +
+  geom_density(size = 0.2) +
+  scale_color_brewer(palette = "Accent") +
   theme(legend.position = "right") +
   labs(
     colour = NULL,
-    title = NULL,
+    title = "(D)",
     subtitle = "Density plot of the probability the blocking \na message by delivery status",
     x = "Block Probability",
     y = "Density",
@@ -139,27 +138,33 @@ block_msg <- ggplot(data,
     labels = function(y)
       format(y, scientific = FALSE),
     expand = c(0, 0)
-  ) +
-  theme(axis.text.x = element_text(size = 8),
+  ) + theme(plot.title = element_text(face = "bold")) + 
+  theme(axis.text.x = element_text(size = 6),
         axis.line = element_line(colour = "black")) +
-  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 6)) +
   theme(
-    legend.title = element_text(size = 8),
-    legend.text = element_text(size = 8),
-    plot.subtitle = element_text(size = 8),
-    plot.title = element_text(size = 10)
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    plot.subtitle = element_text(size = 6),
+    plot.title = element_text(size = 8)
   )
 
+row_1 <- ggarrange(dp_strat, block_strat,
+  ncol = 2, common.legend = T, legend = "bottom"
+)
+
+row_2 <- ggarrange(dp_msg, block_msg,
+    ncol = 2, common.legend = T, legend = "bottom"
+)
+
+
 density_plots <- ggarrange(
-  dp_strat, 
-  block_strat, 
-  dp_msg, 
-  block_msg,
-  ncol = 2,
+  row_1, 
+  row_2, 
   nrow = 2,
   common.legend = F,
   legend = "bottom",
-  labels = c("a", "b", "c", "d")
+  labels = c()
 )
 
 path = file.path(folder, "figures", "density_plots.png")

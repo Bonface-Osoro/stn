@@ -251,7 +251,7 @@ class LinkBudget:
         snr : float
             sinr in dB.
         """
-        snr = np.log10(10 ** self.calc_receiver_power()) / \
+        snr = 10 * np.log10(10 ** self.calc_receiver_power()) / \
                (10 ** self.calc_noise()[0]) 
         
         return snr
