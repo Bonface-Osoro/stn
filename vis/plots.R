@@ -19,11 +19,11 @@ int_power <- ggplot(data,
                         interference_power,
                         color = technology)) +
   geom_line(position = position_dodge(width = 0.5), size = 0.2) +
-  scale_color_brewer(palette = "Spectral") +
+  scale_color_brewer(palette = "Accent") + 
   theme(legend.position = "right") +
   labs(
     colour = NULL,
-    title = "Interference Power",
+    title = "(A) Interference Power",
     subtitle = "Simulated for different jammer x-y positions in the spatial \ngrid",
     x = "Jammer-Receiver Distance (km)",
     y = "Interference Power (dB)",
@@ -32,16 +32,18 @@ int_power <- ggplot(data,
     labels = function(y)
       format(y, scientific = FALSE),
     expand = c(0, 0)
-  ) +
-  theme(legend.position = 'bottom', axis.title = element_text(size = 4),
-        legend.title = element_text(size = 4),
-        legend.text = element_text(size = 4),
-        plot.subtitle = element_text(size = 5),
-        plot.title = element_text(size = 7),
+  ) + theme(plot.title = element_text(face = "bold")) +
+  theme(legend.position = 'bottom', axis.title = element_text(size = 6),
+        legend.title = element_text(size = 6),
+        legend.text = element_text(size = 6),
+        plot.subtitle = element_text(size = 6),
+        plot.title = element_text(size = 8),
         strip.text.x = element_blank(),
-        axis.text.x = element_text(size = 4),
-        axis.text.y = element_text(size = 4),
-        axis.title.y = element_text(size = 4),
+        axis.text.x = element_text(size = 6),
+        axis.text.y = element_text(size = 6),
+        axis.title.y = element_text(size = 6),
+        axis.line.x  = element_line(size = 0.15),
+        axis.line.y  = element_line(size = 0.15),
         axis.line = element_line(colour = "black")
   ) 
 
@@ -55,26 +57,28 @@ rec_power <- ggplot(data,
   geom_line(position = position_dodge(width = 0.5), size = 0.2) +
   labs(
     colour = NULL,
-    title = "Receiver Power",
-    subtitle = "Receiver power recorded due to jamming by cellular \ngenerations",
+    title = "(B) Cellular Generations",
+    subtitle = "Simulated receiver power recorded due to \njamming",
     x = "Receiver-Transmitter Distance (km)",
     y = "Receiver Power (dB)",
     fill = "Technology"
-  ) + scale_color_brewer(palette = "Spectral") +
+  ) + scale_color_brewer(palette = "Accent") + 
   theme(legend.position = "right") + scale_y_continuous(
     labels = function(y)
       format(y, scientific = FALSE),
     expand = c(0, 0)
-  ) +
-  theme(legend.position = 'bottom', axis.title = element_text(size = 4),
-    legend.title = element_text(size = 4),
-    legend.text = element_text(size = 4),
-    plot.subtitle = element_text(size = 5),
-    plot.title = element_text(size = 7),
+  ) + theme(plot.title = element_text(face = "bold")) +
+  theme(legend.position = 'bottom', axis.title = element_text(size = 6),
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    plot.subtitle = element_text(size = 6),
+    plot.title = element_text(size = 8),
     strip.text.x = element_blank(),
-    axis.text.x = element_text(size = 4),
-    axis.text.y = element_text(size = 4),
-    axis.title.y = element_text(size = 4),
+    axis.text.x = element_text(size = 6),
+    axis.text.y = element_text(size = 6),
+    axis.title.y = element_text(size = 6),
+    axis.line.x  = element_line(size = 0.15),
+    axis.line.y  = element_line(size = 0.15),
     axis.line = element_line(colour = "black")
   ) 
 
@@ -84,8 +88,7 @@ losses <- ggarrange(
   ncol = 2,
   nrow = 1,
   common.legend = T,
-  legend = "bottom",
-  labels = c("a", "b")
+  legend = "bottom"
 )
 
 path = file.path(folder, "figures", "loss_profile.png")
@@ -107,7 +110,7 @@ ecdf_rec_power <- ggplot(data,
                          aes(x = receiver_power_dB,
                              color = jamming)) +
   stat_ecdf(size = 0.1) +
-  scale_color_brewer(palette = "Spectral") + theme_minimal() +
+  scale_color_brewer(palette = "Accent") + theme_minimal() +
   theme(legend.position = 'right') +
   labs(
     colour = NULL,
@@ -165,7 +168,7 @@ receiver_power <-
     color = 'blue',
     size = 0.1
   ) + 
-  scale_fill_brewer(palette = "Spectral") + theme_minimal() +
+  scale_fill_brewer(palette = "Accent") + theme_minimal() +
   theme(legend.position = 'right') +
   labs(
     colour = NULL,

@@ -99,25 +99,25 @@ class SocioEconomic:
             Monetary cost of intercepting or blocking messages.
         """
         if self.probability == 0.1:
-            cost = 1000
-        elif self.probability == 0.2:
-            cost = 2000
-        elif self.probability == 0.3:
-            cost = 3000
-        elif self.probability == 0.4:
-            cost = 4000
-        elif self.probability == 0.5:
-            cost = 5000
-        elif self.probability == 0.6:
-            cost = 6000
-        elif self.probability == 0.7:
-            cost = 7000
-        elif self.probability == 0.8:
-            cost = 8000
-        elif self.probability == 0.9:
-            cost = 9000
-        else:
             cost = 10000
+        elif self.probability == 0.2:
+            cost = 9000
+        elif self.probability == 0.3:
+            cost = 8000
+        elif self.probability == 0.4:
+            cost = 7000
+        elif self.probability == 0.5:
+            cost = 6000
+        elif self.probability == 0.6:
+            cost = 5000
+        elif self.probability == 0.7:
+            cost = 4000
+        elif self.probability == 0.8:
+            cost = 3000
+        elif self.probability == 0.9:
+            cost = 2000
+        else:
+            cost = 1000
 
         return cost
 
