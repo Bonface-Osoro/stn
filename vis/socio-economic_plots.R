@@ -102,8 +102,8 @@ interception_cost <-
            position = position_dodge(),
            width = 0.98) +
   geom_errorbar(
-    aes(ymin = mean - sd,
-        ymax = mean + sd),
+    aes(ymin = mean - sd*0.15,
+        ymax = mean + sd*0.15),
     width = .2,
     position = position_dodge(.9),
     color = 'blue',
