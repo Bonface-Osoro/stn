@@ -39,27 +39,39 @@ for i in range(1000):
             else:
                 status = "sucessful"
 
+            # calculate interception probability cost
             inter_cost = SocioEconomic(interception_probability, area)
             interception_cost = inter_cost.cost()
+
+            # calculate interception probability cost by application area
+            int_app = inter_cost.application_area()
             
+            # calculate blocking probability cost
             block_cst = SocioEconomic(block_probability, area)
             block_cost = block_cst.cost()
 
-            int_cst = interception_cost / interception_probability
-            blk_cost = block_cost / block_probability
+            # calculate blocking probability cost by application area
+            block_app = block_cst.application_area()
 
-            total_cost = interception_cost + block_cost
+            # Include the application area cost
+            int_cst = (interception_cost * int_app) / interception_probability
+            blk_cost = (block_cost * block_app) / block_probability
 
             if technique == "Full":
-                total_cost = round((total_cost * 1), 3)
+                final_int_cst = round((int_cst * 1), 2)
+                final_blk_cost = round((blk_cost * 1), 2)
             elif technique == "3 sites":
-                total_cost = round((total_cost * 2), 3)
+                final_int_cst = round((int_cst * 2), 2)
+                final_blk_cost = round((blk_cost * 2), 2)
+                total_cost = round((final_int_cst + final_blk_cost), 3)
             else:
-                total_cost = round((total_cost * 3), 3)
+                final_int_cst = round((int_cst * 3), 2)
+                final_blk_cost = round((blk_cost * 3), 2)
+                total_cost = round((final_int_cst + final_blk_cost), 3)
 
             results.append({"iteration": i, "interception": interception_probability, "interception_cost": 
-                            interception_cost, "blocking": block_probability, "message_status": status, 
-                            "message_block_cost": block_cost, "total_cost": total_cost, "windtexter": technique, 
+                            final_int_cst, "blocking": block_probability, "message_status": status, 
+                            "message_block_cost": final_blk_cost, "total_cost": total_cost, "windtexter": technique, 
                             "application": area})
 
 results = pd.DataFrame(results)
@@ -70,13 +82,13 @@ results = pd.DataFrame(results)
 econ_results = results[results['message_status'] == "unsuccessful"]
 
 # Drop unused columns
-econ_results = econ_results.drop(["interception_cost", "message_block_cost", "message_status"], axis=1)
+econ_results = econ_results.drop(["interception", "blocking", "message_status"], axis=1)
 
 # Melt columns into rows
 econ_results = pd.melt(econ_results, id_vars =["iteration", "windtexter", "application", "total_cost"], 
-value_vars =["interception", "blocking"], var_name = "probability_type", value_name = "probability")
+value_vars =["interception_cost", "message_block_cost"], var_name = "probability_type", value_name = "probability")
 
-# Save the results
+########################################### SAVE THE RESULTS #########################################
 path = os.path.join(RESULTS, 'windtexter_results.csv')
 results.to_csv(path, index = False) 
 
