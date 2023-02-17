@@ -28,8 +28,8 @@ class TextProbabilities:
         self.windtext_1 = [0.1, 0.2, 0.3, 0.4, 0.45]
         self.windtext_2 = [0.1, 0.2, 0.3, 0.45, 0.45]
         self.windtext_3 = [0.2, 0.2, 0.3, 0.45, 0.45]
-        self.windtext_4 = [0.2, 0.3, 0.3, 0.45, 0.45]
-        self.windtext_5 = [0.3, 0.4, 0.45, 0.45, 0.45]
+        self.windtext_4 = [0.2, 0.2, 0.3, 0.45, 0.45]
+        self.windtext_5 = [0.2, 0.2, 0.3, 0.45, 0.45]
         texts = [self.windtext_1, self.windtext_2, self.windtext_3, self.windtext_4, self.windtext_5]
 
         return texts
