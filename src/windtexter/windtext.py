@@ -82,12 +82,14 @@ class SocioEconomic:
     """
     This class seek to quantify the economic impacts of message interception or blocking.
     """   
-    def __init__(self, probability):
+    def __init__(self, probability, use_case):
         """Class constructor
         Args:
-            probability : A list of probability value
+            probability (float) : A probability value
+            use_case (string) : Application area of the secure text (e.g private, commercial etc)
         """
         self.probability = probability
+        self.use_case = use_case
 
 
     def cost(self):
@@ -99,27 +101,48 @@ class SocioEconomic:
             Monetary cost of intercepting or blocking messages.
         """
         if self.probability == 0.1:
-            cost = 10000
+            cost = 10
         elif self.probability == 0.2:
-            cost = 9000
+            cost = 7.2
         elif self.probability == 0.3:
-            cost = 8000
+            cost = 5.1
         elif self.probability == 0.4:
-            cost = 7000
+            cost = 2.8
         elif self.probability == 0.5:
-            cost = 6000
+            cost = 1.1
         elif self.probability == 0.6:
-            cost = 5000
+            cost = 0.3
         elif self.probability == 0.7:
-            cost = 4000
+            cost = 0.1
         elif self.probability == 0.8:
-            cost = 3000
+            cost = 0.1
         elif self.probability == 0.9:
-            cost = 2000
+            cost = 0.1
         else:
-            cost = 1000
+            cost = 0.1
 
         return cost
+    
+
+    def application_area(self):
+        """The function returns the coefficient representing the 
+           importance of the message transmitted.
+        
+        Returns
+        -------
+        beta : interger
+            Coefficient representing the application area.
+        """
+        if self.use_case == "private":
+            beta = 2
+        elif self.use_case == "commercial":
+            beta = 4
+        elif self.use_case == "government":
+            beta = 6
+        else:
+            beta = 8
+        
+        return beta
 
 if __name__ == "__main__":  
      x = Windtexter(4) 
@@ -130,6 +153,6 @@ if __name__ == "__main__":
      y = x.block_message() 
      print(y)
 if __name__ == "__main__":  
-     x = SocioEconomic(y) 
+     x = SocioEconomic(y, 'private') 
      y = x.cost() 
      print(y)
