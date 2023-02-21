@@ -86,7 +86,7 @@ econ_results = econ_results.drop(["interception", "blocking", "message_status"],
 
 # Melt columns into rows
 econ_results = pd.melt(econ_results, id_vars =["iteration", "windtexter", "application", "total_cost"], 
-value_vars =["interception_cost", "message_block_cost"], var_name = "probability_type", value_name = "probability")
+value_vars =["interception_cost", "message_block_cost"], var_name = "probability_type", value_name = "probability_cost")
 
 ########################################### SAVE THE RESULTS #########################################
 path = os.path.join(RESULTS, 'windtexter_results.csv')
