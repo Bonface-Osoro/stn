@@ -1,0 +1,57 @@
+﻿Author ,Year,Title,Application,Approach,Focus,Amount
+arcuri,2020,Cyber attacks on hospitality sector: stock market reaction,Hospitality,Analysis,Economics,1
+Hu et al ,2021,Intrusion-Detector-Dependent Distributed Economic Model Predictive Control for Load Frequency Regulation With PEVs Under Cyber Attacks,Energy,Modelling,Economics,1
+Haislip,2019,The economic cost of cybersecurity breaches: A broad-based analysis,Finance,Analysis,Economics,1
+Chen et al,2020,Cyber-attack detection and resilient operation of nonlinear processes under economic model predictive control,Energy,Simulation,Economics,1
+Dagoumas,2019,Assessing the Impact of Cybersecurity Attacks on Power Systems,Energy,Modelling,Economics,1
+Zhao,2020,Coordinated Risk Mitigation Strategy For Integrated Energy Systems Under Cyber-Attacks,Energy,Optimization,Economics,1
+Welburn,2021,Systemic Cyber Risk and Aggregate Impacts,Finance,Modelling,Economics,1
+Li et al,2021,A comprehensive review study of cyber-attacks and cyber security; Emerging trends and recent developments,General,Review,Economics,1
+Wang,2018,A new model approach of electrical cyber physical systems considering cyber security,Energy,Simulation,Economics,1
+Zou,2019,Fast Distributed Backbone Construction Despite Strong Adversarial Jamming,Communication,Algorithm,Jamming,1
+Yu et al,2020,An Interference Suppression Method for Multistatic Radar Based on Noise Subspace Projection,Defense,Empirical,Jamming,1
+Xiao et al,2020,Reinforcement Learning-Based Mobile Offloading for Edge Computing Against Jamming and Interference,Communication,Machine Learning,Jamming,1
+Xing et al,2021,A cooperative interference resource allocation method based on improved firefly algorithm,Defense,Algorithm,Jamming,1
+Dulik et al,2019,Cyber Security Challenges in Future Military Battlefield Information Networks,Defense,Review,Jamming,1
+Lu et al,2019,LEAP: A Lightweight Encryption and Authentication Protocol for In-Vehicle Communications,Communication,Algorithm,Jamming,1
+Diro et al,2020,Lightweight Authenticated-Encryption Scheme for Internet of Things Based on Publish-Subscribe Communication,Communication,Algorithm,Jamming,1
+Kumar et al,2019,JEDI: Many-to-Many End-to-End Encryption and Key Delegation for IoT,Communication,Algorithm,Jamming,1
+Algarni,2020,"Encryption of ECG signals for telemedicine applications,” Multimed",Healthcare,Algorithm,Jamming,1
+Alloghani et al,2019,A systematic review on the status and progress of homomorphic encryption technologies,Communication,Review,Jamming,1
+Imran et al,2020,Implementation of El-Gamal algorithm for speech signals encryption and decryption,Communication,Algorithm,Jamming,1
+Renza et al,2019,High-uncertainty audio signal encryption based on the Collatz conjecture,Communication,Algorithm,Jamming,1
+Zhang et al,2020,A Stochastic Optimization Framework for Distributed Beam Scheduling in 5G mm-Wave Networks over Non-cooperative Operators,Communication,Algorithm,Jamming,1
+Vakalis et al,2021,Passive Non-Cooperative Millimeter-Wave Imaging Using 5G Signals of Opportunity,Communication,Empirical,Jamming,1
+Mahmoud et al,2019,Modeling and control of Cyber-Physical Systems subject to cyber attacks: A survey of recent advances and challenges,General,Review,Literature,1
+Pycroft & Aziz,2018,"Security of implantable medical devices with wireless connections: The dangers of cyber-attacks,",Healthcare,Review,Literature,1
+Sethuraman et al,2020,Cyber Attacks on Healthcare Devices Using Unmanned Aerial Vehicles,Healthcare,Empirical,Literature,1
+Mualla et al,2019,Agent-based simulation of unmanned aerial vehicles in civilian applications: A systematic literature review and research directions,General,Review,Literature,1
+Chhaya,2017,"Wireless Sensor Network Based Smart Grid Communications: Cyber Attacks, Intrusion Detection System and Topology Control",Energy,Assessment,Literature,1
+Al-Dabbagh,2018,An Intrusion Detection System for Cyber Attacks in Wireless Networked Control Systems,Communication,Modelling,Radio attacks,1
+Buinevich & Vladyko,2019,"Forecasting Issues of Wireless Communication Networks’ Cyber Resilience for An Intelligent Transportation System: An Overview of Cyber Attacks,",Transport,Analysis,Radio attacks,1
+Ghelani et al,2022,"Cyber Security Threats, Vulnerabilities, and Security Solutions Models in Banking",Finance,Modelling,Literature,1
+Melgarejo et al,2022,Dynamic Algorithm for Interference Mitigation Between Cells in Networks Operating in the 250 MHz Band,Agriculture,Simulatiion,Jamming,1
+Lu et al,2019,Artificial agent: The fusion of artificial intelligence and a mobile agent for energy-efficient traffic control in wireless sensor networks,Transport,Machine Learning,Radio attacks,1
+Kavousi-Fard et al,2021,A Machine-Learning-Based Cyber Attack Detection Model for Wireless Sensor Networks in Microgrids,Energy,Machine Learning,Radio attacks,1
+Ismail et al,2022,A Comparative Study of Machine Learning Models for Cyber-attacks Detection in Wireless Sensor Networks,General,Review,Radio attacks,1
+wang et al,2022,Robust secure UAV relay-assisted cognitive communications with resource allocation and cooperative jamming,Communication,Empirical,Jamming,1
+Han et al,2020,Dynamic Anti-Jamming Coalition for Satellite-Enabled Army IoT: A Distributed Game Approach,Communication,Simulatiion,Jamming,1
+Lal et al,2021,"Prospects for Handling 5G Network Security: Challenges, Recommendations and Future Directions",General,Review,Literature,1
+Osorio et al,2019,Physical-Layer Security for 5G and Beyond,General,Review,Literature,1
+Al-Turjman,2020,Intelligence and security in big 5G-oriented IoNT: An overview,General,Review,Literature,1
+Hao et al,2021,Multimedia Communication Security in 5G/6G Coverless Steganography Based on Image Text Semantic Association,General,Machine Learning,Literature,1
+Qiu et al,2020,Artificial Intelligence Security in 5G Networks: Adversarial Examples for Estimating a Travel Time Task,General,Machine Learning,Literature,1
+Gupta et al,2022,An Improved Secure Key Generation Using Enhanced Identity-Based Encryption for Cloud Computing in Large-Scale 5G,Communication,Algorithm,Jamming,1
+Wang et al,2020,Dynamic Spectrum Anti-Jamming Communications: Challenges and Opportunities,Communication,Machine Learning,Jamming,1
+Arjoune & Faruque,2020,Smart Jamming Attacks in 5G New Radio: A Review,General,Review,Literature,1
+Pirayesh & Zeng,2021,Jamming Attacks and Anti-Jamming Strategies in Wireless Networks,General,Review,Literature,1
+Krayani et al,2021,Self-Learning Bayesian Generative Models for Jammer Detection in Cognitive-UAV-Radios,Communication,Modelling,Literature,1
+Ibrahim et al,2020,Heuristic Resource Allocation Algorithm for Controller Placement in Multi-Control 5G Based on SDN/NFV Architecture,Communication,Optimization,Literature,1
+Xu et al,2020,Convert Harm Into Benefit: A Coordination-Learning Based Dynamic Spectrum Anti-Jamming Approach,Defense,Simulatiion,Jamming,1
+Kumar et al,2021,Blockage-Aware Reliable mmWave Access via Coordinated Multi-Point Connectivity,Communication,Empirical,Jamming,1
+Nguyen et al,2020,Transmit Antenna Selection for Full-Duplex Spatial Modulation Multiple-Input Multiple-Output System,Communication,Analysis,Jamming,1
+Khodmi et al,2019,A Joint Power Allocation and User Association Based on Non-Cooperative Game Theory in an Heterogeneous Ultra-Dense Network,Communication,Simulatiion,Jamming,1
+Caso et al,2017,Non-cooperative and Cooperative Spectrum Sensing in 5G Cognitive Networks,Communication,Review,Literature,1
+Gorman et al,2022,The quest to quantify the value of lost load: A critical review of the economics of power outages,Energy,Analysis,Economics,1
+Schroder & Kuckshinrichs,2015,Value of Lost Load: An Efficient Economic Indicator for Power Supply Security,Energy,Review,Economics,1
+Praktiknjo,2016,The Value of Lost Load for Sectoral Load Shedding Measures: The German Case with 51 Sectors,Energy,Empirical,Economics,1
