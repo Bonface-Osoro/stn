@@ -15,7 +15,7 @@ Osoro, B., & Oughton, E. (2022). Spatial Modelling of Jamming Secure Texts over 
 Example Method
 ==============
 
-The method is based on agent based modelling (ABM). The transmitter, user (soldier) and the jammers are treated as agents in a 70 X 70 km grid. The transmitter is static while the users and the jammers move randomly within the grid. The difference in euclidean distance between the transmitter and the jammer results in various interference power.
+The spatial modelling approach is implemented. The transmitter, user and the jammers are treated as agents in a 15 X 15 km grid. The transmitter and interceptors aree is static while the users move randomly within the grid. The difference in euclidean distance between the transmitter and the jammer results in various interference power.
 
 Similarly, the user and transmitter distance changes resulting to various receiver power. The Euclidean distance in both cases (user  and jammer) results in various path loss. The path loss contributes to differing interfernce and received power causing varying signal to interference plus noise (SINR). `Figure 2` illustrates this method.
 
@@ -24,14 +24,31 @@ Similarly, the user and transmitter distance changes resulting to various receiv
   <img src="/docs/Box_model.png" />
 </p>
 
+In the second model, a covert secure texting strategy is implemented. In this case, a single message is hidden in plain text, separated into different parts and transmitted through multiple untrusted non-cooperative networks to avoid detection. `Figure 3` illustrates the method.
+
+## Figure 3 Covert secure texting simulation.
+<p align="center">
+  <img src="/method_covert .png" />
+</p>
+
 Example Results
 ==============
 
-The `windtexter` repository estimates the SINR for different user and jammer positions within the 70 X 70 km grid. The empirical cumulative density function results for the modelling are also generated to illustrate the distribution of the values as shown in `Figure 3`.
+The sample jamming, secure texting and socio-economic results are shown in `Figure 4`, `Figure 5` and `Figure 6`.
 
-## Figure 3 Estimated Interference results from the Spatial Modelling 
+## Figure 4 Radio signal results from the spatial modeling in a 15 km ×15 km grid with 5 transmitters and interceptors for different cellular generations 
 <p align="center">
-  <img src="/docs/ecdfs.png" />
+  <img src="/loss_profile.png" />
+</p>
+
+## Figure 5 Simulated probabilistic results of secure texting in a jamming environment. 
+<p align="center">
+  <img src="/density_plots.png" />
+</p>
+
+## Figure 6 Simulated cost results due to interception and blocking of mission critical messages by different implementation strategy of anti-jamming techniques.
+<p align="center">
+  <img src="/socio_costs.png" />
 </p>
 
 Required Data
