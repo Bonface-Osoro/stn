@@ -43,7 +43,7 @@ The sample jamming, secure texting and socio-economic results are shown in `Figu
 
 ## Figure 5 Simulated probabilistic results of secure texting in a jamming environment. 
 <p align="center">
-  <img src="/density_plots.png" />
+  <img src="/docs/density_plots.png" />
 </p>
 
 ## Figure 6 Simulated cost results due to interception and blocking of mission critical messages by different implementation strategy of anti-jamming techniques.
