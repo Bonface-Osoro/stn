@@ -154,15 +154,16 @@ dist/globalsat-0.1.dev5+g3ee29de.d20221121-py3.9.egg
 dist/windtexter-0.1.dev22+gbc3d9c8.d20221205-py3.10.egg
 dist/windtexter-0.1.dev5+g3ee29de.d20221121-py3.9.egg
 dist/windtexter-0.1.dev6+g173f4c7.d20221121-py3.9.egg
+dist/windtexter-0.1.dev61+ge77aa1c.d20230112-py3.10.egg
+dist/windtexter-0.1.dev61+ge77aa1c.d20230112-py3.9.egg
 dist/windtexter-0.1.dev8+gad19934-py3.9.egg
 docs/Box_model.png
 docs/ecdfs.png
 docs/windtexter.png
 results/.DS_Store
 results/cdf_results.csv
-results/results.csv
 results/signal_results.csv
-results/sim_results.csv
+results/windtexter_results.csv
 scripts/Mesa Introduction.ipynb
 scripts/model.py
 scripts/run.py
@@ -185,13 +186,6 @@ src/windtexter/__pycache__/agents.cpython-310.pyc
 src/windtexter/__pycache__/agents.cpython-39.pyc
 src/windtexter/__pycache__/link_budget.cpython-310.pyc
 vis/.DS_Store
-vis/plots.R
-vis/plots.py
-vis/results.csv
-vis/signal_results.csv
-vis/sim_results.csv
-vis/vis.py
-vis/wind_plots.R
 vis/figures/.DS_Store
 vis/figures/density_plots.png
 vis/figures/ecdfs.png

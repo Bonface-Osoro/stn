@@ -1,12 +1,13 @@
 Metadata-Version: 2.1
 Name: windtexter
-Version: 0.1.dev61+ge77aa1c.d20230112
+Version: 0.1.dev63+g31ed3f2.d20230802
 Summary: Cyber attack simulation model
 Home-page: https://github.com/Bonface-Osoro/windtexter.git
 Author: Bonface Osoro/Ed Oughton
 Author-email: bosoro@gmu.edu
 License: MIT License
 Keywords: cyber,attacks,network
+Platform: UNKNOWN
 Classifier: Development Status :: 1 - Planning
 Classifier: Intended Audience :: Developers
 Classifier: License :: OSI Approved :: MIT License
@@ -55,3 +56,4 @@ The `windtexter` repository estimates the SINR for different user and jammer pos
 
 Required Data
 ==============
+
