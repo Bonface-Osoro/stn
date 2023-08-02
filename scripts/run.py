@@ -1,6 +1,5 @@
 import configparser
 import os
-import random
 import numpy as np
 import pandas as pd
 from windtexter.link_budget import LinkBudget
@@ -30,13 +29,19 @@ technologies = ["2G", "3G", "4G", "5G"]
 
 #for iterations in range(10):
 for technology in technologies:
+
     for rx in receiver_x:
+
         for ry in receiver_y:
+
             for interference in interferences:
+
                 for t in trans:
+
                     if t[0] == rx or t[1] == ry or t[0] == interference[0] or t[1] == interference[1]:
                         break
                     else:
+
                         link_budget = LinkBudget(40, 16, technology, t[0], t[1], rx, ry, interference[0], interference[1])
 
                         inteference_distance_km = link_budget.calc_interference_path()
@@ -61,22 +66,22 @@ df["jamming"] = ""
 
 ### Obtain the maximum interference distance ###
 max_dist = df['interference_distance_km'].max()
-print(max_dist)
+
 for i in df.index: 
 
     ### set the low scenario to a third of the maximum distance ###
     if df["interference_distance_km"].loc[i] <= 0.25 * max_dist:
+
         df["jamming"].loc[i] = "Low"
 
     ### set the high scenario to two thirds of the maximum distance ###
     elif df["interference_distance_km"].loc[i] >= 0.75 * max_dist:
+
         df["jamming"].loc[i] = "High"
 
     else:
+
         df["jamming"].loc[i] = "Baseline"
 
 path = os.path.join(RESULTS, "signal_results.csv")
 df.to_csv(path, index = False) 
-
-path = os.path.join(VIS, "signal_results.csv")
-df.to_csv(path, index = False)  

@@ -20,13 +20,19 @@ text_number = [0, 2, 4]
 areas = ["private", "commercial", "government", "millitary"]
 
 for i in range(1000):
+
     for area in areas:
+
         for texts in text_number:
+
             if texts == text_number[0]:
+
                 technique = "Baseline"
             elif texts == text_number[1]:
+
                 technique = "Partial"
             else:
+
                 technique = "Full"
             intercept_prob = Windtexter(texts)
             interception_probability = intercept_prob.intercept_message() 
@@ -35,8 +41,10 @@ for i in range(1000):
             block_probability = block_prob.block_message()
 
             if interception_probability and block_probability <= 0.5:
+
                 status = "unsuccessful"
             else:
+
                 status = "sucessful"
 
             # calculate interception probability cost
@@ -58,13 +66,16 @@ for i in range(1000):
             blk_cost = (block_cost * block_app) / block_probability
 
             if technique == "Full":
+
                 final_int_cst = round((int_cst * 1), 2)
                 final_blk_cost = round((blk_cost * 1), 2)
             elif technique == "3 sites":
+
                 final_int_cst = round((int_cst * 2), 2)
                 final_blk_cost = round((blk_cost * 2), 2)
                 total_cost = round((final_int_cst + final_blk_cost), 3)
             else:
+
                 final_int_cst = round((int_cst * 3), 2)
                 final_blk_cost = round((blk_cost * 3), 2)
                 total_cost = round((final_int_cst + final_blk_cost), 3)
@@ -93,11 +104,5 @@ var_name = "probability_type", value_name = "probability_cost")
 path = os.path.join(RESULTS, 'windtexter_results.csv')
 results.to_csv(path, index = False) 
 
-path = os.path.join(VIS, 'windtexter_results.csv')
-results.to_csv(path, index = False)   
-
 path = os.path.join(RESULTS, 'cost_results.csv')
-econ_results.to_csv(path, index = False) 
-
-path = os.path.join(VIS, 'cost_results.csv')
 econ_results.to_csv(path, index = False) 

@@ -73,30 +73,35 @@ class LinkBudget:
 
         noise_list = []
         if self.technology == "2G":
+
             bandwidth = 6.8        # In MHz
             noise = (10 * (math.log10((k * t * 1000)))) + \
                     (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
             noise_list.append(noise)
 
         elif self.technology == "3G":
+
             bandwidth = 25
             noise = (10 * (math.log10((k * t * 1000)))) + \
                     (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
             noise_list.append(noise)
         
         elif self.technology == "4G":
+
             bandwidth = 100
             noise = (10 * (math.log10((k * t * 1000)))) + \
                     (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
             noise_list.append(noise)
         
         elif self.technology == "5G":
+
             bandwidth = 30000
             noise = (10 * (math.log10((k * t * 1000)))) + \
             (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
             noise_list.append(noise)
 
         else:
+
             print("Invalid Technology Input")
 
         return noise_list
@@ -132,30 +137,35 @@ class LinkBudget:
         rx_path_loss = []
 
         if self.technology == "2G":
+
             frequency = 0.85       # In GHz
             rx_path = 20 * math.log10(self.calc_signal_path()) + \
                         20 * math.log10(frequency) + 92.45
             rx_path_loss.append(rx_path)
 
         elif self.technology == "3G":
+
             frequency = 1.9
             rx_path = 20 * math.log10(self.calc_signal_path()) + \
                         20 * math.log10(frequency) + 92.45
             rx_path_loss.append(rx_path)
 
         elif self.technology == "4G":
+
             frequency = 3.5
             rx_path = 20 * math.log10(self.calc_signal_path()) + \
             20 * math.log10(frequency) + 92.45 
             rx_path_loss.append(rx_path)
 
         elif self.technology == "5G":
+
             frequency = 26
             rx_path = 20 * math.log10(self.calc_signal_path()) + \
             20 * math.log10(frequency) + 92.45 
             rx_path_loss.append(rx_path)
 
         else:
+
             print("Invalid Technology Input")   
 
         return rx_path_loss
@@ -201,30 +211,35 @@ class LinkBudget:
         """
         jam_path_loss = []
         if self.technology == "2G":
+
             frequency = 0.85
             jam_path = 20 * math.log10(self.calc_interference_path()) + \
                         20 * math.log10(frequency) + 92.45
             jam_path_loss.append(jam_path)
 
         elif self.technology == "3G":
+
             frequency = 1.9
             jam_path = 20 * math.log10(self.calc_interference_path()) + \
                         20 * math.log10(frequency) + 92.45
             jam_path_loss.append(jam_path)
 
         elif self.technology == "4G":
+
             frequency = 3.5
             jam_path = 20 * math.log10(self.calc_interference_path()) + \
                         20 * math.log10(frequency) + 92.45
             jam_path_loss.append(jam_path)
 
         elif self.technology == "5G":
+
             frequency = 26
             jam_path = 20 * math.log10(self.calc_interference_path()) + \
                         20 * math.log10(frequency) + 92.45
             jam_path_loss.append(jam_path)
 
         else:
+            
             print("Invalid Technology Input")
 
         return jam_path_loss

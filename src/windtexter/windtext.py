@@ -18,7 +18,7 @@ class TextProbabilities:
 
 
     def create_windtexts(self):
-        """The agent creates untruested wireless networks.
+        """The agent creates untrusted wireless networks.
         
         Returns
         -------
@@ -37,13 +37,16 @@ class TextProbabilities:
 
 class Windtexter:
     """
-    This class represents a windtexter application where critical messages have been hidden on plain sight
-    before transmission to multiple networks.
+    This class represents a windtexter application 
+    where critical messages have been hidden on 
+    plain sight before transmission to multiple 
+    networks.
     """
     def __init__(self, number_of_texts):
         """Class constructor
         Args:
-            number_of_texts (interger): number of windtext to choose from the list
+            number_of_texts (interger): number of windtext 
+                to choose from the list
         """
         self.number_texts = number_of_texts
 
@@ -101,24 +104,34 @@ class SocioEconomic:
             Monetary cost of intercepting or blocking messages.
         """
         if self.probability == 0.1:
+
             cost = 10
         elif self.probability == 0.2:
+
             cost = 7.2
         elif self.probability == 0.3:
+
             cost = 5.1
         elif self.probability == 0.4:
+
             cost = 2.8
         elif self.probability == 0.5:
+
             cost = 1.1
         elif self.probability == 0.6:
+
             cost = 0.3
         elif self.probability == 0.7:
+
             cost = 0.1
         elif self.probability == 0.8:
+
             cost = 0.1
         elif self.probability == 0.9:
+
             cost = 0.1
         else:
+
             cost = 0.1
 
         return cost
@@ -134,12 +147,16 @@ class SocioEconomic:
             Coefficient representing the application area.
         """
         if self.use_case == "private":
+
             beta = 2
         elif self.use_case == "commercial":
+
             beta = 4
         elif self.use_case == "government":
+
             beta = 6
         else:
+
             beta = 8
         
         return beta
@@ -148,11 +165,11 @@ if __name__ == "__main__":
      x = Windtexter(4) 
      y = x.intercept_message() 
      print(y)
-if __name__ == "__main__":  
+
      x = Windtexter(4) 
      y = x.block_message() 
      print(y)
-if __name__ == "__main__":  
+
      x = SocioEconomic(y, 'private') 
      y = x.cost() 
      print(y)
