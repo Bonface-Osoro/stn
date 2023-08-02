@@ -74,6 +74,3 @@ for i in df.index:
 
 path = os.path.join(RESULTS, "signal_results.csv")
 df.to_csv(path, index = False) 
-
-path = os.path.join(VIS, "signal_results.csv")
-df.to_csv(path, index = False)  
