@@ -7,6 +7,7 @@ pd.options.mode.chained_assignment = None
 
 CONFIG = configparser.ConfigParser()
 CONFIG.read(os.path.join(os.path.dirname(__file__), 'script_config.ini'))
+
 BASE_PATH = CONFIG['file_locations']['base_path']
 RESULTS = os.path.join("results")
 VIS = os.path.join("vis")
@@ -66,30 +67,21 @@ df["jamming"] = ""
 
 ### Obtain the maximum interference distance ###
 max_dist = df['interference_distance_km'].max()
-print(max_dist)
+
 for i in df.index: 
 
     ### set the low scenario to a third of the maximum distance ###
     if df["interference_distance_km"].loc[i] <= 0.25 * max_dist:
-<<<<<<< HEAD
 
-=======
->>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
         df["jamming"].loc[i] = "Low"
 
     ### set the high scenario to two thirds of the maximum distance ###
     elif df["interference_distance_km"].loc[i] >= 0.75 * max_dist:
-<<<<<<< HEAD
 
         df["jamming"].loc[i] = "High"
 
     else:
 
-=======
-        df["jamming"].loc[i] = "High"
-
-    else:
->>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
         df["jamming"].loc[i] = "Baseline"
 
 path = os.path.join(RESULTS, "signal_results.csv")

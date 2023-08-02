@@ -170,6 +170,7 @@ results/cost_results.csv
 results/signal_results.csv
 results/windtexter_results.csv
 results/.ipynb_checkpoints/Untitled-checkpoint.ipynb
+scripts/.DS_Store
 scripts/model.py
 scripts/run.py
 scripts/script_config.ini
@@ -192,7 +193,9 @@ src/windtexter/__pycache__/agents.cpython-310.pyc
 src/windtexter/__pycache__/agents.cpython-39.pyc
 src/windtexter/__pycache__/antijammer.cpython-310.pyc
 src/windtexter/__pycache__/link_budget.cpython-310.pyc
+src/windtexter/__pycache__/link_budget.cpython-39.pyc
 src/windtexter/__pycache__/windtext.cpython-310.pyc
+src/windtexter/__pycache__/windtext.cpython-39.pyc
 vis/.DS_Store
 vis/costs.R
 vis/plots.R
