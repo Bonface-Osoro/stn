@@ -1,6 +1,10 @@
 Metadata-Version: 2.1
 Name: windtexter
+<<<<<<< HEAD
 Version: 0.1.dev63+g31ed3f2.d20230802
+=======
+Version: 0.1.dev63+gdac3d7a.d20230113
+>>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
 Summary: Cyber attack simulation model
 Home-page: https://github.com/Bonface-Osoro/windtexter.git
 Author: Bonface Osoro/Ed Oughton

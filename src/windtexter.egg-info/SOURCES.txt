@@ -173,7 +173,6 @@ src/.DS_Store
 src/.ipynb_checkpoints/model-checkpoint.ipynb
 src/__pycache__/agents.cpython-39.pyc
 src/windtexter/.DS_Store
-src/windtexter/agents.py
 src/windtexter/link_budget.py
 src/windtexter.egg-info/PKG-INFO
 src/windtexter.egg-info/SOURCES.txt
@@ -186,9 +185,17 @@ src/windtexter/__pycache__/agents.cpython-310.pyc
 src/windtexter/__pycache__/agents.cpython-39.pyc
 src/windtexter/__pycache__/link_budget.cpython-310.pyc
 vis/.DS_Store
+<<<<<<< HEAD
+=======
+vis/plots.R
+vis/plots.py
+vis/signal_results.csv
+vis/vis.py
+vis/wind_plots.R
+vis/windtexter_results.csv
+>>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
 vis/figures/.DS_Store
 vis/figures/density_plots.png
 vis/figures/ecdfs.png
 vis/figures/loss_profile.png
-vis/figures/pub_capacity_profile.tiff
 vis/figures/wind_ecdfs.png

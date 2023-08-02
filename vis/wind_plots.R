@@ -9,143 +9,292 @@ folder <- dirname(rstudioapi::getSourceEditorContext()$path)
 
 #Load the data
 folder <- dirname(rstudioapi::getSourceEditorContext()$path)
-data <- read.csv(file.path(folder, "sim_results.csv"))
+
+data <- read.csv(file.path(folder, "windtexter_results.csv"))
 
 ####################################
-##ECDF 1 = Interference power plot##
+##    Density plot Interception   ##
 ####################################
-ecdf_intc <- ggplot(data,
-                        aes(x = probability, 
-                            color = windtexter)) +
-  stat_ecdf() +
-  scale_fill_brewer(palette = "Paired") +
-  theme(legend.position = "right") +
-  labs(
-    colour = NULL,
-    title = "Windtexter Implementation",
-    subtitle = "Empirical cumulative distribution of different interception probability",
-    x = "Interception Probability",
-    y = "Proportions",
-    fill = "WindTexter Implementation"
-  ) +   scale_y_continuous(
-    labels = function(y)
-      format(y, scientific = FALSE),
-    expand = c(0, 0)
-  ) +
-  theme(axis.text.x = element_text(size = 8),
-        axis.line = element_line(colour = "black")) +
-  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
-  theme(
-    legend.title = element_text(size = 8),
-    legend.text = element_text(size = 8),
-    plot.subtitle = element_text(size = 8),
-    plot.title = element_text(size = 10)
-  )
-
-ecdfs <- ggarrange(
-  ecdf_intc,
-  ncol = 1,
-  nrow = 1,
-  common.legend = T,
-  legend = "bottom",
-  labels = c("a")
-)
-
-path = file.path(folder, "figures", "wind_ecdfs.png")
-dir.create(file.path(folder, "figures"), showWarnings = FALSE)
-png(
-  path,
-  units = "in",
-  width = 6.7,
-  height = 6.5,
-  res = 480
-)
-print(ecdfs)
-dev.off()
-
-
-data <- read.csv(file.path(folder, "results.csv"))
-
-####################################
-##    Density plot by strategy    ##
-####################################
-data$strategy = as.factor(data$strategy)
-data$strategy = factor(data$strategy,
-  levels = c('no_windtexter', 'windtexter_baseline', 'windtexter_full'),
-  labels = c('1 Site', '3 Sites', '5 Sites')
+data$windtexter = as.factor(data$windtexter)
+data$windtexter = factor(data$windtexter,
+  levels = c('Baseline', 'Partial', 'Full'),
+  labels = c('Baseline', 'Partial', 'Full')
 )
 
 dp_strat <- ggplot(data,
-                    aes(x = probability, 
-                        color = strategy)) +
-  geom_density() +
-  scale_fill_brewer(palette = "Paired") +
+                    aes(x = interception, 
+                        color = windtexter)) +
+  geom_density(size = 0.2) + 
+  geom_vline(xintercept= 0.5, colour="#666666", linetype = "dashed", size = 0.3) + 
+  geom_text(aes(x=0.5, label="Successful", y = 3), colour = "#666666", 
+            angle = 90, vjust = 2, size = 2) +
+  geom_text(aes(x=0.5, label="Unsuccessful", y = 3), colour = "#666666", 
+            angle = 90, vjust = -2, size = 2) +
+  scale_color_brewer(palette = "Accent") +
   theme(legend.position = "right") +
   labs(
     colour = NULL,
-    title = NULL,
-    subtitle = "Density plot of the interception probability outcome by different strategies",
-    x = "Interception Probability",
+    title = "(a) Interception",
+    subtitle = "Density plot of the probability outcome by different \nstrategies",
+    x = "Probability",
     y = "Density",
-    fill = "WindTexter Implementation"
+    fill = "Strategy"
   ) +   scale_y_continuous(
     labels = function(y)
       format(y, scientific = FALSE),
     expand = c(0, 0)
-  ) +
-  theme(axis.text.x = element_text(size = 8),
+  ) + theme(plot.title = element_text(face = "bold")) +
+  theme(axis.text.x = element_text(size = 6),
+        axis.text.y = element_text(size = 6),
         axis.line = element_line(colour = "black")) +
-  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 6)) +
   theme(
-    legend.title = element_text(size = 8),
-    legend.text = element_text(size = 8),
-    plot.subtitle = element_text(size = 8),
-    plot.title = element_text(size = 10)
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    plot.subtitle = element_text(size = 6),
+    axis.line.x  = element_line(size = 0.15),
+    axis.line.y  = element_line(size = 0.15),
+    plot.title = element_text(size = 8)
   )
 
-###########################################
-##    Density plot by message success    ##
-###########################################
+################################
+##    Density plot Blocking   ##
+################################
+block_strat <- ggplot(data,
+                   aes(x = blocking, 
+                       color = windtexter)) +
+  geom_density(size = 0.2) + 
+  geom_vline(xintercept= 0.5, colour="#666666", linetype = "dashed", size = 0.3) + 
+  geom_text(aes(x=0.5, label="Successful", y = 3), colour = "#666666", 
+            angle = 90, vjust = 2, size = 2) +
+  geom_text(aes(x=0.5, label="Unsuccessful", y = 3), colour = "#666666", 
+            angle = 90, vjust = -2, size = 2) +
+  scale_color_brewer(palette = "Accent") +
+  theme(legend.position = "right") +
+  labs(
+    colour = NULL,
+    title = "(b) Blocking",
+    subtitle = "Density plot of the probability outcome by different \nstrategies",
+    x = "Probability",
+    y = "Density",
+    fill = "Strategy"
+  ) +   scale_y_continuous(
+    labels = function(y)
+      format(y, scientific = FALSE),
+    expand = c(0, 0)
+  ) + theme(plot.title = element_text(face = "bold")) +
+  theme(axis.text.x = element_text(size = 6),
+        axis.text.y = element_text(size = 6),
+        axis.line = element_line(colour = "black")) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 6)) +
+  theme(
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    plot.subtitle = element_text(size = 6),
+    axis.line.x  = element_line(size = 0.15),
+    axis.line.y  = element_line(size = 0.15),
+    plot.title = element_text(size = 8)
+  )
+
+
+##########################################################
+##    Density plot by message success - Interception    ##
+##########################################################
 data$message_status = as.factor(data$message_status)
 data$message_status = factor(data$message_status,
-   levels = c('successful', 'unsuccessful'),
+   levels = c('sucessful', 'unsuccessful'),
    labels = c('Success', 'Fail')
 )
 dp_msg <- ggplot(data,
-                   aes(x = probability, 
+                   aes(x = interception, 
                        color = message_status)) +
-  geom_density() +
-  scale_fill_brewer(palette = "Paired") +
+  geom_density(size = 0.2) +
+  geom_vline(xintercept= 0.5, colour="#666666", linetype = "dashed", size = 0.3) + 
+  geom_text(aes(x=0.5, label="Successful", y = 2), colour = "#666666", 
+            angle = 90, vjust = 2, size = 2) +
+  geom_text(aes(x=0.5, label="Unsuccessful", y = 2), colour = "#666666", 
+            angle = 90, vjust = -2, size = 2) +
+  scale_color_brewer(palette = "Accent") +
   theme(legend.position = "right") +
   labs(
     colour = NULL,
-    title = NULL,
-    subtitle = "Density plot of the interception probability outcome by message success",
-    x = "Interception Probability",
+    title = "(c) Total Interceptions",
+    subtitle = "Density plot of the probability outcome by message \ndelivery status",
+    x = "Probability",
     y = "Density",
-    fill = "WindTexter Implementation"
+    fill = "Message Delivery"
   ) +   scale_y_continuous(
     labels = function(y)
       format(y, scientific = FALSE),
     expand = c(0, 0)
-  ) +
-  theme(axis.text.x = element_text(size = 8),
+  ) + theme(plot.title = element_text(face = "bold")) +
+  theme(axis.text.x = element_text(size = 6),
+        axis.text.y = element_text(size = 6),
         axis.line = element_line(colour = "black")) +
-  theme(legend.position = "bottom", axis.title = element_text(size = 8)) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 6)) +
   theme(
-    legend.title = element_text(size = 8),
-    legend.text = element_text(size = 8),
-    plot.subtitle = element_text(size = 8),
-    plot.title = element_text(size = 10)
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    plot.subtitle = element_text(size = 6),
+    axis.line.x  = element_line(size = 0.15),
+    axis.line.y  = element_line(size = 0.15),
+    plot.title = element_text(size = 8)
   )
 
+######################################################
+##    Density plot by message success - Blocking    ##
+######################################################
+
+block_msg <- ggplot(data,
+                 aes(x = blocking, 
+                     color = message_status)) +
+  geom_density(size = 0.2) +
+  geom_vline(xintercept= 0.5, colour="#666666", linetype = "dashed", size = 0.3) + 
+  geom_text(aes(x=0.5, label="Successful", y = 7.5), colour = "#666666", 
+            angle = 90, vjust = 2, size = 2) +
+  geom_text(aes(x=0.5, label="Unsuccessful", y = 7.5), colour = "#666666", 
+            angle = 90, vjust = -2, size = 2) +
+  scale_color_brewer(palette = "Accent") +
+  theme(legend.position = "right") +
+  labs(
+    colour = NULL,
+    title = "(d) Total Blockings",
+    subtitle = "Density plot of the probability outcome by message \ndelivery status",
+    x = "Probability",
+    y = "Density",
+    fill = "Message Delivery"
+  ) +   scale_y_continuous(
+    labels = function(y)
+      format(y, scientific = FALSE),
+    expand = c(0, 0)
+  ) + theme(plot.title = element_text(face = "bold")) + 
+  theme(axis.text.x = element_text(size = 6),
+        axis.text.y = element_text(size = 6),
+        axis.line = element_line(colour = "black")) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 6)) +
+  theme(
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    plot.subtitle = element_text(size = 6),
+    axis.line.x  = element_line(size = 0.15),
+    axis.line.y  = element_line(size = 0.15),
+    plot.title = element_text(size = 8)
+  )
+
+
+##################################
+##    Aggregate Interceptions   ##
+##################################
+
+df = data %>%
+  group_by(windtexter, message_status) %>%
+  summarize(total = floor(sum(interception)))
+
+df$message_status = as.factor(df$message_status)
+df$windtexter = factor(df$windtexter)
+df$windtexter = factor(df$windtexter,
+                       levels = c('Baseline', 'Partial', 'Full'),
+                       labels = c('Baseline \n(1 site)', 'Partial \n(3 sites)', 'Full \n(5 sites)')
+)
+
+interception_agg <-
+  ggplot(df, aes(x = windtexter, y = total, fill = message_status)) +
+  geom_bar(stat = "identity",
+           position = position_dodge(), width = 0.98) +   
+  geom_text(aes(windtexter, label = total), size = 1.5, vjust = -1,
+            hjust = 0.005, data = df) + 
+  scale_fill_brewer(palette = "Accent") +
+  theme(legend.position = "right") +
+  labs(
+    colour = NULL,
+    title = "(d) Aggregate Interceptions",
+    subtitle = "Total amount of messages interception attempts by \ndelivery status",
+    x = NULL,
+    y = "Number of Messages",
+    fill = "Message Delivery"
+  ) +   scale_y_continuous(
+    labels = function(y)
+      format(y, scientific = FALSE), limits = c(0, 2000),
+    expand = c(0, 0)
+  ) + theme(plot.title = element_text(face = "bold")) + 
+  theme(axis.text.x = element_text(size = 6),
+        axis.text.y = element_text(size = 6),
+        axis.line = element_line(colour = "black")) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 6)) +
+  theme(
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    plot.subtitle = element_text(size = 6),
+    axis.line.x  = element_line(size = 0.15),
+    axis.line.y  = element_line(size = 0.15),
+    plot.title = element_text(size = 8)
+  )
+
+##############################
+##    Aggregate blockings   ##
+###############################
+
+df = data %>%
+  group_by(windtexter, message_status) %>%
+  summarize(total = floor(sum(blocking)))
+
+df$message_status = as.factor(df$message_status)
+df$windtexter = factor(df$windtexter)
+df$windtexter = factor(df$windtexter,
+                       levels = c('Baseline', 'Partial', 'Full'),
+                       labels = c('Baseline \n(1 site)', 'Partial \n(3 sites)', 'Full \n(5 sites)')
+)
+
+blocking_agg <-
+  ggplot(df, aes(x = windtexter, y = total, fill = message_status)) +
+  geom_bar(stat = "identity",
+           position = position_dodge(), width = 0.98) +   
+  geom_text(aes(windtexter, label = total), size = 1.5, vjust = -0.5,
+            hjust = 0.005, data = df) + 
+  scale_fill_brewer(palette = "Accent") +
+  theme(legend.position = "right") +
+  labs(
+    colour = NULL,
+    title = "(e) Aggregate Blockings",
+    subtitle = "Total amount of message blocking attempts by \ndelivery status",
+    x = NULL,
+    y = "Number of Messages",
+    fill = "Message Delivery"
+  ) +   scale_y_continuous(
+    labels = function(y)
+      format(y, scientific = FALSE), limits = c(0, 2500),
+    expand = c(0, 0)
+  ) + theme(plot.title = element_text(face = "bold")) + 
+  theme(axis.text.x = element_text(size = 6),
+        axis.text.y = element_text(size = 6),
+        axis.line = element_line(colour = "black")) +
+  theme(legend.position = "bottom", axis.title = element_text(size = 6)) +
+  theme(
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    plot.subtitle = element_text(size = 6),
+    axis.line.x  = element_line(size = 0.15),
+    axis.line.y  = element_line(size = 0.15),
+    plot.title = element_text(size = 8)
+  )
+
+
+row_1 <- ggarrange(dp_strat, block_strat,
+  ncol = 2, common.legend = T, legend = "bottom"
+)
+
+row_2 <- ggarrange(interception_agg, blocking_agg,
+    ncol = 2, common.legend = T, legend = "bottom"
+)
+
+
 density_plots <- ggarrange(
-  dp_strat, dp_msg,
-  ncol = 1,
+  row_1, 
+  row_2, 
   nrow = 2,
   common.legend = F,
   legend = "bottom",
-  labels = c("a", "b")
+  labels = c()
 )
 
 path = file.path(folder, "figures", "density_plots.png")
@@ -159,15 +308,4 @@ png(
 )
 print(density_plots)
 dev.off()
-
-
-
-
-
-
-
-
-
-
-
 
