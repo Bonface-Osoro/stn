@@ -18,11 +18,7 @@ class TextProbabilities:
 
 
     def create_windtexts(self):
-<<<<<<< HEAD
         """The agent creates untrusted wireless networks.
-=======
-        """The agent creates untruested wireless networks.
->>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
         
         Returns
         -------
@@ -41,25 +37,16 @@ class TextProbabilities:
 
 class Windtexter:
     """
-<<<<<<< HEAD
     This class represents a windtexter application 
     where critical messages have been hidden on 
     plain sight before transmission to multiple 
     networks.
-=======
-    This class represents a windtexter application where critical messages have been hidden on plain sight
-    before transmission to multiple networks.
->>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
     """
     def __init__(self, number_of_texts):
         """Class constructor
         Args:
-<<<<<<< HEAD
             number_of_texts (interger): number of windtext 
                 to choose from the list
-=======
-            number_of_texts (interger): number of windtext to choose from the list
->>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
         """
         self.number_texts = number_of_texts
 
@@ -117,7 +104,6 @@ class SocioEconomic:
             Monetary cost of intercepting or blocking messages.
         """
         if self.probability == 0.1:
-<<<<<<< HEAD
 
             cost = 10
         elif self.probability == 0.2:
@@ -146,26 +132,6 @@ class SocioEconomic:
             cost = 0.1
         else:
 
-=======
-            cost = 10
-        elif self.probability == 0.2:
-            cost = 7.2
-        elif self.probability == 0.3:
-            cost = 5.1
-        elif self.probability == 0.4:
-            cost = 2.8
-        elif self.probability == 0.5:
-            cost = 1.1
-        elif self.probability == 0.6:
-            cost = 0.3
-        elif self.probability == 0.7:
-            cost = 0.1
-        elif self.probability == 0.8:
-            cost = 0.1
-        elif self.probability == 0.9:
-            cost = 0.1
-        else:
->>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
             cost = 0.1
 
         return cost
@@ -181,7 +147,6 @@ class SocioEconomic:
             Coefficient representing the application area.
         """
         if self.use_case == "private":
-<<<<<<< HEAD
 
             beta = 2
         elif self.use_case == "commercial":
@@ -192,14 +157,6 @@ class SocioEconomic:
             beta = 6
         else:
 
-=======
-            beta = 2
-        elif self.use_case == "commercial":
-            beta = 4
-        elif self.use_case == "government":
-            beta = 6
-        else:
->>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
             beta = 8
         
         return beta
@@ -208,19 +165,11 @@ if __name__ == "__main__":
      x = Windtexter(4) 
      y = x.intercept_message() 
      print(y)
-<<<<<<< HEAD
 
      x = Windtexter(4) 
      y = x.block_message() 
      print(y)
 
-=======
-if __name__ == "__main__":  
-     x = Windtexter(4) 
-     y = x.block_message() 
-     print(y)
-if __name__ == "__main__":  
->>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
      x = SocioEconomic(y, 'private') 
      y = x.cost() 
      print(y)

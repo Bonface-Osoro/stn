@@ -156,15 +156,20 @@ dist/windtexter-0.1.dev5+g3ee29de.d20221121-py3.9.egg
 dist/windtexter-0.1.dev6+g173f4c7.d20221121-py3.9.egg
 dist/windtexter-0.1.dev61+ge77aa1c.d20230112-py3.10.egg
 dist/windtexter-0.1.dev61+ge77aa1c.d20230112-py3.9.egg
+dist/windtexter-0.1.dev63+gdac3d7a.d20230113-py3.10.egg
 dist/windtexter-0.1.dev8+gad19934-py3.9.egg
+docs/.DS_Store
 docs/Box_model.png
-docs/ecdfs.png
+docs/density_plots.png
+docs/loss_profile.png
+docs/method_covert .png
+docs/socio_costs.png
 docs/windtexter.png
 results/.DS_Store
-results/cdf_results.csv
+results/cost_results.csv
 results/signal_results.csv
 results/windtexter_results.csv
-scripts/Mesa Introduction.ipynb
+results/.ipynb_checkpoints/Untitled-checkpoint.ipynb
 scripts/model.py
 scripts/run.py
 scripts/script_config.ini
@@ -173,7 +178,9 @@ src/.DS_Store
 src/.ipynb_checkpoints/model-checkpoint.ipynb
 src/__pycache__/agents.cpython-39.pyc
 src/windtexter/.DS_Store
+src/windtexter/antijammer.py
 src/windtexter/link_budget.py
+src/windtexter/windtext.py
 src/windtexter.egg-info/PKG-INFO
 src/windtexter.egg-info/SOURCES.txt
 src/windtexter.egg-info/dependency_links.txt
@@ -183,19 +190,17 @@ src/windtexter.egg-info/top_level.txt
 src/windtexter/__pycache__/__init__.cpython-39.pyc
 src/windtexter/__pycache__/agents.cpython-310.pyc
 src/windtexter/__pycache__/agents.cpython-39.pyc
+src/windtexter/__pycache__/antijammer.cpython-310.pyc
 src/windtexter/__pycache__/link_budget.cpython-310.pyc
+src/windtexter/__pycache__/windtext.cpython-310.pyc
 vis/.DS_Store
-<<<<<<< HEAD
-=======
+vis/costs.R
 vis/plots.R
-vis/plots.py
-vis/signal_results.csv
-vis/vis.py
 vis/wind_plots.R
-vis/windtexter_results.csv
->>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
 vis/figures/.DS_Store
+vis/figures/ant_jamming.png
 vis/figures/density_plots.png
-vis/figures/ecdfs.png
 vis/figures/loss_profile.png
-vis/figures/wind_ecdfs.png
+vis/figures/socio_costs.png
+vis/old/lit_review.csv
+vis/old/literature_review.R
