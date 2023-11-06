@@ -9,70 +9,57 @@ folder <- dirname(rstudioapi::getSourceEditorContext()$path)
 
 #Load the data
 folder <- dirname(rstudioapi::getSourceEditorContext()$path)
-data <- read.csv(file.path(folder, "signal_results.csv"))
+data <- read.csv(file.path(folder, '..', 'results', 'signal_results.csv'))
 
 #########################################
 ##plot1 = Interference power line plot ##
 #########################################
-int_power <- ggplot(data,
-                    aes(interference_distance_km,
-                        interference_power,
-                        color = technology)) +
-  geom_line(position = position_dodge(width = 0.5), size = 0.2) +
-  scale_color_brewer(palette = "Accent") + 
-  theme(legend.position = "right") +
+int_power <- ggplot(data, aes(interference_distance_km, interference_power,
+  color = technology)) + geom_line(position = position_dodge(width = 0.5), size = 0.2) +
+  scale_fill_viridis_d(direction = 1) + 
   labs(
     colour = NULL,
-    title = "(A) Interference Power",
-    subtitle = "Simulated for different jammer x-y positions in the spatial \ngrid",
+    title = "(a) Interference Power",
+    subtitle = "Simulated for different jammer x-y positions in the \nspatial grid",
     x = "Jammer-Receiver Distance (km)",
     y = "Interference Power (dB)",
     fill = "Technology"
-  ) +   scale_y_continuous(
-    labels = function(y)
-      format(y, scientific = FALSE),
-    expand = c(0, 0)
-  ) + theme(plot.title = element_text(face = "bold")) +
-  theme(legend.position = 'bottom', axis.title = element_text(size = 6),
+  ) + scale_y_continuous(labels = function(y) format(y, scientific = FALSE),expand = c(0, 0)) + 
+  theme(plot.title = element_text(face = "bold", size = 8),
+        legend.position = 'bottom', axis.title = element_text(size = 6),
         legend.title = element_text(size = 6),
         legend.text = element_text(size = 6),
         plot.subtitle = element_text(size = 6),
-        plot.title = element_text(size = 8),
         strip.text.x = element_blank(),
         axis.text.x = element_text(size = 6),
         axis.text.y = element_text(size = 6),
         axis.title.y = element_text(size = 6),
         axis.line.x  = element_line(size = 0.15),
         axis.line.y  = element_line(size = 0.15),
-        axis.line = element_line(colour = "black")
-  ) 
+        axis.line = element_line(colour = "black"))
 
 ################################
 ##plot2 = Receiver power plot ##
 ################################
-rec_power <- ggplot(data,
-                    aes(receiver_distance_km,
-                        receiver_power_dB,
-                        color = technology)) +
+rec_power <- ggplot(data, aes(receiver_distance_km, receiver_power_dB,
+  color = technology)) +
   geom_line(position = position_dodge(width = 0.5), size = 0.2) +
   labs(
     colour = NULL,
-    title = "(B) Cellular Generations",
+    title = "(b) Cellular Generations",
     subtitle = "Simulated receiver power recorded due to \njamming",
     x = "Receiver-Transmitter Distance (km)",
     y = "Receiver Power (dB)",
     fill = "Technology"
-  ) + scale_color_brewer(palette = "Accent") + 
-  theme(legend.position = "right") + scale_y_continuous(
-    labels = function(y)
-      format(y, scientific = FALSE),
-    expand = c(0, 0)
-  ) + theme(plot.title = element_text(face = "bold")) +
-  theme(legend.position = 'bottom', axis.title = element_text(size = 6),
+  ) + scale_fill_viridis_d(direction = 1) + 
+    scale_y_continuous(labels = function(y) format(y, scientific = FALSE), expand = c(0, 0)) + 
+  theme(
+    plot.title = element_text(face = "bold", size = 8),
+    legend.position = 'bottom', 
+    axis.title = element_text(size = 6),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     plot.subtitle = element_text(size = 6),
-    plot.title = element_text(size = 8),
     strip.text.x = element_blank(),
     axis.text.x = element_text(size = 6),
     axis.text.y = element_text(size = 6),
