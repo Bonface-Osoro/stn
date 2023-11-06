@@ -20,6 +20,10 @@ text_number = [0, 2, 4]
 areas = ["private", "commercial", "government", "millitary"]
 
 for i in range(1000):
+<<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
 
     for area in areas:
 
@@ -33,6 +37,24 @@ for i in range(1000):
                 technique = "Partial"
             else:
 
+=======
+>>>>>>> cdba5dbc500e65bd2f8044d0f47d77e7967ded4b
+    for area in areas:
+
+        for texts in text_number:
+
+            if texts == text_number[0]:
+
+                technique = "Baseline"
+            elif texts == text_number[1]:
+
+                technique = "Partial"
+            else:
+<<<<<<< HEAD
+
+=======
+>>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
+>>>>>>> cdba5dbc500e65bd2f8044d0f47d77e7967ded4b
                 technique = "Full"
             intercept_prob = Windtexter(texts)
             interception_probability = intercept_prob.intercept_message() 
@@ -41,10 +63,21 @@ for i in range(1000):
             block_probability = block_prob.block_message()
 
             if interception_probability and block_probability <= 0.5:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> cdba5dbc500e65bd2f8044d0f47d77e7967ded4b
 
                 status = "unsuccessful"
             else:
 
+<<<<<<< HEAD
+=======
+=======
+                status = "unsuccessful"
+            else:
+>>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
+>>>>>>> cdba5dbc500e65bd2f8044d0f47d77e7967ded4b
                 status = "sucessful"
 
             # calculate interception probability cost
@@ -66,16 +99,35 @@ for i in range(1000):
             blk_cost = (block_cost * block_app) / block_probability
 
             if technique == "Full":
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> cdba5dbc500e65bd2f8044d0f47d77e7967ded4b
 
                 final_int_cst = round((int_cst * 1), 2)
                 final_blk_cost = round((blk_cost * 1), 2)
             elif technique == "3 sites":
 
+<<<<<<< HEAD
+=======
+=======
+                final_int_cst = round((int_cst * 1), 2)
+                final_blk_cost = round((blk_cost * 1), 2)
+            elif technique == "3 sites":
+>>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
+>>>>>>> cdba5dbc500e65bd2f8044d0f47d77e7967ded4b
                 final_int_cst = round((int_cst * 2), 2)
                 final_blk_cost = round((blk_cost * 2), 2)
                 total_cost = round((final_int_cst + final_blk_cost), 3)
             else:
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
+>>>>>>> cdba5dbc500e65bd2f8044d0f47d77e7967ded4b
                 final_int_cst = round((int_cst * 3), 2)
                 final_blk_cost = round((blk_cost * 3), 2)
                 total_cost = round((final_int_cst + final_blk_cost), 3)
@@ -104,5 +156,19 @@ var_name = "probability_type", value_name = "probability_cost")
 path = os.path.join(RESULTS, 'windtexter_results.csv')
 results.to_csv(path, index = False) 
 
+<<<<<<< HEAD
 path = os.path.join(RESULTS, 'cost_results.csv')
+=======
+<<<<<<< HEAD
+path = os.path.join(RESULTS, 'cost_results.csv')
+=======
+path = os.path.join(VIS, 'windtexter_results.csv')
+results.to_csv(path, index = False)   
+
+path = os.path.join(RESULTS, 'cost_results.csv')
+econ_results.to_csv(path, index = False) 
+
+path = os.path.join(VIS, 'cost_results.csv')
+>>>>>>> e69c3a939e68002412112ec5e6656bc1c211818d
+>>>>>>> cdba5dbc500e65bd2f8044d0f47d77e7967ded4b
 econ_results.to_csv(path, index = False) 
