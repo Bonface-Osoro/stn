@@ -171,10 +171,7 @@ results/cost_results.csv
 results/signal_results.csv
 results/windtexter_results.csv
 results/.ipynb_checkpoints/Untitled-checkpoint.ipynb
-<<<<<<< HEAD
-=======
 scripts/.DS_Store
->>>>>>> cdba5dbc500e65bd2f8044d0f47d77e7967ded4b
 scripts/model.py
 scripts/run.py
 scripts/script_config.ini
@@ -183,7 +180,6 @@ src/.DS_Store
 src/.ipynb_checkpoints/model-checkpoint.ipynb
 src/__pycache__/agents.cpython-39.pyc
 src/windtexter/.DS_Store
-src/windtexter/antijammer.py
 src/windtexter/link_budget.py
 src/windtexter/windtext.py
 src/windtexter.egg-info/PKG-INFO
@@ -197,30 +193,17 @@ src/windtexter/__pycache__/agents.cpython-310.pyc
 src/windtexter/__pycache__/agents.cpython-39.pyc
 src/windtexter/__pycache__/antijammer.cpython-310.pyc
 src/windtexter/__pycache__/link_budget.cpython-310.pyc
-<<<<<<< HEAD
-src/windtexter/__pycache__/windtext.cpython-310.pyc
-vis/.DS_Store
-vis/cost_results.csv
-vis/costs.R
-vis/lit_review.csv
-vis/literature_review.R
-=======
 src/windtexter/__pycache__/link_budget.cpython-39.pyc
 src/windtexter/__pycache__/windtext.cpython-310.pyc
 src/windtexter/__pycache__/windtext.cpython-39.pyc
 vis/.DS_Store
-vis/costs.R
->>>>>>> cdba5dbc500e65bd2f8044d0f47d77e7967ded4b
 vis/plots.R
-vis/wind_plots.R
 vis/figures/.DS_Store
-vis/figures/ant_jamming.png
 vis/figures/density_plots.png
 vis/figures/loss_profile.png
-<<<<<<< HEAD
 vis/figures/socio_costs.png
-=======
-vis/figures/socio_costs.png
+vis/old/.DS_Store
 vis/old/lit_review.csv
 vis/old/literature_review.R
->>>>>>> cdba5dbc500e65bd2f8044d0f47d77e7967ded4b
+vis/old/plots.R
+vis/old/wind_plots.R

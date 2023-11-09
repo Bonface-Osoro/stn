@@ -11,64 +11,62 @@ folder <- dirname(rstudioapi::getSourceEditorContext()$path)
 ##JAMMING RESULTS ##
 ####################
 data <- read.csv(file.path(folder, '..', 'results', 'signal_results.csv'))
+data$power_scenario = factor(
+  data$power_scenario,
+  levels = c('low', 'baseline', 'high'),
+  labels = c('Low EIRP Power', 'Baseline EIRP Power', 'High EIRP Power')
+)
+
 
 #########################################
 ##plot1 = Interference power line plot ##
 #########################################
+
 int_power <- ggplot(data, aes(interference_distance_km, 
-             interference_power, color = technology)) + 
-             geom_line(position = position_dodge(width = 0.5), 
-             size = 0.2) +
+  interference_power, color = technology)) + 
+  geom_smooth(position = position_dodge(width = 0.5), size = 0.2) + 
   labs( colour = NULL,
     title = "Interference Power.",
-    subtitle = "Simulated for different jammer x-y positions in the spatial grid.",
+    subtitle = "Simulated for different jammer x-y positions in the spatial grid and number of transmitters.",
     x = "Jammer-Receiver Distance (km)",
     y = "Interference Power (dB)",
     fill = "Technology"
   ) + scale_fill_brewer(palette = "Accent") + 
-  theme(plot.title = element_text(size = 10),
-        legend.position = 'bottom', axis.title = element_text(size = 6),
-        legend.title = element_text(size = 6),
-        legend.text = element_text(size = 6),
-        plot.subtitle = element_text(size = 7),
-        strip.text.x = element_blank(),
-        axis.text.x = element_text(size = 4),
-        axis.text.y = element_text(size = 4),
-        axis.title.y = element_text(size = 6),
-        axis.line.x  = element_line(size = 0.15),
-        axis.line.y  = element_line(size = 0.15),
-        axis.line = element_line(colour = "black")) + 
-  scale_y_continuous(labels = function(y) format(y, 
-        scientific = FALSE),expand = c(0, 15))
+  theme(plot.title = element_text(size = 12),
+        legend.position = 'bottom',
+        axis.text.x = element_text(size = 6),
+        panel.spacing = unit(0.6, "lines"),
+        plot.subtitle = element_text(size = 10),
+        axis.text.y = element_text(size = 6),
+        legend.title = element_text(size = 8),
+        legend.text = element_text(size = 8),
+        axis.title.x = element_text(size = 9)) +
+  facet_wrap( ~ power_scenario, ncol = 3)
 
 ################################
 ##plot2 = Receiver power plot ##
 ################################
 rec_power <- ggplot(data, aes(receiver_distance_km, receiver_power_dB,
-                              color = technology)) +
+     color = technology)) +
   geom_line(position = position_dodge(width = 0.5), size = 0.2) +
   labs(
     colour = NULL,
     title = "Receiver Power.",
-    subtitle = "Simulated receiver power recorded due to jamming.",
+    subtitle = "Simulated receiver power recorded due to jamming and grouped by number of transmitters.",
     x = "Receiver-Transmitter Distance (km)",
     y = "Receiver Power (dB)",
     fill = "Technology"
   ) + scale_fill_brewer(palette = "Accent") +  
-  theme(plot.title = element_text(size = 10),
-        legend.position = 'bottom', axis.title = element_text(size = 6),
-        legend.title = element_text(size = 6),
-        legend.text = element_text(size = 6),
-        plot.subtitle = element_text(size = 7),
-        strip.text.x = element_blank(),
-        axis.text.x = element_text(size = 4),
-        axis.text.y = element_text(size = 4),
-        axis.title.y = element_text(size = 6),
-        axis.line.x  = element_line(size = 0.15),
-        axis.line.y  = element_line(size = 0.15),
-        axis.line = element_line(colour = "black")) + 
-  scale_y_continuous(labels = function(y) format(y, 
-        scientific = FALSE),expand = c(0, 0))
+  theme(plot.title = element_text(size = 12),
+        legend.position = 'bottom',
+        axis.text.x = element_text(size = 6),
+        panel.spacing = unit(0.6, "lines"),
+        plot.subtitle = element_text(size = 10),
+        axis.text.y = element_text(size = 6),
+        legend.title = element_text(size = 8),
+        legend.text = element_text(size = 8),
+        axis.title.x = element_text(size = 9)) + 
+  facet_wrap( ~ power_scenario, ncol = 3)
 
 #########################
 ## Panel Jamming plots ##
@@ -76,8 +74,8 @@ rec_power <- ggplot(data, aes(receiver_distance_km, receiver_power_dB,
 losses <- ggarrange(
   int_power,
   rec_power,
-  ncol = 2,
-  nrow = 1,
+  ncol = 1,
+  nrow = 2,
   common.legend = T,
   labels = c('A', 'B'),
   legend = "bottom")
@@ -87,8 +85,8 @@ dir.create(file.path(folder, "figures"), showWarnings = FALSE)
 png(
   path,
   units = "in",
-  width = 6,
-  height = 3,
+  width = 7,
+  height = 6,
   res = 480
 )
 print(losses)
@@ -117,8 +115,8 @@ dp_strat <- ggplot(data, aes(x = interception, color = windtexter)) +
             angle = 90, vjust = -2, size = 2) +
   scale_fill_viridis_d(direction = 1) +
   labs(colour = NULL,
-    title = "Interception",
-    subtitle = "Density plot of the probability outcome by different \nstrategies",
+    title = "Interception.",
+    subtitle = "Density plot of the probability outcome by different \nstrategies.",
     x = "Probability",
     y = "Density",
     fill = "Strategy"
@@ -151,8 +149,8 @@ block_strat <- ggplot(data, aes(x = blocking, color = windtexter)) +
             angle = 90, vjust = -2, size = 2) +
   scale_fill_viridis_d(direction = 1) +
   labs(colour = NULL,
-    title = "Blocking",
-    subtitle = "Density plot of the probability outcome by different \nstrategies",
+    title = "Blocking.",
+    subtitle = "Density plot of the probability outcome by different \nstrategies.",
     x = "Probability",
     y = "Density",
     fill = "Strategy"
@@ -191,8 +189,8 @@ dp_msg <- ggplot(data, aes(x = interception, color = message_status)) +
             angle = 90, vjust = -2, size = 2) +
   scale_fill_viridis_d(direction = 1) +
   labs(colour = NULL,
-    title = "Total Interceptions",
-    subtitle = "Density plot of the probability outcome by message \ndelivery status",
+    title = "Total Interceptions.",
+    subtitle = "Density plot of the probability outcome by message \ndelivery status.",
     x = "Probability",
     y = "Density",
     fill = "Message Delivery"
@@ -233,8 +231,8 @@ interception_agg <-
     vjust = -0.5, position = position_dodge(1),
     hjust = 0.5, data = df) +
   labs(colour = NULL,
-    title = "Aggregate Interceptions",
-    subtitle = "Total amount of messages interception attempts by \ndelivery status",
+    title = "Aggregate Interceptions.",
+    subtitle = "Total amount of messages interception attempts by \ndelivery status.",
     x = NULL,
     y = "Number of Messages",
     fill = "Message Delivery"
@@ -277,8 +275,8 @@ blocking_agg <-
   hjust = 0.5, data = df) +
   labs(
     colour = NULL,
-    title = "Aggregate Blockings",
-    subtitle = "Total amount of message blocking attempts by \ndelivery status",
+    title = "Aggregate Blockings.",
+    subtitle = "Total amount of message blocking attempts by \ndelivery status.",
     x = NULL,
     y = "Number of Messages",
     fill = "Message Delivery"
@@ -363,7 +361,7 @@ interception_costs <-
   scale_fill_viridis_d(direction = 1) +
   labs(
     colour = NULL,
-    title = "Interception Losses",
+    title = "Interception Losses.",
     subtitle = "Losses incurred by different segments \nof the economy due to interception of \nthe messages (Error bars: 1SD).",
     x = NULL,
     y = "Interception Losses\n(US$)",
@@ -417,7 +415,7 @@ blocking_costs <-
   scale_fill_viridis_d(direction = 1) + 
   labs(
     colour = NULL,
-    title = "Blocking Losses",
+    title = "Blocking Losses.",
     subtitle = "Losses incurred by different segments \nof the economy due to interception of \nthe messages (Error bars: 1SD).",
     x = NULL,
     y = "Blocking Losses\n(US$)",
@@ -471,7 +469,7 @@ total_costs <-
   ) + scale_fill_viridis_d(direction = 1) +
   labs(
     colour = NULL,
-      title = "Total Losses",
+      title = "Total Losses.",
     subtitle = "Total losses incurred by \ndifferent segments of the \neconomy (Error bars: 1SD).",
     x = NULL,
     y = "Total Losses\n(US$)",
