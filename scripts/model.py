@@ -28,12 +28,15 @@ for i in range(1000):
             if texts == text_number[0]:
 
                 technique = "Baseline"
+
             elif texts == text_number[1]:
 
                 technique = "Partial"
+
             else:
 
                 technique = "Full"
+
             intercept_prob = Windtexter(texts)
             interception_probability = intercept_prob.intercept_message() 
 
@@ -76,6 +79,7 @@ for i in range(1000):
                 final_int_cst = round((int_cst * 2), 2)
                 final_blk_cost = round((blk_cost * 2), 2)
                 total_cost = round((final_int_cst + final_blk_cost), 3)
+
             else:
 
                 final_int_cst = round((int_cst * 3), 2)
@@ -93,8 +97,6 @@ results = pd.DataFrame(results)
 
 # Select only unsuccessful messages
 econ_results = results[results['message_status'] == "unsuccessful"]
-
-# Drop unused columns
 econ_results = econ_results.drop(["interception", "blocking", "message_status"], axis=1)
 
 # Melt columns into rows
@@ -105,8 +107,6 @@ var_name = "probability_type", value_name = "probability_cost")
 ########################################### SAVE THE RESULTS #########################################
 path = os.path.join(RESULTS, 'windtexter_results.csv')
 results.to_csv(path, index = False) 
-
-path = os.path.join(RESULTS, 'cost_results.csv')
 
 path = os.path.join(RESULTS, 'cost_results.csv')
 econ_results.to_csv(path, index = False) 
