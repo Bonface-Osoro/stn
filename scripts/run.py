@@ -46,8 +46,8 @@ def antijammer():
     print('Running simulation')
     df = pd.read_csv(os.path.join(DATA, 'sim_inputs.csv'))
     df[['interference_distance_km', 'inteference_path_loss_dB', 
-        'interference_power', 'receiver_distance_km', 
-        'receiver_power_dB', 'receiver_path_loss_dB', 
+        'interference_power', 'receiver_distance_km', 'eirp_db',
+        'noise_db', 'receiver_power_dB', 'receiver_path_loss_dB', 
         'snr_dB', 'sinr_dB', 'jamming']] = ''
     
     for i in range(len(df)):
@@ -80,13 +80,15 @@ def antijammer():
         snr_dB = lb.calc_baseline_snr(receiver_power_dB, noise) 
         sinr_dB = lb.calc_sinr(receiver_power_dB, 
                   interference_power, noise)
-
+        
+        df['eirp_db'].loc[i] = eirp
+        df['noise_db'].loc[i] = noise
         df['interference_distance_km'].loc[i] = inteference_distance_km
         df['inteference_path_loss_dB'].loc[i] = inteference_path_loss_dB
         df['interference_power'].loc[i] = interference_power
         df['receiver_distance_km'].loc[i] = receiver_distance_km
-        df['receiver_power_dB'].loc[i] = receiver_path_loss_dB
-        df['receiver_path_loss_dB'].loc[i] = receiver_power_dB
+        df['receiver_path_loss_dB'].loc[i] = receiver_path_loss_dB 
+        df['receiver_power_dB'].loc[i] = receiver_power_dB 
         df['snr_dB'].loc[i] = snr_dB
         df['sinr_dB'].loc[i] = sinr_dB
 
@@ -95,15 +97,14 @@ def antijammer():
 
     for i in range(len(df)): 
 
-        ### set the low scenario to a third of the maximum distance ###
         if df["interference_distance_km"].loc[i] <= 0.25 * max_dist:
 
-            df["jamming"].loc[i] = "Low"
+            df["jamming"].loc[i] = "High"
 
         ### set the high scenario to two thirds of the maximum distance ###
         elif df["interference_distance_km"].loc[i] >= 0.75 * max_dist:
 
-            df["jamming"].loc[i] = "High"
+            df["jamming"].loc[i] = "Low"
 
         else:
 

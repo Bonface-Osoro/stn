@@ -1,8 +1,8 @@
 parameters = {
     'jammer': {
         'grid_length' : 30,
-        'power_db': 35,
-        'antenna_gain_db': 15,
-        'technologies': ['2G', '3G', '4G', '5G']
+        'power_db': 28,
+        'antenna_gain_db': 12,
+        'technologies': ['2G', '3G', '4G']
     },
 }

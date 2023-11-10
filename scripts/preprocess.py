@@ -26,14 +26,13 @@ def generate_coordinates():
                              (item['power_db'] + 5)) for _ in range(10)])
         
         low_power = np.percentile(transmitter_powers, 25)
-        high_power = np.percentile(transmitter_powers, 75)
+        high_power = np.percentile(transmitter_powers, 65)
         
         antenna_gains = ([random.uniform((item['antenna_gain_db'] - 3), 
                         (item['antenna_gain_db'] + 3)) for _ in range(10)])
         
         low_gain = np.percentile(antenna_gains, 25)
-        base_gain = np.percentile(antenna_gains, 50)
-        high_gain = np.percentile(antenna_gains, 75)
+        high_gain = np.percentile(antenna_gains, 65)
         
         technologies = item['technologies']
         
