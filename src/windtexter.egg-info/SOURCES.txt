@@ -150,6 +150,7 @@ setup.py
 .eggs/typing_extensions-4.4.0-py3.10.egg/EGG-INFO/RECORD
 .eggs/typing_extensions-4.4.0-py3.10.egg/EGG-INFO/WHEEL
 data/.DS_Store
+data/sim_inputs.csv
 dist/globalsat-0.1.dev5+g3ee29de.d20221121-py3.9.egg
 dist/windtexter-0.1.dev104+g97be1cc-py3.10.egg
 dist/windtexter-0.1.dev22+gbc3d9c8.d20221205-py3.10.egg
@@ -173,6 +174,7 @@ results/windtexter_results.csv
 results/.ipynb_checkpoints/Untitled-checkpoint.ipynb
 scripts/.DS_Store
 scripts/model.py
+scripts/preprocess.py
 scripts/run.py
 scripts/script_config.ini
 scripts/.ipynb_checkpoints/Mesa Introduction-checkpoint.ipynb
@@ -180,6 +182,7 @@ src/.DS_Store
 src/.ipynb_checkpoints/model-checkpoint.ipynb
 src/__pycache__/agents.cpython-39.pyc
 src/windtexter/.DS_Store
+src/windtexter/inputs.py
 src/windtexter/link_budget.py
 src/windtexter/windtext.py
 src/windtexter.egg-info/PKG-INFO
@@ -192,6 +195,7 @@ src/windtexter/__pycache__/__init__.cpython-39.pyc
 src/windtexter/__pycache__/agents.cpython-310.pyc
 src/windtexter/__pycache__/agents.cpython-39.pyc
 src/windtexter/__pycache__/antijammer.cpython-310.pyc
+src/windtexter/__pycache__/inputs.cpython-39.pyc
 src/windtexter/__pycache__/link_budget.cpython-310.pyc
 src/windtexter/__pycache__/link_budget.cpython-39.pyc
 src/windtexter/__pycache__/windtext.cpython-310.pyc
@@ -203,6 +207,7 @@ vis/figures/density_plots.png
 vis/figures/loss_profile.png
 vis/figures/socio_costs.png
 vis/old/.DS_Store
+vis/old/antijammer.py
 vis/old/lit_review.csv
 vis/old/literature_review.R
 vis/old/plots.R

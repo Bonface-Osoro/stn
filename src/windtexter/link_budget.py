@@ -230,7 +230,7 @@ class LinkBudget:
         power : float.
         """
         transmitted_power = eirp
-        power_lost = path_loss_db - 4 + 4 -4
+        power_lost = path_loss_db
         received_power = transmitted_power - power_lost
 
         return received_power
@@ -339,8 +339,7 @@ class LinkBudget:
         snr : float
             sinr in dB.
         """
-        snr = (10 * np.log10(10 ** received_power
-               ) / (10 ** noise_db)) 
+        snr = received_power - noise_db
         
         return snr
 
@@ -366,8 +365,8 @@ class LinkBudget:
         sinr : float
             sinr in dB.
         """
-        sinr = (np.log10(10 ** received_power) / 
-                (10 ** jammer_power 
-                 + 10 ** noise_db)) 
+        sinr = (received_power 
+                - (jammer_power 
+                + noise_db))
         
         return sinr
