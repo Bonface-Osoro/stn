@@ -10,20 +10,24 @@ CONFIG.read(os.path.join(os.path.dirname(__file__), 'script_config.ini'))
 BASE_PATH = CONFIG['file_locations']['base_path']
 DATA = os.path.join(BASE_PATH)
 
-def generate_coordinates():
+def generate_coordinates(transmitters):
     """
     This function generate 
     coordinates for the transmitter, 
     interceptor and receiver
+    Parameters
+    ----------
+    transmitters : int.
+        Number of radio transmitters.
     """
 
-    print('Generating transmitter, receiver and interceptor random coordinates')
-    transmitter_number = [1, 2, 3]
+    print('Generating random coordinates for a case of {} transmitters'.format(transmitters))
     df_merge = pd.DataFrame()
+
     for key, item in parameters.items():
 
         transmitter_powers = ([random.uniform((item['power_db'] - 5), 
-                             (item['power_db'] + 5)) for _ in range(10)])
+                            (item['power_db'] + 5)) for _ in range(10)])
         
         low_power = np.percentile(transmitter_powers, 25)
         high_power = np.percentile(transmitter_powers, 65)
@@ -42,11 +46,11 @@ def generate_coordinates():
 
                 for antenna_gain in antenna_gains:
 
-                    if trans_power < low_power or antenna_gain < low_gain:
+                    if antenna_gain < low_gain:
                         
                         power_scenario = 'low'
 
-                    elif trans_power < high_power or antenna_gain > high_gain:
+                    elif antenna_gain > high_gain:
 
                         power_scenario = 'high'
 
@@ -54,20 +58,28 @@ def generate_coordinates():
 
                         power_scenario = 'baseline'
 
+                    if transmitters == 1:
+
+                        transmitter_number = [1]
+
+                    elif transmitters == 2:
+
+                        transmitter_number = [1, 2]
+
+                    elif transmitters == 3:
+
+                        transmitter_number = [1, 2, 3]
+
+                    elif transmitters == 4:
+
+                        transmitter_number = [1, 2, 3, 4]
+
+                    else:
+
+                        transmitter_number = [1, 2, 3, 4, 5]
+
                     for tran in transmitter_number:
-
-                        if tran == 1:
-
-                            range_number = 50
-
-                        elif tran == 2:
-
-                            range_number = 100
-
-                        else:
-
-                            range_number = 150
-
+                        range_number = 100
                         transmitter_x = ([random.uniform(0, item['grid_length']) 
                                         for _ in range(range_number)])
                         transmitter_y = ([random.uniform(0, item['grid_length']) 
@@ -87,14 +99,14 @@ def generate_coordinates():
                                         'receiver_y': receiver_y,
                                         'interceptor_x': interceptor_x,
                                         'interceptor_y': interceptor_y,
-                                        'no_transmitters': tran,
+                                        'no_transmitters': transmitters,
                                         'transmitter_power_db': trans_power,
                                         'antenna_gain_db': antenna_gain,
                                         'technology': technology,
                                         'power_scenario': power_scenario})
                         df_merge = pd.concat([df_merge, df], ignore_index = True)
 
-    fileout = 'sim_inputs.csv' 
+    fileout = '{}_transmitters_inputs.csv'.format(transmitters) 
     folder_out = os.path.join(DATA)    
     if not os.path.exists(folder_out):
 
@@ -108,5 +120,7 @@ def generate_coordinates():
 
 
 if __name__ == "__main__": 
+    transmitters = [1, 3, 5]
+    for transmitter in transmitters:
 
-    generate_coordinates()
+        generate_coordinates(transmitter)

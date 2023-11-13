@@ -3,7 +3,7 @@ import os
 import random
 import numpy as np
 import pandas as pd
-import tqdm
+import time
 from windtexter.link_budget import LinkBudget as lb
 from windtexter.link_budget import calc_eirp, calc_noise, calc_signal_path 
 from windtexter.link_budget import calc_interference_path
@@ -18,7 +18,7 @@ DATA = os.path.join(BASE_PATH)
 RESULTS = os.path.join("results")
 VIS = os.path.join("vis")
 
-def antijammer():
+def antijammer(transmitters):
     """
     This function generate 
     calculates the SINR in 
@@ -26,6 +26,8 @@ def antijammer():
 
     Parameters
     ----------
+    transmitters : int.
+        Number of transmitters to simulate.
     power : float.
         Transmitter power in dB.
     antenna_gain : float.
@@ -43,8 +45,10 @@ def antijammer():
     Interceptor : float.
         Interceptor y coordinate.
     """
-    print('Running simulation')
-    df = pd.read_csv(os.path.join(DATA, 'sim_inputs.csv'))
+    start = time.time()
+    print('Running simulation for {} transmitters'.format(transmitters))
+    df = pd.read_csv(os.path.join(DATA, '{}_transmitters_inputs.csv'.format(
+        transmitters)))
     df[['interference_distance_km', 'inteference_path_loss_dB', 
         'interference_power', 'receiver_distance_km', 'eirp_db',
         'noise_db', 'receiver_power_dB', 'receiver_path_loss_dB', 
@@ -102,7 +106,7 @@ def antijammer():
             df["jamming"].loc[i] = "High"
 
         ### set the high scenario to two thirds of the maximum distance ###
-        elif df["interference_distance_km"].loc[i] >= 0.75 * max_dist:
+        elif df["interference_distance_km"].loc[i] >= 0.60 * max_dist:
 
             df["jamming"].loc[i] = "Low"
 
@@ -111,12 +115,51 @@ def antijammer():
             df["jamming"].loc[i] = "Baseline"
 
 
-    path = os.path.join(RESULTS, "signal_results.csv")
+    path = os.path.join(RESULTS, "{}_signal_results.csv".format(transmitters))
     df.to_csv(path, index = False)
+
+    executionTime = (time.time() - start)
+    print('Execution time in minutes: ' + str(round(executionTime / 60, 2))) 
 
 
     return None
 
+
+def merge_files():
+    merged_data = pd.DataFrame()
+
+    base_directory = os.path.join(RESULTS) 
+
+    for root, _, files in os.walk(base_directory):
+
+        for file in files:
+
+            if file.endswith('_signal_results.csv'):
+                
+                file_path = os.path.join(base_directory, file)
+                df = pd.read_csv(file_path)
+
+                merged_data = pd.concat([merged_data, df], ignore_index = True)
+
+                fileout = 'full_jamming_results.csv'
+                folder_out = os.path.join(RESULTS)
+
+                if not os.path.exists(folder_out):
+
+                    os.makedirs(folder_out)
+
+                path_out = os.path.join(folder_out, fileout)
+                merged_data.to_csv(path_out, index = False)
+
+
+    return None
+
+
 if __name__ == "__main__": 
-    
-    antijammer()
+     
+    transmitters = [1, 3, 5]
+    for transmitter in transmitters:
+
+        antijammer(transmitter)
+
+    merge_files()
