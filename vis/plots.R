@@ -10,11 +10,11 @@ folder <- dirname(rstudioapi::getSourceEditorContext()$path)
 ####################
 ##JAMMING RESULTS ##
 ####################
-data <- read.csv(file.path(folder, '..', 'results', 'signal_results.csv'))
-data$power_scenario = factor(
-  data$power_scenario,
-  levels = c('low', 'baseline', 'high'),
-  labels = c('Low EIRP Power', 'Baseline EIRP Power', 'High EIRP Power')
+data <- read.csv(file.path(folder, '..', 'results', 'full_jamming_results.csv'))
+data$no_transmitters = factor(
+  data$no_transmitters,
+  levels = c(1, 3, 5),
+  labels = c('1 Transmitter', '3 Transmitters', '5 Transmitters')
 )
 
 
@@ -42,7 +42,7 @@ int_power <- ggplot(data, aes(interference_distance_km,
         legend.title = element_text(size = 8),
         legend.text = element_text(size = 8),
         axis.title.x = element_text(size = 9)) +
-  facet_wrap( ~ power_scenario, ncol = 3)
+  facet_wrap( ~ no_transmitters, ncol = 3)
 
 ################################
 ##plot2 = Receiver power plot ##
@@ -68,7 +68,7 @@ rec_power <- ggplot(data, aes(receiver_distance_km, receiver_power_dB,
         legend.title = element_text(size = 8),
         legend.text = element_text(size = 8),
         axis.title.x = element_text(size = 9)) + 
-  facet_wrap( ~ power_scenario, ncol = 3)
+  facet_wrap( ~ no_transmitters, ncol = 3)
 
 #######################
 ## Panel Power Plots ##
@@ -97,10 +97,10 @@ dev.off()
 ###########################
 ## SIGNAL TO NOISE RATIO ##
 ###########################
-data <- read.csv(file.path(folder, '..', 'results', 'signal_results.csv'))
+data <- read.csv(file.path(folder, '..', 'results', 'full_jamming_results.csv'))
 
 df = data %>%
-  group_by(jamming, technology, power_scenario) %>%
+  group_by(technology, power_scenario, no_transmitters) %>%
   summarize(mean = mean(snr_dB),
             sd = sd(snr_dB))
 
@@ -110,25 +110,27 @@ df$power_scenario = factor(
   labels = c('Low EIRP', 'Baseline EIRP', 'High EIRP')
 )
 
-df$jamming = factor(
-  df$jamming,
-  levels = c('Low', 'Baseline', 'High'),
-  labels = c('Low', 'Baseline', 'High')
+df$no_transmitters = factor(
+  df$no_transmitters,
+  levels = c(1, 3, 5),
+  labels = c('1 Transmitter', '3 Transmitters', '5 Transmitters')
 )
 
-snr_db <- ggplot(df, aes(x = technology, y = mean, fill = jamming)) +
+snr_db <- ggplot(df, aes(x = technology, y = mean, fill = power_scenario)) +
   geom_bar(stat = "identity", position = position_dodge(), width = 0.98) +
   geom_errorbar(aes(ymin = mean - sd/5, ymax = mean + sd/5),
     width = .2, position = position_dodge(.98), color = 'red', size = 0.2) + 
   geom_text(aes(label = formatC(signif(after_stat(y), 3), 
     digits = 3, format = "fg", flag = "#")),
     size = 1.5, position = position_dodge(0.98),
-    vjust = 0.5, hjust = -0.5, angle = 90) + 
+    vjust = 0.5, hjust = -0.6, angle = 90) + 
+  scale_y_continuous(limits = c(0, 38), labels = function(y)
+    format(y, scientific = FALSE), expand = c(0, 0)) + 
   labs(colour = NULL, 
     title = "Signal-to-Noise Ratio (SNR).",
-    subtitle = "SNR at User Equipment (UE) based on different jamming and Equivalent Isotropic Radiated Power (EIRP) scenario.",
+    subtitle = "SNR at User Equipment (UE) based on different Equivalent Isotropic Radiated Power (EIRP) and path loss scenario.",
     x = NULL, y = "Signal-to-Noise Ratio (dB)",
-    fill = 'Jamming Power Scenario'
+    fill = 'EIRP Scenario'
   ) + 
   scale_fill_brewer(palette = "Paired") +  
   theme(plot.title = element_text(size = 12),
@@ -140,26 +142,24 @@ snr_db <- ggplot(df, aes(x = technology, y = mean, fill = jamming)) +
         axis.title = element_text(size = 7),
         legend.title = element_text(size = 8),
         legend.text = element_text(size = 8),
-        axis.title.x = element_text(size = 9)) + 
-  scale_y_continuous(labels = function(y)
-      format(y, scientific = FALSE), expand = c(0, 2.5)) +
-  facet_wrap( ~ power_scenario, ncol = 3)
+        axis.title.x = element_text(size = 9)) +
+  facet_wrap( ~ no_transmitters, ncol = 3)
 
 
 #############################################
 ## SIGNAL TO NOISE PLUS INTERFERENCE RATIO ##
 #############################################
-data <- read.csv(file.path(folder, '..', 'results', 'signal_results.csv'))
+data <- read.csv(file.path(folder, '..', 'results', 'full_jamming_results.csv'))
 
 df = data %>%
-  group_by(jamming, technology, power_scenario) %>%
+  group_by(jamming, technology, no_transmitters) %>%
   summarize(mean = mean(sinr_dB),
             sd = sd(sinr_dB))
 
-df$power_scenario = factor(
-  df$power_scenario,
-  levels = c('low', 'baseline', 'high'),
-  labels = c('Low EIRP', 'Baseline EIRP', 'High EIRP')
+df$no_transmitters = factor(
+  df$no_transmitters,
+  levels = c(1, 3, 5),
+  labels = c('1 Transmitter', '3 Transmitters', '5 Transmitters')
 )
 
 df$jamming = factor(
@@ -176,7 +176,7 @@ sinr_db <- ggplot(df, aes(x = technology, y = mean, fill = jamming)) +
   geom_text(aes(label = formatC(signif(after_stat(y), 3), 
      digits = 3, format = "fg", flag = "#")),
      size = 1.5, position = position_dodge(0.98),
-     vjust = 3, hjust =0.5) +
+     vjust = 3, hjust = 0.5) +
   labs(colour = NULL, 
        title = "Signal-to-Noise plus Interference Ratio (SNIR).",
        subtitle = "SNIR at User Equipment (UE) based on different jamming and Equivalent Isotropic Radiated Power (EIRP) scenario.",
@@ -194,9 +194,7 @@ sinr_db <- ggplot(df, aes(x = technology, y = mean, fill = jamming)) +
         legend.title = element_text(size = 8),
         legend.text = element_text(size = 8),
         axis.title.x = element_text(size = 9)) + 
-  scale_y_continuous(labels = function(y)
-    format(y, scientific = FALSE), expand = c(0.1, 0.1)) +
-  facet_wrap( ~ power_scenario, ncol = 3)
+  facet_wrap( ~ no_transmitters, ncol = 3)
 
 #######################
 ## Panel Power Plots ##
@@ -206,7 +204,7 @@ snrs <- ggarrange(
   sinr_db,
   ncol = 1,
   nrow = 2,
-  common.legend = T,
+  common.legend = F,
   labels = c('A', 'B'),
   legend = "bottom")
 
