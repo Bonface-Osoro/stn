@@ -16,18 +16,39 @@ data$no_transmitters = factor(
   levels = c(1, 3, 5),
   labels = c('1 Transmitter', '3 Transmitters', '5 Transmitters')
 )
+data$discrete <- cut(data$interference_distance_km, seq(0,40,5))
+data$continuous = ""
+data$continuous[data$discrete == '(0,5]'] <- 2.5
+data$continuous[data$discrete == '(5,10]'] <- 7.5
+data$continuous[data$discrete == '(10,15]'] <- 12.5
+data$continuous[data$discrete == '(15,20]'] <- 17.5
+data$continuous[data$discrete == '(20,25]'] <- 22.5
+data$continuous[data$discrete == '(25,30]'] <- 27.5
+data$continuous[data$discrete == '(30,35]'] <- 32.5
+data$continuous[data$discrete == '(35,40]'] <- 37.5
 
+data = select(data, interference_power, technology, 
+              no_transmitters, continuous)
+
+data$continuous = as.numeric(data$continuous)
+data = data %>%
+  group_by(no_transmitters, technology, continuous) %>%
+  summarise(
+    mean = mean(interference_power),
+    sd = sd(interference_power))
 
 #########################################
 ##plot1 = Interference power line plot ##
 #########################################
 
-int_power <- ggplot(data, aes(interference_distance_km, 
-  interference_power, color = technology)) + 
-  geom_smooth(position = position_dodge(width = 0.5), size = 0.2) + 
+int_power <- ggplot(data, aes(continuous, mean, color = technology)) + 
+  geom_line(position = position_dodge(width = 0.5), size = 0.2) + 
+  geom_point(size = 1.2) +
+  geom_errorbar(aes(ymin = mean - sd, ymax= mean + sd), width = 0.2,
+    position=position_dodge(0.05)) + 
   labs( colour = NULL,
     title = "Interference Power.",
-    subtitle = "Simulated for different jammer x-y positions in the spatial grid and transmitter EIRP.",
+    subtitle = "Simulated for different transmitter, jammer and receiver x-y positions in the spatial grid and number of transmitters.",
     x = "Jammer-Receiver Distance (km)",
     y = "Interference Power (dB)",
     fill = "Technology"
@@ -47,13 +68,42 @@ int_power <- ggplot(data, aes(interference_distance_km,
 ################################
 ##plot2 = Receiver power plot ##
 ################################
-rec_power <- ggplot(data, aes(receiver_distance_km, receiver_power_dB,
-     color = technology)) +
-  geom_smooth(position = position_dodge(width = 0.5), size = 0.2) +
+data <- read.csv(file.path(folder, '..', 'results', 'full_jamming_results.csv'))
+data$no_transmitters = factor(
+  data$no_transmitters,
+  levels = c(1, 3, 5),
+  labels = c('1 Transmitter', '3 Transmitters', '5 Transmitters')
+)
+data$discrete <- cut(data$receiver_distance_km, seq(0,40,5))
+data$continuous = ""
+data$continuous[data$discrete == '(0,5]'] <- 2.5
+data$continuous[data$discrete == '(5,10]'] <- 7.5
+data$continuous[data$discrete == '(10,15]'] <- 12.5
+data$continuous[data$discrete == '(15,20]'] <- 17.5
+data$continuous[data$discrete == '(20,25]'] <- 22.5
+data$continuous[data$discrete == '(25,30]'] <- 27.5
+data$continuous[data$discrete == '(30,35]'] <- 32.5
+data$continuous[data$discrete == '(35,40]'] <- 37.5
+
+data = select(data, receiver_power_dB, technology, 
+              no_transmitters, continuous)
+
+data$continuous = as.numeric(data$continuous)
+data = data %>%
+  group_by(no_transmitters, technology, continuous) %>%
+  summarise(
+    mean = mean(receiver_power_dB),
+    sd = sd(receiver_power_dB))
+
+rec_power <- ggplot(data, aes(continuous, mean, color = technology)) +
+  geom_line(position = position_dodge(width = 0.5), size = 0.2) +
+  geom_point(size = 1.2) +
+  geom_errorbar(aes(ymin = mean - sd, ymax= mean + sd), width = 0.01,
+    position=position_dodge()) +
   labs(
     colour = NULL,
     title = "Receiver Power.",
-    subtitle = "Simulated receiver power recorded due to jamming and grouped by transmitter EIRP.",
+    subtitle = "Simulated receiver power recorded due to jamming and grouped by number of transmitters.",
     x = "Receiver-Transmitter Distance (km)",
     y = "Receiver Power (dB)",
     fill = "Technology"
