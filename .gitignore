@@ -133,4 +133,6 @@ vis/*/*
 data/*/*
 results/*/*
 figures/*
+results/
+data/
 sankey/*debug.log
