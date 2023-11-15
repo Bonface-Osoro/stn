@@ -131,6 +131,8 @@ dmypy.json
 # Exclusions
 vis/*/* 
 data/*/*
+data/
+results/
 results/*/*
 figures/*
 sankey/*debug.log
