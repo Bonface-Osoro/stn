@@ -68,7 +68,7 @@ def calc_noise(technology):
     
     elif technology == "4G":
 
-        bandwidth = 100
+        bandwidth = 20
         noise = (10 * (math.log10((k * t * 1000)))) + \
                 (10 * (math.log10(bandwidth * 10 ** 6))) + 1.5
         noise_list.append(noise)
@@ -195,7 +195,7 @@ class LinkBudget:
 
         elif technology == "4G":
 
-            frequency = 3.5
+            frequency = 0.8
             rx_path = 20 * math.log10(signal_path) + \
             20 * math.log10(frequency) + 92.45 
             rx_path_loss.append(rx_path)
@@ -258,7 +258,7 @@ class LinkBudget:
         jam_path_loss = []
         if technology == "2G":
 
-            frequency = 0.85
+            frequency = 0.9
             jam_path = 20 * math.log10(jammer_path) + \
                         20 * math.log10(frequency) + 92.45
             jam_path_loss.append(jam_path)
@@ -272,7 +272,7 @@ class LinkBudget:
 
         elif technology == "4G":
 
-            frequency = 3.5
+            frequency = 0.8
             jam_path = 20 * math.log10(jammer_path) + \
                         20 * math.log10(frequency) + 92.45
             jam_path_loss.append(jam_path)
