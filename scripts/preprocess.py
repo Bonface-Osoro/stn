@@ -79,20 +79,54 @@ def generate_coordinates(transmitters):
                         transmitter_number = [1, 2, 3, 4, 5]
 
                     for tran in transmitter_number:
-                        range_number = 100
-                        transmitter_x = ([random.uniform(0, item['grid_length']) 
+
+                        range_number = 50
+
+                        if transmitters == 1:
+
+                            transmitter_x = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)])
+                            transmitter_y = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)])
+                            receiver_x = ([random.uniform(0, (item['grid_length'] + 5)) 
                                         for _ in range(range_number)])
-                        transmitter_y = ([random.uniform(0, item['grid_length']) 
+                            receiver_y = ([random.uniform(0, (item['grid_length'] + 5)) 
                                         for _ in range(range_number)])
-                        receiver_x = ([random.uniform(0, item['grid_length']) 
-                                    for _ in range(range_number)])
-                        receiver_y = ([random.uniform(0, item['grid_length']) 
-                                    for _ in range(range_number)])
-                        interceptor_x = ([random.uniform(0, item['grid_length']) 
-                                        for _ in range(range_number)]) 
-                        interceptor_y = ([random.uniform(0, item['grid_length']) 
+                            interceptor_x = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)]) 
+                            interceptor_y = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)])
+                            
+                        elif transmitters == 5:
+
+                            transmitter_x = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)])
+                            transmitter_y = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)])
+                            receiver_x = ([random.uniform(0, (item['grid_length'] - 8)) 
                                         for _ in range(range_number)])
-                        
+                            receiver_y = ([random.uniform(0, (item['grid_length'] - 8)) 
+                                        for _ in range(range_number)])
+                            interceptor_x = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)]) 
+                            interceptor_y = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)])
+                            
+                        else:
+
+                            transmitter_x = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)])
+                            transmitter_y = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)])
+                            receiver_x = ([random.uniform(0, (item['grid_length'] - 3)) 
+                                        for _ in range(range_number)])
+                            receiver_y = ([random.uniform(0, (item['grid_length'] - 3)) 
+                                        for _ in range(range_number)])
+                            interceptor_x = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)]) 
+                            interceptor_y = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)])
+                            
                         df = pd.DataFrame({'transmitter_x': transmitter_x, 
                                         'transmitter_y': transmitter_y,
                                         'receiver_x': receiver_x,
@@ -135,73 +169,105 @@ def secure_text_data(transmitters):
         high_gain = np.percentile(antenna_gains, 65)
         
         technologies = item['technologies']
-        
-        for technology in technologies:
+        applications = item['application_area']
 
-            for trans_power in transmitter_powers:
+        for application in applications:
+   
+            for technology in technologies:
 
-                for antenna_gain in antenna_gains:
+                for trans_power in transmitter_powers:
 
-                    if antenna_gain < low_gain:
-                        
-                        power_scenario = 'low'
+                    for antenna_gain in antenna_gains:
 
-                    elif antenna_gain > high_gain:
+                        if antenna_gain < low_gain:
+                            
+                            power_scenario = 'low'
 
-                        power_scenario = 'high'
+                        elif antenna_gain > high_gain:
 
-                    else:
+                            power_scenario = 'high'
 
-                        power_scenario = 'baseline'
+                        else:
 
-                    if transmitters == 1:
+                            power_scenario = 'baseline'
 
-                        transmitter_number = [1]
-                        possible_transmitter_x = [15]
-                        possible_transmitter_y = [15]
-                        text_scenario = 'baseline'
+                        if transmitters == 1:
 
-                    elif transmitters == 3:
+                            transmitter_number = [1]
+                            text_scenario = 'baseline'
 
-                        transmitter_number = [1, 2, 3]
-                        possible_transmitter_x = [1, 15, 29]
-                        possible_transmitter_y = [1, 29, 15]
-                        text_scenario = 'partial'
+                        elif transmitters == 3:
 
-                    else:
+                            transmitter_number = [1, 2, 3]
+                            text_scenario = 'partial'
 
-                        transmitter_number = [1, 2, 3, 4, 5]
-                        possible_transmitter_x = [1, 1, 15, 29, 29]
-                        possible_transmitter_y = [1, 29, 15, 1, 29]
-                        text_scenario = 'full'
+                        else:
 
-                    for tran in transmitter_number:
-                        range_number = 100
-                        transmitter_x = random.choices(possible_transmitter_x,
-                                        k = range_number)
-                        
-                        transmitter_y = random.choices(possible_transmitter_y,
-                                        k = range_number)
-                        receiver_x = ([random.uniform(0, item['grid_length']) 
-                                    for _ in range(range_number)])
-                        receiver_y = ([random.uniform(0, item['grid_length']) 
-                                    for _ in range(range_number)])
-                        interceptor_x = ([random.uniform(0, item['grid_length']) 
-                                        for _ in range(range_number)]) 
-                        interceptor_y = ([random.uniform(0, item['grid_length']) 
-                                        for _ in range(range_number)])
-                        df = pd.DataFrame({'transmitter_x': transmitter_x, 
-                                        'transmitter_y': transmitter_y,
-                                        'receiver_x': receiver_x,
-                                        'receiver_y': receiver_y,
-                                        'interceptor_x': interceptor_x,
-                                        'interceptor_y': interceptor_y,
-                                        'transmitter_power_db': trans_power,
-                                        'antenna_gain_db': antenna_gain,
-                                        'technology': technology,
-                                        'text_scenario': text_scenario,
-                                        'power_scenario': power_scenario})
-                        df_merge = pd.concat([df_merge, df], ignore_index = True)
+                            transmitter_number = [1, 2, 3, 4, 5]
+                            text_scenario = 'full'
+
+                        for tran in transmitter_number:
+
+                            range_number = 50
+
+                            if transmitters == 1:
+
+                                transmitter_x = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)])
+                                transmitter_y = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)])
+                                receiver_x = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)])
+                                receiver_y = ([random.uniform(0, item['grid_length']) 
+                                            for _ in range(range_number)])
+                                interceptor_x = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)]) 
+                                interceptor_y = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)])
+                                
+                            elif transmitters == 5:
+
+                                transmitter_x = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)])
+                                transmitter_y = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)])
+                                receiver_x = ([random.uniform(0, (item['grid_length'] - 6)) 
+                                            for _ in range(range_number)])
+                                receiver_y = ([random.uniform(0, (item['grid_length'] - 6)) 
+                                            for _ in range(range_number)])
+                                interceptor_x = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)]) 
+                                interceptor_y = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)])
+                                
+                            else:
+
+                                transmitter_x = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)])
+                                transmitter_y = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)])
+                                receiver_x = ([random.uniform(0, (item['grid_length'] - 3)) 
+                                            for _ in range(range_number)])
+                                receiver_y = ([random.uniform(0, (item['grid_length'] - 3)) 
+                                            for _ in range(range_number)])
+                                interceptor_x = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)]) 
+                                interceptor_y = ([random.uniform(0, item['grid_length']) 
+                                                for _ in range(range_number)])
+                            df = pd.DataFrame({'transmitter_x': transmitter_x, 
+                                            'transmitter_y': transmitter_y,
+                                            'receiver_x': receiver_x,
+                                            'receiver_y': receiver_y,
+                                            'interceptor_x': interceptor_x,
+                                            'interceptor_y': interceptor_y,
+                                            'no_transmitters': transmitters,
+                                            'transmitter_power_db': trans_power,
+                                            'antenna_gain_db': antenna_gain,
+                                            'technology': technology,
+                                            'text_scenario': text_scenario,
+                                            'power_scenario': power_scenario,
+                                            'application_area': application})
+                            df_merge = pd.concat([df_merge, df], ignore_index = True)
 
     fileout = '{}_secure_data.csv'.format(transmitters) 
     folder_out = os.path.join(DATA)    
@@ -220,5 +286,5 @@ if __name__ == "__main__":
     transmitters = [1, 3, 5]
     for transmitter in transmitters:
 
-        #generate_coordinates(transmitter)
-        secure_text_data(transmitter)
+        generate_coordinates(transmitter)
+        #secure_text_data(transmitter)

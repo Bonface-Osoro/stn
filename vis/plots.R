@@ -2,7 +2,7 @@ library(ggpubr)
 library(ggplot2)
 library(dplyr)
 library(tidyverse)
-
+library(RColorBrewer)
 
 # Set default folder
 folder <- dirname(rstudioapi::getSourceEditorContext()$path)
@@ -40,12 +40,11 @@ data = data %>%
 #########################################
 ##plot1 = Interference power line plot ##
 #########################################
-
 int_power <- ggplot(data, aes(continuous, mean, color = technology)) + 
-  geom_line(position = position_dodge(width = 0.5), size = 0.2) + 
-  geom_point(size = 1.2) +
-  geom_errorbar(aes(ymin = mean - sd, ymax= mean + sd), width = 0.2,
-    position=position_dodge(0.05)) + 
+  geom_line(position = position_dodge(width = 0.5), size = 0.3) + 
+  geom_point(size = 1, position=position_dodge(0.5)) +
+  geom_errorbar(aes(ymin = mean - sd, ymax= mean + sd), width = 3.5, size = 0.2,
+    position=position_dodge(0.5)) + 
   labs( colour = NULL,
     title = "Interference Power.",
     subtitle = "Simulated for different transmitter, jammer and receiver x-y positions in the spatial grid and number of transmitters.",
@@ -69,6 +68,7 @@ int_power <- ggplot(data, aes(continuous, mean, color = technology)) +
 ##plot2 = Receiver power plot ##
 ################################
 data <- read.csv(file.path(folder, '..', 'results', 'full_jamming_results.csv'))
+
 data$no_transmitters = factor(
   data$no_transmitters,
   levels = c(1, 3, 5),
@@ -96,10 +96,10 @@ data = data %>%
     sd = sd(receiver_power_dB))
 
 rec_power <- ggplot(data, aes(continuous, mean, color = technology)) +
-  geom_line(position = position_dodge(width = 0.5), size = 0.2) +
-  geom_point(size = 1.2) +
-  geom_errorbar(aes(ymin = mean - sd, ymax= mean + sd), width = 0.01,
-    position=position_dodge()) +
+  geom_line(position = position_dodge(width = 0.5), size = 0.3) +
+  geom_point(size = 1.2, position=position_dodge(0.5)) +
+  geom_errorbar(aes(ymin = mean - sd, ymax= mean + sd), width = 3.5,size=0.2,
+    position=position_dodge(0.5)) +
   labs(
     colour = NULL,
     title = "Receiver Power.",
@@ -107,7 +107,7 @@ rec_power <- ggplot(data, aes(continuous, mean, color = technology)) +
     x = "Receiver-Transmitter Distance (km)",
     y = "Receiver Power (dB)",
     fill = "Technology"
-  ) + scale_fill_brewer(palette = "Accent") +  
+  ) + scale_fill_brewer(palette = "Set1") +  
   theme(plot.title = element_text(size = 12),
         legend.position = 'bottom',
         axis.text.x = element_text(size = 6),
@@ -167,22 +167,22 @@ df$no_transmitters = factor(
 )
 
 snr_db <- ggplot(df, aes(x = technology, y = mean, fill = power_scenario)) +
-  geom_bar(stat = "identity", position = position_dodge(), width = 0.98) +
+  geom_bar(stat = "identity", position = position_dodge(), width = 0.97) +
   geom_errorbar(aes(ymin = mean - sd/5, ymax = mean + sd/5),
     width = .2, position = position_dodge(.98), color = 'red', size = 0.2) + 
   geom_text(aes(label = formatC(signif(after_stat(y), 3), 
     digits = 3, format = "fg", flag = "#")),
     size = 1.5, position = position_dodge(0.98),
     vjust = 0.5, hjust = -0.6, angle = 90) + 
-  scale_y_continuous(limits = c(0, 38), labels = function(y)
+  scale_y_continuous(limits = c(0, 40), labels = function(y)
     format(y, scientific = FALSE), expand = c(0, 0)) + 
   labs(colour = NULL, 
-    title = "Signal-to-Noise Ratio (SNR).",
+    title = "Signal-to-Noise plus Interference Ratio (SNIR) Pre-jamming.",
     subtitle = "SNR at User Equipment (UE) based on different Equivalent Isotropic Radiated Power (EIRP) and path loss scenario.",
-    x = NULL, y = "Signal-to-Noise Ratio (dB)",
+    x = NULL, y = "SNIR (dB)",
     fill = 'EIRP Scenario'
   ) + 
-  scale_fill_brewer(palette = "Paired") +  
+  scale_fill_brewer(palette = "YlGnBu") +  
   theme(plot.title = element_text(size = 12),
         legend.position = 'bottom',
         axis.text.x = element_text(size = 6),
@@ -219,7 +219,7 @@ df$jamming = factor(
 )
 
 sinr_db <- ggplot(df, aes(x = technology, y = mean, fill = jamming)) +
-  geom_bar(stat = "identity", position = position_dodge(), width = 0.98) +
+  geom_bar(stat = "identity", position = position_dodge(), width = 0.97) +
   geom_errorbar(aes(ymin = mean - sd/10, ymax = mean + sd/10),
                 width = .2, position = position_dodge(.98), 
                 color = 'red', size = 0.2) + 
@@ -227,13 +227,14 @@ sinr_db <- ggplot(df, aes(x = technology, y = mean, fill = jamming)) +
      digits = 3, format = "fg", flag = "#")),
      size = 1.5, position = position_dodge(0.98),
      vjust = 3, hjust = 0.5) +
+  
   labs(colour = NULL, 
-       title = "Signal-to-Noise plus Interference Ratio (SNIR).",
+       title = "Signal-to-Noise plus Interference Ratio (SNIR) Post-jamming.",
        subtitle = "SNIR at User Equipment (UE) based on different jamming and Equivalent Isotropic Radiated Power (EIRP) scenario.",
-       x = NULL, y = "Signal-to-Noise Ratio (dB)",
+       x = NULL, y = "SNIR (dB)",
        fill = 'Jamming Power Scenario'
   ) + 
-  scale_fill_brewer(palette = "Paired") +  
+  scale_fill_brewer(palette = "YlGnBu") +  
   theme(plot.title = element_text(size = 12),
         legend.position = 'bottom',
         axis.text.x = element_text(size = 6),
@@ -273,421 +274,203 @@ dev.off()
 ############################
 ## SECURE TEXTING RESULTS ##
 ############################
-data <- read.csv(file.path(folder, '..', 'results', 'windtexter_results.csv'))
 
-####################################
-##    Density plot Interception   ##
-####################################
-data$windtexter = as.factor(data$windtexter)
-data$windtexter = factor(data$windtexter,
-  levels = c('Baseline', 'Partial', 'Full'),
-  labels = c('Baseline', 'Partial', 'Full'))
+########################
+## Number of Messages ##
+########################
+data <- read.csv(file.path(folder, '..', 'results', 'full_windtexter_results.csv'))
 
-dp_strat <- ggplot(data, aes(x = interception, color = windtexter)) +
-  geom_density(size = 0.2) + 
-  geom_vline(xintercept= 0.5, colour="#666666", 
-             linetype = "dashed", size = 0.3) + 
-  geom_text(aes(x = 0.5, label="Successful", y = 3), colour = "#666666", 
-            angle = 90, vjust = 2, size = 2) +
-  geom_text(aes(x=0.5, label="Unsuccessful", y = 3), colour = "#666666", 
-            angle = 90, vjust = -2, size = 2) +
-  scale_fill_viridis_d(direction = 1) +
-  labs(colour = NULL,
-    title = "Interception.",
-    subtitle = "Density plot of the probability outcome by different \nstrategies.",
-    x = "Probability",
-    y = "Density",
-    fill = "Strategy"
-  )  +
-  theme(
-    plot.title = element_text(size = 8),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 6),
-    axis.line = element_line(colour = "black"),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
-    plot.subtitle = element_text(size = 6),
-    axis.line.x  = element_line(size = 0.15),
-    axis.line.y  = element_line(size = 0.15),
-    legend.position = "bottom", axis.title = element_text(size = 6)
-  ) + 
-  scale_y_continuous(labels = function(y)
-    format(y, scientific = FALSE), expand = c(0, 0))
-
-################################
-##    Density plot Blocking   ##
-################################
-block_strat <- ggplot(data, aes(x = blocking, color = windtexter)) +
-  geom_density(size = 0.2) + 
-  geom_vline(xintercept= 0.5, colour="#666666", 
-             linetype = "dashed", size = 0.3) + 
-  geom_text(aes(x = 0.5, label="Successful", y = 3), colour = "#666666", 
-            angle = 90, vjust = 2, size = 2) +
-  geom_text(aes(x=0.5, label="Unsuccessful", y = 3), colour = "#666666", 
-            angle = 90, vjust = -2, size = 2) +
-  scale_fill_viridis_d(direction = 1) +
-  labs(colour = NULL,
-    title = "Blocking.",
-    subtitle = "Density plot of the probability outcome by different \nstrategies.",
-    x = "Probability",
-    y = "Density",
-    fill = "Strategy"
-  ) + 
-  theme(
-    plot.title = element_text(size = 8),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 6),
-    axis.line = element_line(colour = "black"),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
-    plot.subtitle = element_text(size = 6),
-    axis.line.x  = element_line(size = 0.15),
-    axis.line.y  = element_line(size = 0.15),
-    legend.position = "bottom", 
-    axis.title = element_text(size = 6)
-  ) + 
-  scale_y_continuous(labels = function(y) format(y, 
-     scientific = FALSE), expand = c(0, 0)) 
-
-##########################################################
-##    Density plot by message success - Interception    ##
-##########################################################
-data$message_status = as.factor(data$message_status)
-data$message_status = factor(data$message_status,
-  levels = c('sucessful', 'unsuccessful'),
-  labels = c('Success', 'Fail'))
-
-dp_msg <- ggplot(data, aes(x = interception, color = message_status)) +
-  geom_density(size = 0.2) +
-  geom_vline(xintercept = 0.5, colour="#666666", 
-             linetype = "dashed", size = 0.3) + 
-  geom_text(aes(x=0.5, label="Successful", y = 2), colour = "#666666", 
-            angle = 90, vjust = 2, size = 2) +
-  geom_text(aes(x=0.5, label="Unsuccessful", y = 2), colour = "#666666", 
-            angle = 90, vjust = -2, size = 2) +
-  scale_fill_viridis_d(direction = 1) +
-  labs(colour = NULL,
-    title = "Total Interceptions.",
-    subtitle = "Density plot of the probability outcome by message \ndelivery status.",
-    x = "Probability",
-    y = "Density",
-    fill = "Message Delivery"
-  ) + 
-  theme(
-    plot.title = element_text(size = 8),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 6),
-    axis.line = element_line(colour = "black"),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
-    plot.subtitle = element_text(size = 6),
-    axis.line.x  = element_line(size = 0.15),
-    axis.line.y  = element_line(size = 0.15),
-    legend.position = "bottom", 
-    axis.title = element_text(size = 6)
-  ) + 
-  scale_y_continuous(labels = function(y) format(y, 
-  scientific = FALSE), expand = c(0, 0)) 
-
-
-##################################
-##    Aggregate Interceptions   ##
-##################################
 df = data %>%
-  group_by(windtexter, message_status) %>%
-  summarize(total = floor(sum(interception)))
+  group_by(text_scenario, message, technology) %>%
+  summarize(total = (floor(sum(probability))/1000))
 
-df$message_status = as.factor(df$message_status)
-df$windtexter = factor(df$windtexter)
-df$windtexter = factor(df$windtexter, levels = c('Baseline', 'Partial', 'Full'),
-   labels = c('Baseline \n(1 site)', 'Partial \n(3 sites)', 'Full \n(5 sites)'))
+df$text_scenario = factor(df$text_scenario)
+df$text_scenario = factor(df$text_scenario, levels = c('baseline', 'partial', 'full'),
+  labels = c('Baseline (1 Transmitter)', 'Partial (3 Transmitters)', 
+             '(5 Transmitters)'))
 
-interception_agg <-
-  ggplot(df, aes(x = windtexter, y = total, fill = message_status)) +
-  geom_bar(stat = "identity", position = position_dodge(0.9)) +   
-  geom_text(aes(windtexter, label = total), size = 1.5, 
-    vjust = -0.5, position = position_dodge(1),
-    hjust = 0.5, data = df) +
-  labs(colour = NULL,
-    title = "Aggregate Interceptions.",
-    subtitle = "Total amount of messages interception attempts by \ndelivery status.",
-    x = NULL,
-    y = "Number of Messages",
-    fill = "Message Delivery"
-  ) + scale_fill_brewer(palette = "Accent") +
-  theme(
-    plot.title = element_text(size = 8),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 6),
-    axis.line = element_line(colour = "black"),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
-    plot.subtitle = element_text(size = 6),
-    axis.line.x  = element_line(size = 0.15),
-    axis.line.y  = element_line(size = 0.15),
-    legend.position = "bottom", 
-    axis.title = element_text(size = 6)
-  ) + 
-  scale_y_continuous(labels = function(y) format(y, 
-  scientific = FALSE), limits = c(0, 2000), expand = c(0, 0))
-
-
-##############################
-##    Aggregate blockings   ##
-###############################
-df = data %>%
-  group_by(windtexter, message_status) %>%
-  summarize(total = floor(sum(blocking)))
-
-df$message_status = as.factor(df$message_status)
-df$windtexter = factor(df$windtexter)
-df$windtexter = factor(df$windtexter, levels = c('Baseline', 'Partial', 'Full'),
-  labels = c('Baseline \n(1 site)', 'Partial \n(3 sites)', 'Full \n(5 sites)')
+df$message = factor(
+  df$message,
+  levels = c('fail', 'success'),
+  labels = c('Fail', 'Success')
 )
 
-blocking_agg <-
-  ggplot(df, aes(x = windtexter, y = total, fill = message_status)) +
-  geom_bar(stat = "identity", position = position_dodge(0.9)) +   
-  geom_text(aes(windtexter, label = total), size = 1.5, 
-  vjust = -0.5, position = position_dodge(1),
-  hjust = 0.5, data = df) +
-  labs(
-    colour = NULL,
-    title = "Aggregate Blockings.",
-    subtitle = "Total amount of message blocking attempts by \ndelivery status.",
-    x = NULL,
-    y = "Number of Messages",
-    fill = "Message Delivery"
-  ) + scale_fill_brewer(palette = "Accent") +
-  theme(
-    plot.title = element_text(size = 8),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 6),
-    axis.line = element_line(colour = "black"),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
-    plot.subtitle = element_text(size = 6),
-    axis.line.x  = element_line(size = 0.15),
-    axis.line.y  = element_line(size = 0.15),
-    legend.position = "bottom", 
-    axis.title = element_text(size = 6)
+total_texts <-
+  ggplot(df, aes(x = technology, y = total, fill = message)) +
+  geom_bar(stat = "identity", position = position_dodge(0.98)) +   
+  geom_text(aes(label = formatC(signif(after_stat(y), 3), 
+    digits = 3, format = "fg", flag = "#")),
+    size = 2, position = position_dodge(0.98),
+    vjust = 0.1, hjust = 0.5) +
+  scale_y_continuous(limits = c(0, 200), labels = function(y)
+    format(y, scientific = FALSE), expand = c(0, 0)) +
+  labs(colour = NULL, 
+    title = "Secure Texting Results.",
+    subtitle = "Based on antenna multi-transmission strategy and success rate of messages.",
+    x = NULL, 
+    y = "Total Messages ('000')",
+    fill = 'Message Success'
   ) + 
-  scale_y_continuous(labels = function(y) format(y, 
-  scientific = FALSE), limits = c(0, 2500), expand = c(0, 0))
+  scale_fill_brewer(palette = "YlGnBu") +  
+  theme(plot.title = element_text(size = 12),
+        legend.position = 'bottom',
+        axis.text.x = element_text(size = 6),
+        panel.spacing = unit(0.6, "lines"),
+        plot.subtitle = element_text(size = 9),
+        axis.text.y = element_text(size = 6),
+        axis.title = element_text(size = 7),
+        legend.title = element_text(size = 8),
+        legend.text = element_text(size = 8),
+        axis.title.x = element_text(size = 9)) + 
+  facet_wrap( ~ text_scenario, ncol = 3)
 
 ################################
 ## Panel Secure Texting plots ##
 ################################
-row_1 <- ggarrange(dp_strat, block_strat,
-         ncol = 2, common.legend = T, 
-         legend = "bottom", labels = c('A', 'B'))
-
-row_2 <- ggarrange(interception_agg, blocking_agg,
-         ncol = 2, common.legend = T, 
-         legend = "bottom", labels = c('C', 'D'))
-
-density_plots <- ggarrange(
-  row_1, 
-  row_2, 
-  nrow = 2,
-  common.legend = F,
+secure_plots <- ggarrange(
+  total_texts, 
+  nrow = 1,
+  common.legend = T,
+  labels = c('A'),
   legend = "bottom"
 )
 
-path = file.path(folder, "figures", "density_plots.png")
+path = file.path(folder, "figures", "secure_plots.png")
 dir.create(file.path(folder, "figures"), showWarnings = FALSE)
 png(
   path,
   units = "in",
-  width = 5,
-  height = 5.5,
+  width = 8,
+  height = 4.5,
   res = 480
 )
-print(density_plots)
+print(secure_plots)
 dev.off()
 
 ###########
 ## COSTS ##
 ###########
 
-data <- read.csv(file.path(folder, '..', 'results', 'cost_results.csv'))
-###############################
-## plot1 = Interception Cost ##
-###############################
+data <- read.csv(file.path(folder, '..', 'results', 'full_windtexter_results.csv'))
+#######################
+## Costs by strategy ##
+#######################
 df = data %>%
-  filter(probability_type == "interception_cost")
-df = data %>%
-  group_by(windtexter, application) %>%
-  summarize(mean = mean(probability_cost),
-            sd = sd(probability_cost))
+  group_by(text_scenario, cost_scenario, 
+           application_area) %>%
+  summarize(mean = mean(cost),
+            sd = sd(cost))
 
-df$application = as.factor(df$application)
-df$windtexter = factor(df$windtexter)
-df$windtexter = factor(df$windtexter, levels = c('Baseline', 'Partial', 'Full'),
-   labels = c('Baseline \n(1 site)', 'Partial \n(3 sites)', 'Full \n(5 sites)')
-)
-df$application = factor(df$application,
+df$text_scenario = factor(df$text_scenario)
+df$text_scenario = factor(df$text_scenario, levels = c('baseline', 'partial', 'full'),
+   labels = c('Baseline (1 Transmitter)', 'Partial (3 Transmitters)', 
+              'Full (5 Transmitters)'))
+
+df$application_area = as.factor(df$application_area)
+df$application_area = factor(df$application_area,
    levels = c('private', 'commercial', 'government', 'millitary'),
-   labels = c('Private', 'Commercial', 'Government', 'Millitary')
-)
+   labels = c('Private', 'Commercial', 'Government', 'Millitary'))
 
-interception_costs <-
-  ggplot(df, aes(x = windtexter, y = mean, fill = application)) +
-  geom_bar(stat = "identity", position = position_dodge(.9), width = 0.98) +
-  geom_errorbar(aes(ymin = mean - sd*0.15, ymax = mean + sd*0.15),
-    width = .2, position = position_dodge(.9), color = 'red', size = 0.05) +
-  scale_fill_viridis_d(direction = 1) +
+df$cost_scenario = factor(
+  df$cost_scenario,
+  levels = c('low_cost', 'baseline_cost', 'high_cost'),
+  labels = c('Low', 'Baseline', 'High'))
+
+strategy_cost <-
+  ggplot(df, aes(x = application_area, y = mean, fill = cost_scenario)) +
+  geom_bar(stat = "identity", position = position_dodge(), width = 0.98) +
+  geom_errorbar(aes(ymin = mean - sd*0.05, ymax = mean + sd*0.05),
+    width = .2, position = position_dodge(.98), color = 'red', size = 0.15) +
+  scale_fill_brewer(palette = "YlGnBu") +
   labs(
     colour = NULL,
-    title = "Interception Losses.",
-    subtitle = "Losses incurred by different segments \nof the economy due to interception of \nthe messages (Error bars: 1SD).",
+    title = "Economic Sector Costs.",
+    subtitle = "By different antenna multi-transmission modes based on different costs per message (Error bars: 1SD).",
     x = NULL,
-    y = "Interception Losses\n(US$)",
-    fill = 'Application Area'
+    y = "Losses (US$)",
+    fill = 'Cost per Message Scenario'
   ) +
-  scale_y_continuous(labels = function(y) format(y, scientific = FALSE), expand = c(0, 0)
-  ) + theme_minimal() +
-  theme(
-    plot.title = element_text(size = 8),
-    strip.text.x = element_blank(),
-    panel.border = element_blank(),
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 6),
-    axis.title.y = element_text(size = 6),
-    axis.line.x  = element_line(size = 0.15),
-    axis.line.y  = element_line(size = 0.15),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
-    plot.subtitle = element_text(size = 6),
-    legend.position = 'bottom', 
-    axis.title = element_text(size = 7))
+  scale_y_continuous(limits = c(0, 1000), labels = function(y)
+    format(y, scientific = FALSE), expand = c(0, 0)) + 
+  theme(plot.title = element_text(size = 12),
+        legend.position = 'bottom',
+        axis.text.x = element_text(size = 6),
+        panel.spacing = unit(0.6, "lines"),
+        plot.subtitle = element_text(size = 8),
+        axis.text.y = element_text(size = 6),
+        axis.title = element_text(size = 7),
+        legend.title = element_text(size = 8),
+        legend.text = element_text(size = 8),
+        axis.title.x = element_text(size = 9))  + 
+  facet_wrap( ~ text_scenario, ncol = 3)
 
-###########################
-## plot2 = Blocking Cost ##
-###########################
+#########################
+## Costs by Technology ##
+#########################
+data <- read.csv(file.path(folder, '..', 'results', 'full_windtexter_results.csv'))
+
 df = data %>%
-  filter(probability_type == "message_block_cost")
-df = data %>%
-  group_by(windtexter, application) %>%
-  summarize(mean = mean(probability_cost),
-            sd = sd(probability_cost))
+  group_by(text_scenario, technology, 
+           cost_scenario) %>%
+  summarize(mean = mean(cost),
+            sd = sd(cost))
 
-df$application = as.factor(df$application)
-df$windtexter = factor(df$windtexter)
-df$windtexter = factor(df$windtexter,levels = c('Baseline', 'Partial', 'Full'),
-  labels = c('Baseline \n(1 site)', 'Partial \n(3 sites)', 'Full \n(5 sites)')
-)
-df$application = factor(df$application,
-  levels = c('private', 'commercial', 'government', 'millitary'),
-  labels = c('Private', 'Commercial', 'Government', 'Millitary')
-)
+df$text_scenario = factor(df$text_scenario)
+df$text_scenario = factor(df$text_scenario, levels = c('baseline', 'partial', 'full'),
+  labels = c('Baseline (1 Transmitter)', 'Partial (3 Transmitters)', 
+  'Full (5 Transmitters)'))
 
-blocking_costs <-
-  ggplot(df, aes(x = windtexter, y = mean, fill = application)) +
-  geom_bar(stat = "identity", position = position_dodge(.9), width = 0.98) +
-  geom_errorbar(aes(ymin = mean - sd*0.15, ymax = mean + sd*0.15),
-  width = .2, position = position_dodge(.9), color = 'red', size = 0.05
-  ) +
-  scale_fill_viridis_d(direction = 1) + 
+df$cost_scenario = factor(df$cost_scenario,
+  levels = c('low_cost', 'baseline_cost', 'high_cost'),
+  labels = c('Low', 'Baseline', 'High'))
+
+technology_cost <-
+  ggplot(df, aes(x = technology, y = mean, fill = cost_scenario)) +
+  geom_bar(stat = "identity", position = position_dodge(), width = 0.98) +
+  geom_errorbar(aes(ymin = mean - sd*0.05, ymax = mean + sd*0.05),
+    width = .2, position = position_dodge(.98), color = 'red', size = 0.15) +
+  scale_fill_brewer(palette = "YlGnBu") +
   labs(
     colour = NULL,
-    title = "Blocking Losses.",
-    subtitle = "Losses incurred by different segments \nof the economy due to interception of \nthe messages (Error bars: 1SD).",
+    title = "Cellular Technology Costs.",
+    subtitle = "By different antenna multi-transmission modes based on different costs per message (Error bars: 1SD).",
     x = NULL,
-    y = "Blocking Losses\n(US$)",
-    fill = 'Application Area'
+    y = "Losses (US$)",
+    fill = 'Cost per Message Scenario'
   ) +
-  scale_y_continuous(labels = function(y) format(y, scientific = FALSE), expand = c(0, 0)
-  ) + theme_minimal() +
-  theme(
-    plot.title = element_text(size = 8),
-    strip.text.x = element_blank(),
-    panel.border = element_blank(),
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 6),
-    axis.title.y = element_text(size = 6),
-    axis.line.x  = element_line(size = 0.15),
-    axis.line.y  = element_line(size = 0.15),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
-    plot.subtitle = element_text(size = 6),
-    legend.position = 'bottom', 
-    axis.title = element_text(size = 7))  
+  scale_y_continuous(limits = c(0, 750), labels = function(y)
+    format(y, scientific = FALSE), expand = c(0, 0)) + 
+  theme(plot.title = element_text(size = 12),
+        legend.position = 'bottom',
+        axis.text.x = element_text(size = 6),
+        panel.spacing = unit(0.6, "lines"),
+        plot.subtitle = element_text(size = 8),
+        axis.text.y = element_text(size = 6),
+        axis.title = element_text(size = 7),
+        legend.title = element_text(size = 8),
+        legend.text = element_text(size = 8),
+        axis.title.x = element_text(size = 9))  + 
+  facet_wrap( ~ text_scenario, ncol = 3)
 
-
-#######################
-##plot3 = Total Cost ##
-#######################
-
-df = data %>%
-  group_by(windtexter, application) %>%
-  summarize(mean = mean(total_cost),
-            sd = sd(total_cost))
-
-df$application = as.factor(df$application)
-df$windtexter = factor(df$windtexter)
-df$windtexter = factor(df$windtexter,
-  levels = c('Baseline', 'Partial', 'Full'),
-  labels = c('Baseline \n(1 site)', 'Partial \n(3 sites)', 'Full \n(5 sites)')
-)
-df$application = factor(df$application,
-  levels = c('private', 'commercial', 'government', 'millitary'),
-  labels = c('Private', 'Commercial', 'Government', 'Millitary')
-)
-
-total_costs <-
-  ggplot(df, aes(x = windtexter, y = mean, fill = application)) +
-  geom_bar(stat = "identity", position = position_dodge(.9), width = 0.98) +
-  geom_errorbar(aes(ymin = mean - sd*0.15, ymax = mean + sd*0.15), width = .2,
-    position = position_dodge(.9), color = 'red', size = 0.05
-  ) + scale_fill_viridis_d(direction = 1) +
-  labs(
-    colour = NULL,
-      title = "Total Losses.",
-    subtitle = "Total losses incurred by \ndifferent segments of the \neconomy (Error bars: 1SD).",
-    x = NULL,
-    y = "Total Losses\n(US$)",
-    fill = 'Application Area'
-  ) +
-  scale_y_continuous(labels = function(y) format(y, scientific = FALSE),
-    expand = c(0, 0)
-  ) + theme_minimal() +
-  theme(
-    plot.title = element_text(size = 8),
-    strip.text.x = element_blank(),
-    panel.border = element_blank(),
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    axis.text.x = element_text(size = 6),
-    axis.text.y = element_text(size = 6),
-    axis.title.y = element_text(size = 6),
-    axis.line.x  = element_line(size = 0.15),
-    axis.line.y  = element_line(size = 0.15),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
-    plot.subtitle = element_text(size = 6),
-    legend.position = 'bottom', 
-    axis.title = element_text(size = 7))
-
+######################
+## Cost Panel Plots ##
+######################
 costs <- ggarrange(
-  interception_costs, blocking_costs, total_costs,
-  ncol = 3,
+  strategy_cost,
+  technology_cost,
+  ncol = 1,
+  nrow = 2,
   common.legend = T,
-  legend = "bottom",
-  labels = c('A', 'B', 'C')
-) 
+  labels = c('A', 'B'),
+  legend = "bottom")
 
-path = file.path(folder, "figures", "socio_costs.png")
+path = file.path(folder, "figures", "socio-economic.png")
 dir.create(file.path(folder, "figures"), showWarnings = FALSE)
 png(
   path,
   units = "in",
-  width = 6,
-  height = 2.5,
+  width = 7,
+  height = 6,
   res = 480
 )
 print(costs)

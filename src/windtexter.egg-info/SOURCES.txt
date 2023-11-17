@@ -1,4 +1,5 @@
 .DS_Store
+.gitignore
 LICENSE
 README.md
 setup.py
@@ -149,10 +150,6 @@ setup.py
 .eggs/typing_extensions-4.4.0-py3.10.egg/EGG-INFO/PKG-INFO
 .eggs/typing_extensions-4.4.0-py3.10.egg/EGG-INFO/RECORD
 .eggs/typing_extensions-4.4.0-py3.10.egg/EGG-INFO/WHEEL
-data/.DS_Store
-data/1_transmitters_inputs.csv
-data/3_transmitters_inputs.csv
-data/5_transmitters_inputs.csv
 dist/globalsat-0.1.dev5+g3ee29de.d20221121-py3.9.egg
 dist/windtexter-0.1.dev104+g97be1cc-py3.10.egg
 dist/windtexter-0.1.dev22+gbc3d9c8.d20221205-py3.10.egg
@@ -169,16 +166,7 @@ docs/loss_profile.png
 docs/method_covert .png
 docs/socio_costs.png
 docs/windtexter.png
-results/.DS_Store
-results/1_signal_results.csv
-results/3_signal_results.csv
-results/5_signal_results.csv
-results/cost_results.csv
-results/full_jamming_results.csv
-results/windtexter_results.csv
-results/.ipynb_checkpoints/Untitled-checkpoint.ipynb
 scripts/.DS_Store
-scripts/covert_text.py
 scripts/model.py
 scripts/preprocess.py
 scripts/run.py
@@ -209,7 +197,6 @@ src/windtexter/__pycache__/windtext.cpython-39.pyc
 vis/.DS_Store
 vis/plots.R
 vis/figures/.DS_Store
-vis/figures/density_plots.png
 vis/figures/loss_profile.png
 vis/figures/snrs.png
 vis/figures/socio_costs.png
