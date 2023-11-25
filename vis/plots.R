@@ -178,7 +178,7 @@ snr_db <- ggplot(df, aes(x = technology, y = mean, fill = power_scenario)) +
     format(y, scientific = FALSE), expand = c(0, 0)) + 
   labs(colour = NULL, 
     title = "Signal-to-Noise plus Interference Ratio (SNIR) Pre-jamming.",
-    subtitle = "SNR at User Equipment (UE) based on different Equivalent Isotropic Radiated Power (EIRP) and path loss scenario.",
+    subtitle = "SNIR at User Equipment (UE) based on different Equivalent Isotropic Radiated Power (EIRP) and path loss scenario.",
     x = NULL, y = "SNIR (dB)",
     fill = 'EIRP Scenario'
   ) + 
@@ -202,7 +202,7 @@ snr_db <- ggplot(df, aes(x = technology, y = mean, fill = power_scenario)) +
 data <- read.csv(file.path(folder, '..', 'results', 'full_jamming_results.csv'))
 
 df = data %>%
-  group_by(jamming, technology, no_transmitters) %>%
+  group_by(no_transmitters, technology, jamming) %>%
   summarize(mean = mean(sinr_dB),
             sd = sd(sinr_dB))
 
@@ -341,7 +341,7 @@ png(
   path,
   units = "in",
   width = 8,
-  height = 4.5,
+  height = 3.5,
   res = 480
 )
 print(secure_plots)

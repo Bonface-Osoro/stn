@@ -29,9 +29,6 @@ def generate_coordinates(transmitters):
         transmitter_powers = ([random.uniform((item['power_db'] - 5), 
                             (item['power_db'] + 5)) for _ in range(10)])
         
-        low_power = np.percentile(transmitter_powers, 25)
-        high_power = np.percentile(transmitter_powers, 65)
-        
         antenna_gains = ([random.uniform((item['antenna_gain_db'] - 3), 
                         (item['antenna_gain_db'] + 3)) for _ in range(10)])
         
